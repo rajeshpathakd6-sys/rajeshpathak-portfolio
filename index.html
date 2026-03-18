@@ -75,15 +75,16 @@
     }
     .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: var(--ink); }
     .nav-logo span { color: var(--accent); }
-    .nav-links { display: flex; gap: 4px; list-style: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; justify-content: center; flex: 1; margin: 0 20px; }
     .nav-links a {
-      font-size: .77rem; font-weight: 500;
-      letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2);
-      padding: 6px 11px; border-radius: 50px;
-      transition: color .2s, background .2s;
+      font-size: 1.5rem; font-weight: 700;
+      letter-spacing: .04em; text-transform: capitalize; color: var(--ink-2);
+      padding: 8px 0; border-radius: 0; position: relative;
+      transition: color .3s, border-bottom .3s;
+      border-bottom: 2px solid transparent;
     }
-    .nav-links a:hover  { color: var(--accent); background: var(--accent-soft); }
-    .nav-links a.active { color: var(--accent); background: var(--accent-soft); }
+    .nav-links a:hover  { color: var(--accent); border-bottom-color: var(--accent); }
+    .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
 
     /* Hamburger */
     .nav-hamburger {
