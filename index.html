@@ -149,7 +149,7 @@
     .hero-inner {
       position: relative; z-index: 2;
       max-width: var(--max-w); width: 100%; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr auto; gap: 60px; align-items: center;
+      display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: stretch;
     }
     .hero-text { animation: fadeUp .8s ease both; display: flex; flex-direction: column; justify-content: center; }
 
@@ -241,18 +241,21 @@
 
     /* Hero card */
     .hero-card {
-      width: 260px; flex-shrink: 0;
+      width: 280px; height: 100%; display: flex; flex-direction: column;
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius-l); overflow: hidden;
+      border-radius: 20px; overflow: hidden;
       box-shadow: 0 4px 16px rgba(0,0,0,.1);
       animation: fadeUp .8s .16s ease both;
       transition: box-shadow .3s, transform .3s;
     }
     .hero-card:hover { box-shadow: 0 16px 48px rgba(0,0,0,.16); transform: translateY(-4px); }
+    .hero-photo-wrap {
+      flex: 1; display: flex; overflow: hidden;
+    }
     .hero-photo {
-      width: 100%; aspect-ratio: 3/4;
+      width: 100%; height: 100%;
       object-fit: cover; object-position: center top;
-      transition: transform .5s ease;
+      transition: transform .5s ease; flex-shrink: 0;
     }
     .hero-card:hover .hero-photo { transform: scale(1.03); }
     .hero-card-body { padding: 18px 20px 20px; }
@@ -507,9 +510,10 @@
        RESPONSIVE
     ═══════════════════════════════════════════════ */
     @media (max-width: 900px) {
-      .hero-inner  { grid-template-columns: 1fr; }
-      .hero-card   { width: 100%; max-width: 320px; }
-      .hero-photo  { aspect-ratio: 4/3; object-position: center 20%; }
+      .hero-inner  { grid-template-columns: 1fr; align-items: center; gap: 60px; }
+      .hero-card   { width: 100%; max-width: 320px; height: auto; }
+      .hero-photo-wrap { height: auto; }
+      .hero-photo  { aspect-ratio: 4/3; object-position: center 20%; height: auto; width: 100%; }
       .about-grid  { grid-template-columns: 1fr; }
       .skills-grid { grid-template-columns: 1fr 1fr; }
       .impact-grid { grid-template-columns: 1fr 1fr; }
@@ -748,7 +752,7 @@
     <!-- Photo card — swap src with assets/photo.jpg for production -->
     <div class="hero-card">
       <div class="hero-photo-wrap">
-        <img src="./RajeshPhoto.jpg" alt="Rajesh Pathak">
+        <img class="hero-photo" src="./RajeshPhoto.jpg" alt="Rajesh Pathak">
       </div>
     </div>
   </div>
