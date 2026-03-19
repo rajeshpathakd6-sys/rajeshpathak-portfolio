@@ -75,10 +75,10 @@
     }
     .nav-logo {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 48px; height: 48px; border-radius: 50%;
+      width: 58px; height: 58px; border-radius: 50%;
       background: linear-gradient(135deg, var(--accent) 0%, #b34f30 100%);
       color: #fff; font-family: 'DM Serif Display', serif;
-      font-size: 1.43rem; font-weight: 800; letter-spacing: 0.15em;
+      font-size: 1.716rem; font-weight: 800; letter-spacing: 0.15em;
       transition: transform .3s var(--ease), box-shadow .3s;
       box-shadow: 0 4px 16px rgba(201,96,62,.2);
       flex-shrink: 0;
@@ -86,7 +86,7 @@
     .nav-logo:hover { transform: scale(1.08); box-shadow: 0 8px 28px rgba(201,96,62,.32); }
     .nav-links { display: flex; gap: 36px; list-style: none; justify-content: center; flex: 1; margin: 0 20px; }
     .nav-links a {
-      font-size: 1.65rem; font-weight: 700;
+      font-size: 1.815rem; font-weight: 700;
       letter-spacing: .04em; text-transform: capitalize; color: var(--ink-2);
       padding: 8px 0; border-radius: 0; position: relative;
       transition: color .3s, border-bottom .3s;
@@ -172,10 +172,13 @@
 
     h1.hero-name {
       font-family: 'DM Serif Display', serif;
-      font-size: clamp(3.2rem, 7vw, 60px);
-      line-height: 1.1; letter-spacing: -.03em; color: var(--ink); margin-bottom: 24px;
+      font-size: clamp(3.84rem, 8vw, 72px);
+      line-height: 1.05; letter-spacing: 0.04em; color: var(--ink); margin-bottom: 24px;
     }
-    h1.hero-name em { font-style: italic; color: var(--accent); }
+    .hero-name-first { font-weight: 900; letter-spacing: 0.05em; }
+    h1.hero-name em {
+      font-style: italic; color: var(--accent); font-weight: 600; letter-spacing: 0.02em;
+    }
 
     .hero-tags {
       display: flex; flex-wrap: wrap; gap: 10px;
@@ -206,10 +209,10 @@
 
     .hero-ctas { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 44px; }
     .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
+      display: inline-flex; align-items: center; gap: 10px;
       background: var(--accent); color: #fff;
-      border-radius: 50px; padding: 13px 32px;
-      font-size: .99rem; font-weight: 600;
+      border-radius: 50px; padding: 14px 36px;
+      font-size: 1.089rem; font-weight: 600;
       transition: background .25s, transform .18s, box-shadow .25s;
       box-shadow: 0 4px 16px rgba(201,96,62,.28);
       border: none; cursor: pointer;
@@ -227,17 +230,17 @@
     .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(201,96,62,.15); }
     .btn-outline:active { transform: translateY(0); }
 
-    .hero-chips { display: flex; flex-wrap: wrap; gap: 9px; }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 12px; }
     .chip {
-      display: inline-flex; align-items: center; gap: 7px;
+      display: inline-flex; align-items: center; gap: 8px;
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 50px; padding: 6px 14px;
-      font-size: .869rem; color: var(--ink-2);
+      border-radius: 50px; padding: 8px 16px;
+      font-size: .956rem; color: var(--ink-2);
       transition: border-color .2s, background .2s, box-shadow .2s, transform .15s;
       box-shadow: 0 2px 8px rgba(0,0,0,.04);
     }
     .chip:hover { border-color: var(--accent-mid); box-shadow: 0 4px 16px rgba(201,96,62,.12); transform: translateY(-1px); }
-    .chip svg { width: 13px; height: 13px; color: var(--accent); flex-shrink: 0; }
+    .chip svg { width: 14px; height: 14px; color: var(--accent); flex-shrink: 0; }
 
     /* Hero card */
     .hero-card {
@@ -273,7 +276,7 @@
       font-size: .911rem; font-weight: 500; text-transform: uppercase;
       letter-spacing: .1em; color: var(--accent); margin-bottom: 10px;
     }
-    .section-label::before { content:''; width: 20px; height: 2px; background: var(--accent); }
+    .section-label::before { content: none; }
 
     h2.section-title {
       font-family: 'DM Serif Display', serif;
@@ -711,7 +714,7 @@
   <div class="blob blob-3"></div>
   <div class="hero-inner">
     <div class="hero-text">
-      <h1 class="hero-name">Rajesh<br /><em>Pathak</em></h1>
+      <h1 class="hero-name"><span class="hero-name-first">Rajesh</span><br /><em>Pathak</em></h1>
       <div class="hero-tags">
         <span class="hero-tag hero-tag-blue">Product</span>
         <span class="hero-tag hero-tag-peach">PMP®</span>
@@ -1196,17 +1199,26 @@
 
   /* MOBILE NAV TOGGLE */
   const hamburger = document.getElementById('hamburger');
-  const mobileNav = document.getElementById('mobile-nav');
+  const mobileNav = document.getElementById('nav-drawer');
+
+  function closeDrawer() {
+    if (!hamburger || !mobileNav) return;
+    mobileNav.classList.remove('open');
+    hamburger.classList.remove('open');
+  }
+
   if (hamburger && mobileNav) {
     hamburger.addEventListener('click', () => {
       mobileNav.classList.toggle('open');
       hamburger.classList.toggle('open');
     });
-    mobileNav.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        mobileNav.classList.remove('open');
-        hamburger.classList.remove('open');
-      });
+    mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+
+    document.addEventListener('click', (event) => {
+      if (!mobileNav.classList.contains('open')) return;
+      if (!mobileNav.contains(event.target) && !hamburger.contains(event.target)) {
+        closeDrawer();
+      }
     });
   }
 
