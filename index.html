@@ -280,6 +280,7 @@
        SECTION BASE
     ═══════════════════════════════════════════════ */
     section { padding: 96px 5vw; }
+    section > * { margin-top: 0; margin-bottom: 0; }
     .inner { max-width: var(--max-w); margin: 0 auto; }
 
     .section-label {
@@ -292,7 +293,7 @@
     h2.section-title {
       font-family: 'DM Serif Display', serif;
       font-size: var(--text-3xl);
-      letter-spacing: -.025em; line-height: 1.2; color: var(--ink); margin-bottom: 48px;
+      letter-spacing: -.025em; line-height: 1.2; color: var(--ink); margin-bottom: 40px;
     }
     h2.section-title em { font-style: italic; color: var(--accent); }
 
@@ -305,9 +306,8 @@
     /* ═══════════════════════════════════════════════
        IMPACT
     ═══════════════════════════════════════════════ */
-    #impact { padding: 72px 5vw; }
     .impact-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
     }
     .impact-card {
       background: var(--surface); border: 1px solid var(--border);
@@ -441,7 +441,7 @@
        CERTIFICATIONS
     ═══════════════════════════════════════════════ */
     #certifications { padding-top: 0; }
-    .cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
+    .cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
     .cert-card {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: var(--radius-m); padding: 24px 22px;
@@ -534,7 +534,7 @@
       .beyond-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 620px) {
-      section      { padding: 72px 5vw; }
+      section      { padding: 96px 5vw; }
       .skills-grid { grid-template-columns: 1fr; }
       .edu-grid    { grid-template-columns: 1fr; }
       .cert-grid   { grid-template-columns: 1fr 1fr; }
