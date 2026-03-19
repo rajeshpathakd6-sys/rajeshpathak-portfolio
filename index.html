@@ -1199,26 +1199,17 @@
 
   /* MOBILE NAV TOGGLE */
   const hamburger = document.getElementById('hamburger');
-  const mobileNav = document.getElementById('nav-drawer');
-
-  function closeDrawer() {
-    if (!hamburger || !mobileNav) return;
-    mobileNav.classList.remove('open');
-    hamburger.classList.remove('open');
-  }
-
+  const mobileNav = document.getElementById('mobile-nav');
   if (hamburger && mobileNav) {
     hamburger.addEventListener('click', () => {
       mobileNav.classList.toggle('open');
       hamburger.classList.toggle('open');
     });
-    mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
-
-    document.addEventListener('click', (event) => {
-      if (!mobileNav.classList.contains('open')) return;
-      if (!mobileNav.contains(event.target) && !hamburger.contains(event.target)) {
-        closeDrawer();
-      }
+    mobileNav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        mobileNav.classList.remove('open');
+        hamburger.classList.remove('open');
+      });
     });
   }
 
