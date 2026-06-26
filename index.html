@@ -769,7 +769,7 @@
         display: grid;
         grid-template-columns: 1.2fr 1fr;
         gap: 56px;
-        align-items: start;
+        align-items: stretch;
       }
       .about-body {
         font-size: 1rem;
@@ -828,38 +828,98 @@
       .about-aside {
         display: flex;
         flex-direction: column;
-        gap: 10px;
       }
-      .info-card {
+      .about-facts {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
         background: var(--surface);
         border: 1px solid var(--border);
-        border-left: 3px solid var(--accent);
-        border-radius: var(--r-m);
-        padding: 14px 18px;
-        transition:
-          box-shadow 0.2s,
-          transform 0.18s;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        border-radius: var(--r-l);
+        box-shadow: var(--sh-s);
+        overflow: hidden;
       }
-      .info-card:hover {
-        box-shadow: 0 4px 16px rgba(52, 84, 224, 0.1);
-        transform: translateY(-1px);
+      .about-facts-head {
+        padding: 18px 20px;
+        background: var(--ink);
+        position: relative;
+        overflow: hidden;
       }
-      .info-label {
-        font-size: 0.68rem;
+      .about-facts-head::before {
+        content: "";
+        position: absolute;
+        top: -40px;
+        right: -30px;
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: rgba(52, 84, 224, 0.28);
+        filter: blur(40px);
+        pointer-events: none;
+      }
+      .about-facts-head-label {
+        font-size: 0.66rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--accent-mid);
+        position: relative;
+        z-index: 1;
+      }
+      .about-facts-head-title {
+        font-family: "Instrument Serif", serif;
+        font-style: italic;
+        font-size: 1.4rem;
+        color: #fff;
+        margin-top: 4px;
+        position: relative;
+        z-index: 1;
+      }
+      .about-fact-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 20px;
+        flex: 1;
+        border-bottom: 1px solid var(--border);
+        transition: background 0.2s;
+      }
+      .about-fact-row:last-child {
+        border-bottom: none;
+      }
+      .about-fact-row:hover {
+        background: var(--surface-2);
+      }
+      .about-fact-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .about-fact-icon svg {
+        width: 14px;
+        height: 14px;
+      }
+      .about-fact-label {
+        font-size: 0.66rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.1em;
         color: var(--ink-3);
         margin-bottom: 3px;
       }
-      .info-val {
+      .about-fact-val {
         font-size: 0.9375rem;
         color: var(--ink);
         font-weight: 500;
         line-height: 1.55;
       }
-      .info-val a {
+      .about-fact-val a {
         color: var(--accent);
         text-decoration: underline;
         text-underline-offset: 3px;
@@ -2145,12 +2205,13 @@
     <section id="about">
       <div class="inner">
         <div class="section-label">About Me</div>
-        <h2 class="section-title">Building products that <em>matter</em></h2>
+        <h2 class="section-title">Building what <em>matters</em></h2>
         <div class="about-grid reveal">
           <div>
             <div class="about-body">
               <p>
-                I'm a Senior Product Manager with 6+ years of experience turning
+                I'm a Senior Product Manager with 6+ years of experience
+                turning
                 <strong
                   >regulatory complexity into elegant user experiences</strong
                 >
@@ -2162,7 +2223,7 @@
               </p>
               <p>
                 At PowerSchool I own a
-                <strong>$9M ARR compliance platform</strong> used by 80+ school
+                <strong>$9M ARR compliance product</strong> used by 80+ school
                 districts. I spearheaded the architectural shift from legacy XML
                 to real-time Ed-Fi API standards — a platform-level
                 transformation that improved data integrity, cut integration
@@ -2170,95 +2231,117 @@
                 generation of state-mandated data standards.
               </p>
               <p>
-                I've also done original
+                I've also contributed to
                 <strong
-                  >AI &amp; payments research at the Reserve Bank of
-                  India</strong
-                >, analysing CBDC architectures and ML-driven fraud detection
-                models at a time when India's digital currency strategy was
-                being formed. That background informs how I think about AI
-                product decisions today.
-              </p>
-              <p>
-                I want to grow into a product leadership role where I can set
-                product direction, mentor PMs, and build AI-native products that
-                solve genuinely hard problems for users.
+                  >Digital payment research at the Reserve Bank of India</strong
+                >, analysing emerging CBDC architectures and experience
+                strengthened my ability to evaluate complex technologies,
+                balance innovation with trust, and apply an analytical mindset
+                to product strategy.
               </p>
             </div>
             <div class="hl-list">
               <div class="hl-row">
                 <div class="hl-icon" style="background: #e9edfc">🎯</div>
                 <div class="hl-text">
-                  KPI-driven roadmaps anchored to business outcomes — not
-                  backlogs
+                  Outcome-driven roadmaps focused on business impact.
                 </div>
               </div>
-              <div class="hl-row">
-                <div class="hl-icon" style="background: #e4f2eb">🏗️</div>
-                <div class="hl-text">
-                  Platform modernisation: XML → Ed-Fi API, legacy → cloud-native
-                  SaaS
-                </div>
-              </div>
+
               <div class="hl-row">
                 <div class="hl-icon" style="background: #ede9f8">🤖</div>
                 <div class="hl-text">
-                  AI prototyping (Lovable, Cursor, LLMs) + deep AI product
-                  thinking from RBI research
+                  AI-powered product innovation using LLMs, rapid prototyping,
+                  and applied research.
                 </div>
               </div>
               <div class="hl-row">
                 <div class="hl-icon" style="background: #e0f4f1">📊</div>
                 <div class="hl-text">
-                  Data-driven: retention, churn, LTV/CAC, A/B testing,
-                  Gainsight, Amplitude
+                  Leveraging analytics to improve adoption, retention, and
+                  product growth.
                 </div>
               </div>
             </div>
           </div>
           <div class="about-aside">
-            <div class="info-card">
-              <div class="info-label">Target Role</div>
-              <div class="info-val">Senior PM · AI PM · SaaS PM</div>
-            </div>
-            <div class="info-card">
-              <div class="info-label">Current Role</div>
-              <div class="info-val">
-                Product Owner → Senior PM · PowerSchool
+            <div class="about-facts">
+              <div class="about-facts-head">
+                <div class="about-facts-head-label">At a Glance</div>
+                <div class="about-facts-head-title">Snapshot</div>
               </div>
-            </div>
-            <div class="info-card">
-              <div class="info-label">Location</div>
-              <div class="info-val">Bengaluru, Karnataka 🇮🇳</div>
-            </div>
-            <div class="info-card">
-              <div class="info-label">Education</div>
-              <div class="info-val">
-                MBA · IIT Kharagpur &nbsp;|&nbsp; B.Tech · MNNIT Allahabad
+              <div class="about-fact-row">
+                <div class="about-fact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M20 7h-9a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z" />
+                    <path d="M16 7V5a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v2" />
+                    <path d="M6 11H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="about-fact-label">Current Role</div>
+                  <div class="about-fact-val">
+                    Senior Product Manager · PowerSchool
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="info-card">
-              <div class="info-label">Certifications</div>
-              <div class="info-val">
-                PMP® · CSPO · Lean Six Sigma Green Belt
+              <div class="about-fact-row">
+                <div class="about-fact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="about-fact-label">Location</div>
+                  <div class="about-fact-val">Bengaluru, Karnataka 🇮🇳</div>
+                </div>
               </div>
-            </div>
-            <div class="info-card">
-              <div class="info-label">GitHub</div>
-              <div class="info-val">
-                <a
-                  href="https://github.com/rajeshpathakd6-sys"
-                  target="_blank"
-                  rel="noopener"
-                  >github.com/rajeshpathakd6-sys</a
-                >
+              <div class="about-fact-row">
+                <div class="about-fact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="m22 10-10-6L2 10l10 6 10-6Z" />
+                    <path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="about-fact-label">Education</div>
+                  <div class="about-fact-val">
+                    MBA · IIT Kharagpur &nbsp;|&nbsp; B.Tech · MNNIT Allahabad
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="info-card">
-              <div class="info-label">What I'm building toward</div>
-              <div class="info-val">
-                AI-native SaaS products that compress complexity for regulated
-                industries — EdTech, FinTech, GovTech
+              <div class="about-fact-row">
+                <div class="about-fact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <circle cx="12" cy="8" r="5" />
+                    <path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="about-fact-label">Certifications</div>
+                  <div class="about-fact-val">
+                    PMP® · CSPO · Lean Six Sigma Green Belt
+                  </div>
+                </div>
+              </div>
+              <div class="about-fact-row">
+                <div class="about-fact-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21" />
+                  </svg>
+                </div>
+                <div>
+                  <div class="about-fact-label">GitHub</div>
+                  <div class="about-fact-val">
+                    <a
+                      href="https://github.com/rajeshpathakd6-sys"
+                      target="_blank"
+                      rel="noopener"
+                      >github.com/rajeshpathakd6-sys</a
+                    >
+                  </div>
+                </div>
               </div>
             </div>
           </div>
