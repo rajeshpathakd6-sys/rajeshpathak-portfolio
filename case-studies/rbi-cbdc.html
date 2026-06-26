@@ -1,0 +1,1807 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>From CBDC Research to AI Product Strategy</title>
+    <meta
+      name="description"
+      content="How building ML readiness models for India's Digital Rupee at the Reserve Bank of India became a framework for every AI product decision I've made since."
+    />
+    <link
+      rel="canonical"
+      href="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/case-studies/rbi-cbdc.html"
+    />
+    <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../favicon-32x32.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="../apple-touch-icon.png"
+    />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta name="theme-color" content="#3454e0" />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:title"
+      content="Article: From CBDC Research to AI Product Strategy · Rajesh Pathak"
+    />
+    <meta
+      property="og:description"
+      content="How building ML readiness models for India's Digital Rupee at the Reserve Bank of India became a framework for every AI product decision I've made since."
+    />
+    <meta
+      property="og:url"
+      content="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/case-studies/rbi-cbdc.html"
+    />
+    <meta
+      property="og:image"
+      content="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/RajeshPhoto.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Article: From CBDC Research to AI Product Strategy · Rajesh Pathak"
+    />
+    <meta
+      name="twitter:image"
+      content="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/RajeshPhoto.jpg"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================================================
+       DESIGN TOKENS — identical to edfi-migration
+    ============================================================ */
+      :root {
+        --bg: #f5f6f9;
+        --surface: #ffffff;
+        --surface-2: #edeff3;
+        --hero-bg: #11151c;
+        --accent: #3454e0;
+        --accent-hover: #2740b3;
+        --accent-soft: #e9edfc;
+        --accent-mid: #aab8f5;
+        --green: #15805a;
+        --green-bg: #e3f6ec;
+        --green-border: #a8d8c0;
+        --amber: #92660a;
+        --amber-bg: #fdf3df;
+        --amber-border: #f0dba0;
+        --red: #b91c1c;
+        --ink: #11151c;
+        --ink-2: #3c4453;
+        --ink-3: #76808f;
+        --ink-4: #a7aebb;
+        --border: #e1e4ea;
+        --border-2: #c7ccd6;
+        --r-s: 6px;
+        --r-m: 10px;
+        --r-l: 18px;
+        --max-w: 760px;
+      }
+
+      /* ============================================================
+       RESET & BASE
+    ============================================================ */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Geist", system-ui, sans-serif;
+        font-size: 1rem;
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* ============================================================
+       NAV
+    ============================================================ */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(244, 243, 240, 0.88);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 clamp(20px, 5vw, 56px);
+        height: 56px;
+      }
+      .nav-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--ink-3);
+        transition: color 0.2s;
+      }
+      .nav-back:hover {
+        color: var(--accent);
+      }
+      .nav-back svg {
+        width: 14px;
+        height: 14px;
+      }
+      .nav-brand {
+        font-family: "Instrument Serif", serif;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--ink-2);
+        letter-spacing: -0.01em;
+      }
+
+      /* ============================================================
+       HERO
+    ============================================================ */
+      .hero {
+        background: var(--hero-bg);
+        padding: 84px clamp(20px, 5vw, 56px) 76px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.055) 1px,
+          transparent 1px
+        );
+        background-size: 30px 30px;
+        pointer-events: none;
+      }
+      .hero::after {
+        content: "";
+        position: absolute;
+        top: -120px;
+        right: -60px;
+        width: 560px;
+        height: 560px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(52, 84, 224, 0.2) 0%,
+          transparent 65%
+        );
+        pointer-events: none;
+      }
+      .hero-inner {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Geist", sans-serif;
+        font-size: 0.62rem;
+        font-weight: 500;
+        color: var(--accent-mid);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 22px;
+      }
+      .hero-eyebrow::before {
+        content: "";
+        width: 22px;
+        height: 1px;
+        background: var(--accent-mid);
+        flex-shrink: 0;
+      }
+      .hero-title {
+        font-family: "Instrument Serif", serif;
+        font-size: clamp(2rem, 5vw, 3.4rem);
+        font-weight: 600;
+        color: #f9fafb;
+        line-height: 1.12;
+        letter-spacing: -0.025em;
+        margin-bottom: 20px;
+      }
+      .hero-subtitle {
+        font-size: 0.9375rem;
+        color: rgba(255, 255, 255, 0.52);
+        line-height: 1.82;
+        max-width: 540px;
+        margin-bottom: 36px;
+      }
+      .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 44px;
+      }
+      .hero-pill {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.11);
+        border-radius: 50px;
+        padding: 4px 14px;
+        font-size: 0.71rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.6);
+        letter-spacing: 0.02em;
+      }
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      .hero-stat {
+        background: rgba(255, 255, 255, 0.055);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: var(--r-m);
+        padding: 20px 16px;
+      }
+      .hero-stat-num {
+        font-family: "Instrument Serif", serif;
+        font-size: 2.1rem;
+        font-weight: 600;
+        color: #fff;
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .hero-stat-label {
+        font-family: "Geist", sans-serif;
+        font-size: 0.59rem;
+        color: rgba(255, 255, 255, 0.38);
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        line-height: 1.5;
+      }
+
+      /* ============================================================
+       BODY LAYOUT
+    ============================================================ */
+      .body-wrap {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 72px clamp(20px, 5vw, 56px) 96px;
+      }
+
+      /* ============================================================
+       SECTION STRUCTURE
+    ============================================================ */
+      .cs-section {
+        margin-bottom: 0;
+      }
+      .section-divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 64px 0;
+      }
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Geist", sans-serif;
+        font-size: 0.6rem;
+        font-weight: 500;
+        color: var(--accent);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .section-label::after {
+        content: "";
+        width: 28px;
+        height: 1px;
+        background: var(--accent-mid);
+      }
+
+      /* ============================================================
+       TYPOGRAPHY
+    ============================================================ */
+      .cs-h2 {
+        font-family: "Instrument Serif", serif;
+        font-size: clamp(1.45rem, 3.2vw, 1.9rem);
+        font-weight: 600;
+        color: var(--ink);
+        line-height: 1.22;
+        letter-spacing: -0.022em;
+        margin-bottom: 22px;
+      }
+      .cs-h3 {
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 8px;
+        margin-top: 28px;
+      }
+      .cs-p {
+        font-size: 0.9375rem;
+        color: var(--ink-2);
+        line-height: 1.85;
+        margin-bottom: 14px;
+      }
+      .cs-p:last-child {
+        margin-bottom: 0;
+      }
+      .cs-p strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .cs-p em {
+        font-style: italic;
+        color: var(--ink-3);
+      }
+
+      /* ============================================================
+       CALLOUT — blue / strategic (same as edfi)
+    ============================================================ */
+      .callout {
+        background: var(--accent-soft);
+        border: 1px solid var(--accent-mid);
+        border-left: 3px solid var(--accent);
+        border-radius: 0 var(--r-m) var(--r-m) 0;
+        padding: 18px 24px;
+        margin: 24px 0;
+      }
+      .callout p {
+        font-size: 0.9rem;
+        color: var(--ink-2);
+        line-height: 1.8;
+        margin: 0;
+      }
+      .callout strong {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* ============================================================
+       CALLOUT — amber / definition boxes
+    ============================================================ */
+      .callout-def {
+        background: var(--amber-bg);
+        border: 1px solid var(--amber-border);
+        border-left: 3px solid var(--amber);
+        border-radius: 0 var(--r-m) var(--r-m) 0;
+        padding: 18px 24px;
+        margin: 24px 0;
+      }
+      .callout-def .def-label {
+        font-family: "Geist", sans-serif;
+        font-size: 0.58rem;
+        font-weight: 500;
+        color: var(--amber);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        margin-bottom: 8px;
+      }
+      .callout-def p {
+        font-size: 0.875rem;
+        color: var(--ink-2);
+        line-height: 1.82;
+        margin: 0;
+        font-style: italic;
+      }
+      .callout-def strong {
+        color: var(--ink);
+        font-style: normal;
+        font-weight: 600;
+      }
+
+      /* ============================================================
+       CALLOUT — green / PM insights
+    ============================================================ */
+      .callout-insight {
+        background: var(--green-bg);
+        border: 1px solid var(--green-border);
+        border-left: 3px solid var(--green);
+        border-radius: 0 var(--r-m) var(--r-m) 0;
+        padding: 18px 24px;
+        margin: 24px 0;
+      }
+      .callout-insight .insight-label {
+        font-family: "Geist", sans-serif;
+        font-size: 0.58rem;
+        font-weight: 500;
+        color: var(--green);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        margin-bottom: 8px;
+      }
+      .callout-insight p {
+        font-size: 0.9rem;
+        color: var(--ink-2);
+        line-height: 1.8;
+        margin: 0;
+      }
+      .callout-insight strong {
+        color: var(--green);
+        font-weight: 600;
+      }
+
+      /* ============================================================
+       TASK CARDS (3-column grid, same as risk-grid)
+    ============================================================ */
+      .risk-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: 24px 0;
+      }
+      .risk-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-m);
+        padding: 18px 16px;
+      }
+      .risk-card .risk-type {
+        font-family: "Geist", sans-serif;
+        font-size: 0.6rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 8px;
+      }
+      .risk-card .risk-body {
+        font-size: 0.855rem;
+        color: var(--ink-2);
+        line-height: 1.65;
+      }
+      .risk-card .risk-title {
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 5px;
+      }
+      /* Task-specific top border + label colours */
+      .task-blue {
+        border-top: 2px solid var(--accent);
+      }
+      .task-green {
+        border-top: 2px solid var(--green);
+      }
+      .task-amber {
+        border-top: 2px solid var(--amber);
+      }
+      .task-blue .risk-type {
+        color: var(--accent);
+      }
+      .task-green .risk-type {
+        color: var(--green);
+      }
+      .task-amber .risk-type {
+        color: var(--amber);
+      }
+
+      /* ============================================================
+       PROXY SUBSTITUTION TABLE  (same .data-table pattern)
+    ============================================================ */
+      .data-table-wrap {
+        overflow-x: auto;
+        margin: 20px 0;
+        border-radius: var(--r-m);
+        border: 1px solid var(--border);
+      }
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.84rem;
+        min-width: 480px;
+      }
+      .data-table thead th {
+        background: var(--surface-2);
+        color: var(--ink-3);
+        font-family: "Geist", sans-serif;
+        font-size: 0.59rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+        white-space: nowrap;
+      }
+      .data-table tbody td {
+        padding: 11px 14px;
+        border-bottom: 1px solid var(--border);
+        color: var(--ink-2);
+        vertical-align: top;
+        line-height: 1.6;
+      }
+      .data-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .data-table tbody tr:hover td {
+        background: #fafafa;
+      }
+      .data-table td strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .data-table .row-highlight td {
+        background: var(--accent-soft);
+      }
+      .data-table .row-highlight td:first-child {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      /* State-score row shading */
+      .row-ready td {
+        background: #f0fdf4;
+      }
+      .row-ready td:first-child {
+        color: var(--green);
+        font-weight: 700;
+      }
+      .row-partial td {
+        background: var(--amber-bg);
+      }
+      .row-partial td:first-child {
+        color: var(--amber);
+        font-weight: 700;
+      }
+      .row-unready td {
+        background: #fef2f2;
+      }
+      .row-unready td:first-child {
+        color: var(--red);
+        font-weight: 700;
+      }
+      /* Score badges */
+      .score-chip {
+        display: inline-block;
+        font-family: "Geist", sans-serif;
+        font-size: 0.76rem;
+        font-weight: 500;
+        padding: 2px 9px;
+        border-radius: 50px;
+      }
+      .score-1 {
+        background: var(--green-bg);
+        color: var(--green);
+      }
+      .score-09 {
+        background: #fef9c3;
+        color: #92400e;
+      }
+      .score-08 {
+        background: var(--amber-bg);
+        color: var(--amber);
+      }
+      .score-0 {
+        background: #fee2e2;
+        color: var(--red);
+      }
+
+      /* ============================================================
+       DECISION OPTIONS (short-run vs long-run, same as edfi)
+    ============================================================ */
+      .decision-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 24px 0;
+      }
+      .decision-option {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-m);
+        padding: 18px 20px;
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        gap: 16px;
+        align-items: start;
+      }
+      .decision-option.chosen {
+        background: var(--green-bg);
+        border-color: var(--green-border);
+        border-left: 3px solid var(--green);
+      }
+      .opt-tag {
+        font-family: "Geist", sans-serif;
+        font-size: 0.62rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding-top: 3px;
+        color: var(--ink-3);
+      }
+      .chosen .opt-tag {
+        color: var(--green);
+      }
+      .opt-body .opt-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--ink);
+        display: block;
+        margin-bottom: 5px;
+      }
+      .chosen .opt-title {
+        color: var(--green);
+      }
+      .opt-body p {
+        font-size: 0.855rem;
+        color: var(--ink-2);
+        line-height: 1.65;
+        margin: 0;
+      }
+      .chosen-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        font-family: "Geist", sans-serif;
+        font-size: 0.58rem;
+        font-weight: 500;
+        background: var(--green);
+        color: #fff;
+        border-radius: 50px;
+        padding: 2px 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-left: 8px;
+        vertical-align: middle;
+      }
+
+      /* ============================================================
+       PHASES (timeline, same as edfi)
+    ============================================================ */
+      .phases {
+        display: flex;
+        flex-direction: column;
+        margin: 24px 0;
+      }
+      .phase {
+        display: grid;
+        grid-template-columns: 44px 1fr;
+        gap: 20px;
+        padding-bottom: 30px;
+        position: relative;
+      }
+      .phase::after {
+        content: "";
+        position: absolute;
+        left: 21px;
+        top: 44px;
+        bottom: 0;
+        width: 1.5px;
+        background: var(--border);
+      }
+      .phase:last-child::after {
+        display: none;
+      }
+      .phase:last-child {
+        padding-bottom: 0;
+      }
+      .phase-num {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-family: "Instrument Serif", serif;
+        font-size: 1.05rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+      }
+      .phase-body {
+        padding-top: 8px;
+      }
+      .phase-sublabel {
+        font-family: "Geist", sans-serif;
+        font-size: 0.6rem;
+        font-weight: 500;
+        color: var(--ink-4);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 4px;
+      }
+      .phase-title {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      .phase-desc {
+        font-size: 0.875rem;
+        color: var(--ink-2);
+        line-height: 1.75;
+      }
+
+      /* ============================================================
+       OUTCOME GRID (model results, same as edfi)
+    ============================================================ */
+      .outcome-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin: 24px 0;
+      }
+      .outcome-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-l);
+        padding: 26px 24px;
+      }
+      .outcome-num {
+        font-family: "Instrument Serif", serif;
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: var(--accent);
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .outcome-tag {
+        font-family: "Geist", sans-serif;
+        font-size: 0.6rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--ink-3);
+        margin-bottom: 8px;
+      }
+      .outcome-note {
+        font-size: 0.83rem;
+        color: var(--ink-3);
+        line-height: 1.6;
+      }
+
+      /* ============================================================
+       LESSONS (four questions, same as edfi)
+    ============================================================ */
+      .lessons {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin: 24px 0;
+      }
+      .lesson {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-l);
+        padding: 22px 26px;
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+      .lesson-n {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--accent-mid);
+        line-height: 1;
+        padding-top: 2px;
+      }
+      .lesson-body h3 {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 6px;
+        margin-top: 0;
+      }
+      .lesson-body p {
+        font-size: 0.875rem;
+        color: var(--ink-2);
+        line-height: 1.78;
+        margin: 0;
+      }
+
+      /* ============================================================
+       CLOSING QUOTE (same as edfi)
+    ============================================================ */
+      .closing-quote {
+        background: var(--hero-bg);
+        border-radius: var(--r-l);
+        padding: 40px 44px;
+        margin: 56px 0 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .closing-quote::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.045) 1px,
+          transparent 1px
+        );
+        background-size: 26px 26px;
+        pointer-events: none;
+      }
+      .closing-quote p {
+        font-family: "Instrument Serif", serif;
+        font-size: clamp(1rem, 2.6vw, 1.3rem);
+        font-style: italic;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.75;
+        max-width: 500px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ============================================================
+       CTA (same as edfi)
+    ============================================================ */
+      .cta-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 48px;
+        padding-top: 40px;
+        border-top: 1px solid var(--border);
+      }
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: transparent;
+        color: var(--ink-2);
+        border: 1.5px solid var(--border-2);
+        border-radius: 50px;
+        padding: 10px 24px;
+        font-size: 0.77rem;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        transition:
+          border-color 0.2s,
+          color 0.2s,
+          transform 0.15s;
+      }
+      .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+      @media (max-width: 600px) {
+        .hero-stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .risk-grid {
+          grid-template-columns: 1fr;
+        }
+        .outcome-grid {
+          grid-template-columns: 1fr;
+        }
+        .decision-option {
+          grid-template-columns: 1fr;
+        }
+        .lesson {
+          grid-template-columns: 1fr;
+        }
+        .lesson-n {
+          display: none;
+        }
+        .phase {
+          grid-template-columns: 38px 1fr;
+          gap: 14px;
+        }
+        .phase::after {
+          left: 18px;
+          top: 38px;
+        }
+        .phase-num {
+          width: 38px;
+          height: 38px;
+          font-size: 0.9rem;
+        }
+        .closing-quote {
+          padding: 32px 24px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ============================================================
+     NAV
+============================================================ -->
+    <nav class="nav">
+      <a href="../index.html" class="nav-back">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+        >
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        Portfolio
+      </a>
+      <span class="nav-brand">Rajesh Pathak</span>
+    </nav>
+
+    <!-- ============================================================
+     HERO
+============================================================ -->
+    <header class="hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow">
+          Article &middot; AI Product Strategy &middot; FinTech
+        </div>
+        <h1 class="hero-title">
+          From CBDC Research<br />to AI Product Strategy
+        </h1>
+        <p class="hero-subtitle">
+          How building ML readiness models for India's Digital Rupee at the
+          Reserve Bank of India became a framework for every AI product decision
+          I've made since.
+        </p>
+        <div class="hero-meta">
+          <span class="hero-pill">Research Intern · RBI Kolkata</span>
+          <span class="hero-pill">ML & Policy Analytics</span>
+          <span class="hero-pill">CBDC Readiness Modelling</span>
+          <span class="hero-pill">FinTech · Central Banking</span>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-num">125</div>
+            <div class="hero-stat-label">Countries<br />in ML dataset</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">14</div>
+            <div class="hero-stat-label">Indian states<br />scored</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">76%</div>
+            <div class="hero-stat-label">Model<br />precision</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">40</div>
+            <div class="hero-stat-label">Years of RBI<br />macro data</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============================================================
+     BODY
+============================================================ -->
+    <main class="body-wrap">
+      <!-- ——————————————————————————————————————————
+       01 · CONTEXT
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="context">
+        <div class="section-label">01 · Context</div>
+        <h2 class="cs-h2">
+          The question every AI product team eventually faces
+        </h2>
+        <p class="cs-p">
+          The question every product manager building an AI product eventually
+          faces is: how do you know if it's actually working? Not whether the
+          model is mathematically accurate — but whether the thing you're
+          measuring actually matters, and whether the environment you're
+          deploying into can act on what the model tells it.
+        </p>
+        <p class="cs-p">
+          I ran into both at the same time in 2021, while working at the Reserve
+          Bank of India's Department of Statistics and Information Management in
+          Kolkata. The brief: assess whether India was ready for a Digital Rupee
+          — and generate the data-driven modelling to support that assessment.
+        </p>
+
+        <div class="callout-def">
+          <div class="def-label">Background · What is a CBDC?</div>
+          <p>
+            Central Bank Digital Currencies are the digital equivalent of a
+            country's physical cash — issued and backed by the central bank,
+            just like paper notes, but in electronic form. Think of it like a
+            government-issued digital wallet instead of physical rupee notes. In
+            2021, central banks globally were actively exploring CBDCs as the
+            next evolution of sovereign money. While China was already piloting
+            its digital yuan, the RBI was evaluating whether India had the
+            financial infrastructure, regulatory maturity, and digital readiness
+            required for a future Digital Rupee.
+          </p>
+        </div>
+
+        <p class="cs-p">
+          My project had three distinct parts — each a compressed version of the
+          same fundamental product challenge:
+        </p>
+
+        <div class="risk-grid">
+          <div class="risk-card task-blue">
+            <div class="risk-type">Task 01 · Segmentation</div>
+            <div class="risk-title">State readiness model</div>
+            <div class="risk-body">
+              Build a model scoring which Indian states are ready for a Digital
+              Rupee pilot — defining a meaningful metric where no ground truth
+              existed.
+            </div>
+          </div>
+          <div class="risk-card task-green">
+            <div class="risk-type">Task 02 · ML Analysis</div>
+            <div class="risk-title">Global adoption drivers</div>
+            <div class="risk-body">
+              Identify the global drivers of CBDC adoption across 125 countries
+              using machine learning — surfacing what actually predicts success.
+            </div>
+          </div>
+          <div class="risk-card task-amber">
+            <div class="risk-type">Task 03 · Macro Impact</div>
+            <div class="risk-title">Money velocity modelling</div>
+            <div class="risk-body">
+              Quantify how digital currency adoption affects money velocity over
+              40 years of RBI data — and whether short-run and long-run effects
+              diverge.
+            </div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <p>
+            It was, in hindsight, a compressed version of every hard product
+            decision I've made since:
+            <strong
+              >define the right metric, pick the right model inputs, understand
+              what the output enables — and what it can't — and accept that "the
+              model is accurate" is never the finish line.</strong
+            >
+          </p>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- ——————————————————————————————————————————
+       02 · DEFINING "READY"
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="ready">
+        <div class="section-label">02 · Before the Models</div>
+        <h2 class="cs-h2">
+          Before a single model ran, we had to define what "ready" meant
+        </h2>
+        <p class="cs-p">
+          This is the part of AI product work that gets skipped in demos and
+          rushed in sprints. Before any model runs, someone has to decide what
+          the model is actually trying to predict — and that decision is largely
+          irreversible. Get it wrong and you end up with a very precise answer
+          to the wrong question.
+        </p>
+        <p class="cs-p">
+          For CBDC readiness, we had no ground truth label. No Indian state had
+          ever launched a digital rupee. So the first task was genuine product
+          management work: define "readiness" as a concept, translate it into
+          measurable variables, and choose stand-in metrics — called proxies —
+          for things we couldn't directly observe.
+        </p>
+
+        <div class="callout-def">
+          <div class="def-label">What is a proxy metric?</div>
+          <p>
+            A proxy is a substitute measure. When you can't directly measure
+            what you care about, you find something highly correlated with it.
+            <strong>Example:</strong> a product manager can't directly measure
+            customer satisfaction after every feature interaction. Instead, they
+            track user retention, daily active users, or the return rate as
+            proxy indicators of satisfaction.
+          </p>
+        </div>
+
+        <p class="cs-p">
+          The most important global predictor of CBDC adoption — the Financial
+          Development Index — doesn't exist at the Indian state level. So we
+          substituted it with the Financial Inclusion Index: banking
+          penetration, credit availability, and last-mile branch density. Every
+          substitution below was a judgment call the model itself couldn't make:
+        </p>
+
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Ideal variable</th>
+                <th>Proxy used</th>
+                <th>Why</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Financial Development Index</strong></td>
+                <td>Financial Inclusion Index</td>
+                <td>
+                  FDI not available at state level. FII captures banking
+                  penetration, credit access, and rural branch density as close
+                  substitutes.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Regulatory quality score</strong></td>
+                <td>Public Affairs Index</td>
+                <td>
+                  Measures how effectively state governments administer services
+                  and enforce rules — a reasonable stand-in for institutional
+                  capacity.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Trade-to-GDP ratio</strong></td>
+                <td>Exports as % of GSDP</td>
+                <td>
+                  Standard trade ratio unavailable at state level. Export share
+                  of Gross State Domestic Product captures economic openness.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Mobile subscriber count</strong></td>
+                <td>Tele-density (connections per 100 people)</td>
+                <td>
+                  Normalises for population size — reflects actual digital
+                  infrastructure coverage rather than raw market scale.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout">
+          <p>
+            Every substitution was a product decision. The model couldn't make
+            them. Only someone who understood both the domain and the dataset
+            could.
+            <strong
+              >This is where AI product risk actually lives: not in the
+              algorithm, but in the requirements upstream of it.</strong
+            >
+          </p>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- ——————————————————————————————————————————
+       03 · GLOBAL DRIVERS — RANDOM FOREST
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="global">
+        <div class="section-label">03 · Global Analysis</div>
+        <h2 class="cs-h2">
+          Feature importance is a prioritisation framework in disguise
+        </h2>
+        <p class="cs-p">
+          We ran a Random Forest classifier — a model that builds hundreds of
+          decision trees and averages their outputs for more reliable
+          predictions — across data from <strong>125 countries</strong> to
+          identify the top predictors of CBDC adoption. The model achieved 76%
+          precision and 71% recall on a difficult classification problem where
+          labelled examples were sparse.
+        </p>
+
+        <div class="callout-def">
+          <div class="def-label">Precision vs Recall</div>
+          <p>
+            <strong>Precision</strong> means: of all the countries the model
+            predicted as "CBDC-ready", how many actually were? 76% means it was
+            right about three-quarters of the time.
+            <strong>Recall</strong> means: of all the countries that were
+            actually CBDC-ready, how many did the model correctly identify? 71%
+            means it caught most of them.
+          </p>
+        </div>
+
+        <div class="outcome-grid">
+          <div class="outcome-card">
+            <div class="outcome-num">76%</div>
+            <div class="outcome-tag">Precision</div>
+            <div class="outcome-note">
+              Of all countries predicted CBDC-ready, three-quarters were.
+              High-confidence positive predictions on a sparse labelling
+              problem.
+            </div>
+          </div>
+          <div class="outcome-card">
+            <div class="outcome-num">71%</div>
+            <div class="outcome-tag">Recall</div>
+            <div class="outcome-note">
+              Of all genuinely ready countries, the model identified most —
+              catching real opportunities without excessive false positives.
+            </div>
+          </div>
+        </div>
+
+        <p class="cs-p">
+          To contextualise those numbers: a naive majority-class classifier on
+          this dataset — one that simply predicted every country as "not
+          CBDC-ready" based on the preponderance of non-adopters — would have
+          achieved roughly 60–65% accuracy on the raw class distribution. The
+          Random Forest's 76% precision represents meaningful signal above that
+          baseline, not a marginal improvement over chance. But the number I
+          found most valuable wasn't accuracy. It was the
+          <strong>feature importance output</strong> — a ranking of which
+          variables the model leaned on most heavily to make its predictions.
+          Financial system depth outweighed internet penetration, regulatory
+          quality, and raw GDP.
+        </p>
+        <p class="cs-p">
+          Countries advancing fastest on CBDC weren't the most technologically
+          sophisticated — they were the ones where financial institutions
+          already had depth, access, and efficiency.
+          <strong>Technology is the last layer, not the first.</strong> If the
+          institutional foundation isn't in place, a CBDC launch doesn't create
+          it. It exposes its absence.
+        </p>
+
+        <div class="callout-insight">
+          <div class="insight-label">PM Insight</div>
+          <p>
+            What your model weights most heavily is a direct signal about where
+            product investment has the highest expected return. The Random
+            Forest was telling policymakers — and me — that
+            <strong
+              >if you want to accelerate CBDC adoption, the highest-leverage
+              intervention is financial system development, then digital access
+              infrastructure, then regulatory quality.</strong
+            >
+            That is a product roadmap. The model just expressed it in variable
+            importance terms instead of the frameworks product managers
+            typically use.
+          </p>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- ——————————————————————————————————————————
+       04 · PREPAREDNESS INDEX
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="index">
+        <div class="section-label">04 · State Segmentation</div>
+        <h2 class="cs-h2">
+          The Preparedness Index was a go-to-market segmentation model
+        </h2>
+        <p class="cs-p">
+          The second phase used a multi-step logistic regression framework —
+          building a readiness score iteratively, with each stage incorporating
+          additional predictor variables and re-estimating coefficients against
+          the evolving model — trained on a decade of state-level data
+          (2011–2020) to score CBDC readiness across 14 Indian states.
+        </p>
+        <p>
+          The output: a preparedness index from 0 to 1. The analysis covered 14
+          states for which a consistent decade of data across all four proxy
+          dimensions was available at the state level — a data availability
+          constraint rather than a deliberate exclusion of the remaining states
+          and union territories.
+        </p>
+        <p class="cs-p">
+          Translated into product language, this is a
+          <strong
+            >customer segmentation model and a pilot launch sequencing
+            recommendation</strong
+          >. The results were striking:
+        </p>
+
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>State</th>
+                <th>Score</th>
+                <th>Tier</th>
+                <th>What drove the rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-ready">
+                <td><strong>Kerala</strong></td>
+                <td><span class="score-chip score-1">1.0</span></td>
+                <td>Launch-ready</td>
+                <td rowspan="2">
+                  Ranked above the median on financial inclusion, internet
+                  penetration, governance quality, and ATM density — all at the
+                  same time, consistently across the full decade.
+                </td>
+              </tr>
+              <tr class="row-ready">
+                <td><strong>Maharashtra</strong></td>
+                <td><span class="score-chip score-1">1.0</span></td>
+                <td>Launch-ready</td>
+                <td rowspan="2">
+                  Strong across all four dimensions — financial inclusion depth
+                  anchored by Mumbai's banking infrastructure, high
+                  tele-density, above-median governance quality, and consistent
+                  export intensity as a share of GSDP across the full decade.
+                </td>
+              </tr>
+              <tr class="row-partial">
+                <td><strong>Haryana</strong></td>
+                <td><span class="score-chip score-09">0.9</span></td>
+                <td>High readiness</td>
+                <td rowspan="3">
+                  High tele-density and above-median financial inclusion, but
+                  governance quality scores showed more variability across the
+                  decade than the top two states. A strong candidate for
+                  early-wave expansion once pilot learnings are established.
+                </td>
+              </tr>
+              <tr class="row-partial">
+                <td><strong>Tamil Nadu</strong></td>
+                <td><span class="score-chip score-09">0.9</span></td>
+                <td>High readiness</td>
+                <td rowspan="3">
+                  Robust banking penetration and a mature export economy, with
+                  consistent performance on the Financial Inclusion proxy. Minor
+                  gaps in rural last-mile branch density relative to Kerala and
+                  Maharashtra held the score fractionally below the top tier.
+                </td>
+              </tr>
+              <tr class="row-partial">
+                <td><strong>Gujarat</strong></td>
+                <td><span class="score-chip score-08">0.8</span></td>
+                <td>High readiness</td>
+                <td rowspan="3">
+                  Strong on export intensity and tele-density — the two
+                  infrastructure dimensions — but financial inclusion scores,
+                  particularly rural credit availability, lagged the top-tier
+                  states. High readiness overall, with an identifiable single
+                  lever for improvement.
+                </td>
+              </tr>
+              <tr class="row-unready">
+                <td><strong>Uttar Pradesh</strong></td>
+                <td><span class="score-chip score-0">0.0</span></td>
+                <td>Not ready</td>
+                <td rowspan="3">
+                  Scored zero — not for a single year, but for the entire decade
+                  studied. Lagged on multiple dimensions simultaneously. Not one
+                  missing ingredient; systemic under-preparedness.
+                </td>
+              </tr>
+              <tr class="row-unready">
+                <td><strong>Bihar</strong></td>
+                <td><span class="score-chip score-0">0.0</span></td>
+                <td>Not ready</td>
+              </tr>
+              <tr class="row-unready">
+                <td><strong>Assam</strong></td>
+                <td><span class="score-chip score-0">0.0</span></td>
+                <td>Not ready</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="cs-p">
+          The gap wasn't random. High-readiness states consistently ranked above
+          the median across all four dimensions simultaneously. The
+          zero-readiness states lagged on all of them at once — which matters,
+          because fixing a single dimension in a systemically under-prepared
+          market doesn't move it into the next tier.
+        </p>
+
+        <div class="callout-insight">
+          <div class="insight-label">PM Insight · Pilot Sequencing</div>
+          <p>
+            Pilot in your highest-readiness segment first. Not because you're
+            deprioritising low-readiness markets — but because
+            <strong
+              >early adoption in ready markets generates the feedback loops and
+              institutional learning that make later expansion actually
+              work.</strong
+            >
+            Pushing a zero-readiness market at launch isn't an opportunity cost.
+            It's a product support and policy credibility risk.
+          </p>
+        </div>
+
+        <div class="callout">
+          <p>
+            Today's RBI Digital Rupee pilots are being rolled out in selected
+            institutions, banks, states, and use cases rather than attempting
+            nationwide deployment on day one.
+            <strong
+              >That mirrors exactly what the readiness framework was built to
+              recommend</strong
+            >
+            — introduce new financial infrastructure where institutional
+            capability, digital maturity, and operational readiness already
+            exist, learn rapidly, then expand progressively.
+          </p>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- ——————————————————————————————————————————
+       05 · MONEY VELOCITY — THE HORIZON PROBLEM
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="velocity">
+        <div class="section-label">05 · Macro Dynamics</div>
+        <h2 class="cs-h2">
+          Short-run vs long-run: the metric horizon problem every PM eventually
+          hits
+        </h2>
+        <p class="cs-p">
+          The third component modelled 40 years of RBI macroeconomic data to
+          study how digital currency adoption affects money velocity — the speed
+          at which money changes hands in the economy. We used two advanced
+          statistical techniques: Engle-Granger cointegration and an Error
+          Correction Model.
+        </p>
+
+        <div class="callout-def">
+          <div class="def-label">What is money velocity?</div>
+          <p>
+            Imagine ₹100 changes hands five times in a year — you pay a
+            shopkeeper, who pays a supplier, who pays workers, and so on. That
+            ₹100 effectively generated ₹500 of economic activity. That's high
+            velocity. If digital currency makes transactions cheaper and faster,
+            it could change how quickly money moves through the economy.
+            <strong
+              >Higher velocity generally signals more economic activity; lower
+              velocity can mean people are holding money longer or transacting
+              more efficiently.</strong
+            >
+          </p>
+        </div>
+
+        <p class="cs-p">
+          The models fit extremely well — explaining 94.5% of variation in
+          narrow money velocity and 99.5% of broad money velocity. But the more
+          practically useful finding was the
+          <strong>divergence between short-run and long-run effects</strong>:
+        </p>
+
+        <div class="outcome-grid">
+          <div class="outcome-card">
+            <div class="outcome-num">94.5%</div>
+            <div class="outcome-tag">R² — Narrow money velocity</div>
+            <div class="outcome-note">
+              Error Correction Model explains nearly all variation in narrow
+              money (M1) velocity over the full 40-year period.
+            </div>
+          </div>
+          <div class="outcome-card">
+            <div class="outcome-num">99.5%</div>
+            <div class="outcome-tag">R² — Broad money velocity</div>
+            <div class="outcome-note">
+              Near-perfect fit on broad money (M3) velocity — confirming the
+              structural drivers are captured cleanly.
+            </div>
+          </div>
+        </div>
+
+        <div class="decision-options">
+          <div class="decision-option">
+            <div class="opt-tag">Short-run</div>
+            <div class="opt-body">
+              <span class="opt-title"
+                >Digital currency dampens velocity — counterintuitively</span
+              >
+              <p>
+                In the first few years of digital currency adoption, electronic
+                currency had a strong dampening effect on velocity. Digital
+                currency holders transact more efficiently, so money circulates
+                more slowly at first. You might expect digital money to speed
+                things up — but early adopters tend to hold it longer before
+                spending.
+              </p>
+            </div>
+          </div>
+          <div class="decision-option chosen">
+            <div class="opt-tag">Long-run</div>
+            <div class="opt-body">
+              <span class="opt-title"
+                >Digital payments-to-GDP becomes the dominant driver
+                <span class="chosen-badge">Key finding</span></span
+              >
+              <p>
+                Over many years, the digital payments-to-GDP ratio became highly
+                statistically significant, while the short-run coefficient
+                became negligible. Interest rates showed the opposite pattern —
+                minimal short-term, meaningful long-term. Compounding adoption
+                changes what drives the system entirely.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout-insight">
+          <div class="insight-label">
+            PM Lesson · The Metric Horizon Problem
+          </div>
+          <p>
+            A feature can look flat in a 30-day cohort window and be building
+            compounding value by month six. A metric that looks healthy at
+            launch can be masking structural decay that only surfaces over the
+            long run.
+            <strong
+              >Most product teams optimise for short-term results because sprint
+              cycles and quarterly goals reward it.</strong
+            >
+            The error correction model asks: when the system deviates from its
+            equilibrium, what's the speed and direction of correction? That's a
+            question worth asking about every product metric you track — not
+            just macroeconomic time series.
+          </p>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- ——————————————————————————————————————————
+       06 · THE FRAMEWORK
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="framework">
+        <div class="section-label">06 · Framework</div>
+        <h2 class="cs-h2">
+          Four questions for AI products in regulated environments
+        </h2>
+        <p class="cs-p">
+          Working in a regulated environment — where a model's output feeds real
+          policy decisions — makes certain questions unavoidable that consumer
+          product teams can defer indefinitely. Here are the four I carry with
+          me:
+        </p>
+
+        <div class="lessons">
+          <div class="lesson">
+            <div class="lesson-n">1</div>
+            <div class="lesson-body">
+              <h3>
+                What are you actually trying to predict — and is your label
+                valid?
+              </h3>
+              <p>
+                When no state had launched a digital rupee, there was no "right
+                answer" to train on. We had to construct the label ourselves.
+                Many AI projects fail here, not in the model. If your label is
+                wrong, no amount of algorithmic sophistication fixes it.
+              </p>
+            </div>
+          </div>
+          <div class="lesson">
+            <div class="lesson-n">2</div>
+            <div class="lesson-body">
+              <h3>
+                Are your proxies measuring what you think they're measuring?
+              </h3>
+              <p>
+                Every substitution we made — tele-density for mobile
+                subscriptions, the Public Affairs Index for regulatory quality —
+                was a decision that could have gone differently. Proxy
+                validation isn't a statistical step. It's a domain knowledge
+                step.
+              </p>
+            </div>
+          </div>
+          <div class="lesson">
+            <div class="lesson-n">3</div>
+            <div class="lesson-body">
+              <h3>
+                What does the model output actually enable — and what does it
+                prevent?
+              </h3>
+              <p>
+                A readiness score of 0.8 for Gujarat doesn't tell you when to
+                launch there, how to sequence rollout within the state, or what
+                infrastructure gaps need addressing first. The model gives you a
+                signal. The PM's job is to translate that signal into a decision
+                — and understand its limits.
+              </p>
+            </div>
+          </div>
+          <div class="lesson">
+            <div class="lesson-n">4</div>
+            <div class="lesson-body">
+              <h3>Are you measuring at the right time horizon?</h3>
+              <p>
+                Short-run and long-run effects can point in opposite directions.
+                A product that initially slows a metric might be building the
+                compounding behaviour that improves it permanently. If you only
+                measure at 30 days, you may kill features that would have
+                succeeded at 180.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <p>
+            Regulated environments make all four questions unavoidable — which
+            is exactly why experience in FinTech, EdTech compliance, or
+            healthcare produces a different kind of product rigour than purely
+            consumer contexts. Not harder or easier:
+            <strong>more structurally demanding.</strong> When the cost of a
+            wrong prediction is a policy misallocation or a compliance breach,
+            you can't skip proxy validation. The consequences just show up too
+            visibly.
+          </p>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- ——————————————————————————————————————————
+       07 · WHAT HAPPENED NEXT
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="timeline">
+        <div class="section-label">07 · What Happened Next</div>
+        <h2 class="cs-h2">CBDC: from research to national infrastructure</h2>
+        <p class="cs-p">
+          When I worked on this project in 2021, India's Digital Rupee existed
+          only as a research initiative. Our work focused on one question: how
+          do you decide where, how, and under what conditions a CBDC should be
+          introduced? Over the following four years, the Reserve Bank of India
+          moved from research into implementation — validating nearly every
+          assumption the framework was built on.
+        </p>
+
+        <div class="phases">
+          <div class="phase">
+            <div class="phase-num">1</div>
+            <div class="phase-body">
+              <div class="phase-sublabel">Research · 2021</div>
+              <div class="phase-title">
+                Readiness modelling, adoption drivers, rollout prioritisation
+              </div>
+              <div class="phase-desc">
+                My project — building state-level readiness scores, identifying
+                global CBDC adoption drivers using ML, and modelling
+                macroeconomic velocity impacts — contributed to the RBI's
+                broader assessment of whether and how India should pursue a
+                Digital Rupee.
+              </div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">2</div>
+            <div class="phase-body">
+              <div class="phase-sublabel">Pilot · 2022</div>
+              <div class="phase-title">
+                RBI publishes the CBDC Concept Note; launches wholesale and
+                retail pilots
+              </div>
+              <div class="phase-desc">
+                The RBI moved from research to experimentation through
+                controlled deployment — in selected institutions and use cases,
+                not nationwide. The rollout logic was consistent with what the
+                preparedness index had been designed to recommend: prioritise
+                markets where institutional capability, digital maturity, and
+                operational readiness already exist, rather than attempting
+                system-wide deployment before those foundations are confirmed.
+                Whether the 2021 research contributed directly to that decision
+                or simply reflected the same sound reasoning that the RBI's own
+                economists arrived at independently, the alignment between the
+                framework and the approach taken is precise enough to be
+                instructive.
+              </div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">3</div>
+            <div class="phase-body">
+              <div class="phase-sublabel">Expansion · 2023–24</div>
+              <div class="phase-title">
+                UPI interoperability, offline capability, and programmability
+              </div>
+              <div class="phase-desc">
+                The retail pilot expanded significantly in its registered user
+                base — but the path was not linear, and the non-linearity was
+                itself instructive. In December 2023, the pilot briefly crossed
+                one million daily transactions. By June 2024, that figure had
+                fallen back to approximately 100,000 — largely because the
+                December spike had been driven by participating banks
+                incentivising their own employees to transact through CBDC
+                wallets, rather than by organic consumer adoption. This is
+                precisely the short-run/long-run divergence the macroeconomic
+                model had flagged. Early adopters transacted efficiently and
+                then slowed, not because the product had failed, but because the
+                behavioural equilibrium of a new payment instrument takes longer
+                to establish than a single-month metric suggests. By March 2025,
+                the retail pilot had reached over six million registered users —
+                a number that reflects slower, stickier adoption rather than an
+                incentive-driven spike. The long-run variable, digital payments
+                penetration, was beginning to assert itself. Focus shifted from
+                technical feasibility to user adoption and product maturity —
+                exactly the transition the short-run/long-run model had been
+                built to anticipate.
+              </div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">4</div>
+            <div class="phase-body">
+              <div class="phase-sublabel">Scale · 2025–26</div>
+              <div class="phase-title">
+                Programmable CBDC for welfare distribution; cross-border pilots
+                initiated
+              </div>
+              <div class="phase-desc">
+                The Digital Rupee began serving real-world policy functions —
+                targeted welfare distribution and cross-border payment pilots
+                with international partners. Market readiness, rollout
+                sequencing, institutional maturity, and long-term adoption —
+                exactly the questions the 2021 research was designed to answer —
+                had become central to implementation strategy.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ——————————————————————————————————————————
+       CLOSING QUOTE
+  —————————————————————————————————————————— -->
+      <div class="closing-quote">
+        <p>
+          "The most consequential decision in any AI project is rarely technical
+          — it's the moment someone chooses what to measure and accepts that the
+          choice is largely irreversible. Get the label wrong, and no algorithm
+          recovers it. Get the proxy wrong, and precision is just a precise
+          answer to the wrong question. At the RBI, that lesson arrived before a
+          single model ran. It hasn't left since."
+        </p>
+      </div>
+
+      <!-- ——————————————————————————————————————————
+       CTA
+  —————————————————————————————————————————— -->
+      <div class="cta-row">
+        <a href="../index.html" class="btn-outline">
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          Back to Portfolio
+        </a>
+        <a href="edfi-migration.html" class="btn-outline">
+          Texas Ed-Fi Migration
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>

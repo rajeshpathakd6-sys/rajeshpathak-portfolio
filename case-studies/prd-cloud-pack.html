@@ -1,0 +1,1357 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VMware Subscription Transformation</title>
+    <meta
+      name="description"
+      content="Case study: how the Offers Team modeled VMware's Unified Cloud Pack subscription bundles in Oracle Product Data Hub, keeping 160+ infrastructure products consistent across CPQ, SAP, Commerce, and Licensing."
+    />
+    <link
+      rel="canonical"
+      href="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/case-studies/prd-cloud-pack.html"
+    />
+    <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../favicon-32x32.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="../apple-touch-icon.png"
+    />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta name="theme-color" content="#3454e0" />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:title"
+      content="Project: VMware Subscription Transformation · Rajesh Pathak"
+    />
+    <meta
+      property="og:description"
+      content="Case study: how the Offers Team modeled VMware's Unified Cloud Pack subscription bundles in Oracle Product Data Hub, keeping 160+ infrastructure products consistent across CPQ, SAP, Commerce, and Licensing."
+    />
+    <meta
+      property="og:url"
+      content="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/case-studies/prd-cloud-pack.html"
+    />
+    <meta
+      property="og:image"
+      content="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/RajeshPhoto.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Project: VMware Subscription Transformation · Rajesh Pathak"
+    />
+    <meta
+      name="twitter:image"
+      content="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/RajeshPhoto.jpg"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f5f6f9;
+        --surface: #fff;
+        --surface-2: #edeff3;
+        --accent: #3454e0;
+        --accent-soft: #e9edfc;
+        --accent-mid: #aab8f5;
+        --ink: #11151c;
+        --ink-2: #3c4453;
+        --ink-3: #76808f;
+        --border: #e1e4ea;
+        --border-2: #c7ccd6;
+        --blue: #1f6fa8;
+        --blue-bg: #e7f1fb;
+        --green: #15805a;
+        --green-bg: #e3f6ec;
+        --amber: #92660a;
+        --amber-bg: #fdf3df;
+        --lav: #6c4fd1;
+        --lav-bg: #ece9fb;
+        --r-s: 10px;
+        --r-m: 16px;
+        --r-l: 22px;
+        --max-w: 820px;
+        --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Geist", sans-serif;
+        font-size: 1rem;
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(247, 245, 242, 0.92);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 5vw;
+        height: 58px;
+      }
+      .nav-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--ink-3);
+        transition: color 0.2s;
+      }
+      .nav-back:hover {
+        color: var(--accent);
+      }
+      .nav-back svg {
+        width: 14px;
+        height: 14px;
+      }
+      .nav-logo {
+        font-family: "Instrument Serif", serif;
+        font-size: 0.95rem;
+        color: var(--ink-2);
+      }
+
+      /* HERO */
+      .prd-hero {
+        background: linear-gradient(150deg, #11151c 0%, #1b2236 100%);
+        padding: 80px 5vw 64px;
+        position: relative;
+        overflow: hidden;
+      }
+      .prd-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.05) 1px,
+          transparent 1px
+        );
+        background-size: 30px 30px;
+        pointer-events: none;
+      }
+      .prd-hero::after {
+        content: "";
+        position: absolute;
+        top: -60px;
+        right: -40px;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background: rgba(52, 84, 224, 0.2);
+        filter: blur(70px);
+        pointer-events: none;
+      }
+      .prd-hero-inner {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+      }
+      .prd-eyebrow {
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--accent-mid);
+        margin-bottom: 14px;
+      }
+      .prd-hero-title {
+        font-family: "Instrument Serif", serif;
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        color: #fff;
+        line-height: 1.2;
+        margin-bottom: 16px;
+      }
+      .prd-hero-sub {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1.85;
+        max-width: 580px;
+        margin-bottom: 28px;
+      }
+      .prd-meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 28px;
+      }
+      .prd-meta-pill {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 50px;
+        padding: 5px 14px;
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.65);
+        font-weight: 500;
+      }
+      .prd-status-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .prd-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--r-m);
+        padding: 10px 16px;
+      }
+      .prd-status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .prd-status-label {
+        font-size: 0.72rem;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        font-weight: 600;
+      }
+      .prd-status-val {
+        font-size: 0.875rem;
+        color: #fff;
+        font-weight: 500;
+      }
+
+      /* BODY */
+      .prd-body {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 60px 5vw 100px;
+      }
+      .prd-toc {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-l);
+        padding: 24px 28px;
+        margin-bottom: 52px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      }
+      .prd-toc-title {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--ink-3);
+        margin-bottom: 14px;
+      }
+      .prd-toc-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        list-style: none;
+      }
+      .prd-toc-list li a {
+        font-size: 0.875rem;
+        color: var(--blue);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.2s;
+      }
+      .prd-toc-list li a:hover {
+        color: var(--accent);
+      }
+      .prd-toc-list li a::before {
+        content: "";
+        width: 12px;
+        height: 1px;
+        background: var(--border-2);
+        flex-shrink: 0;
+      }
+
+      .prd-section {
+        margin-bottom: 56px;
+        scroll-margin-top: 70px;
+      }
+      .prd-section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--blue);
+        margin-bottom: 10px;
+      }
+      .prd-section-label::before {
+        content: "";
+        width: 20px;
+        height: 1.5px;
+        background: var(--blue);
+      }
+      h2.prd-h2 {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.6rem;
+        color: var(--ink);
+        line-height: 1.25;
+        margin-bottom: 18px;
+        letter-spacing: -0.01em;
+      }
+      h3.prd-h3 {
+        font-size: 0.9375rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 10px;
+        margin-top: 22px;
+      }
+      p.prd-p {
+        font-size: 0.9375rem;
+        color: var(--ink-2);
+        line-height: 1.85;
+        margin-bottom: 14px;
+      }
+      p.prd-p strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      ul.prd-ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        margin-bottom: 16px;
+      }
+      ul.prd-ul li {
+        font-size: 0.9375rem;
+        color: var(--ink-2);
+        line-height: 1.8;
+        padding-left: 18px;
+        position: relative;
+      }
+      ul.prd-ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 10px;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--blue);
+        opacity: 0.7;
+      }
+
+      /* CALLOUT */
+      .prd-callout {
+        background: var(--blue-bg);
+        border: 1px solid #cce0f4;
+        border-left: 3px solid var(--blue);
+        border-radius: var(--r-m);
+        padding: 18px 22px;
+        margin: 20px 0;
+      }
+      .prd-callout p {
+        font-size: 0.875rem;
+        color: var(--ink-2);
+        line-height: 1.8;
+        margin: 0;
+      }
+      .prd-callout strong {
+        color: var(--blue);
+        font-weight: 700;
+      }
+      .prd-warn {
+        background: var(--amber-bg);
+        border: 1px solid #f5d99a;
+        border-left: 3px solid var(--amber);
+        border-radius: var(--r-m);
+        padding: 18px 22px;
+        margin: 20px 0;
+      }
+      .prd-warn p {
+        font-size: 0.875rem;
+        color: var(--ink-2);
+        line-height: 1.8;
+        margin: 0;
+      }
+      .prd-warn strong {
+        color: var(--amber);
+        font-weight: 700;
+      }
+
+      /* FLOW CHAIN — recurring motif for the multi-system flows */
+      .flow-label {
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--ink-3);
+        margin-bottom: 10px;
+      }
+      .flow-chain {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 7px;
+        margin: 0 0 22px;
+      }
+      .flow-node {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 50px;
+        padding: 8px 16px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--ink);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        white-space: nowrap;
+      }
+      .flow-node.is-accent {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .flow-arrow {
+        color: var(--border-2);
+        font-size: 0.85rem;
+        flex-shrink: 0;
+      }
+
+      /* STEP TIMELINE — section 5, a genuine numbered sequence */
+      .step-timeline {
+        position: relative;
+        margin: 22px 0 8px;
+        padding-left: 40px;
+      }
+      .step-timeline::before {
+        content: "";
+        position: absolute;
+        left: 13px;
+        top: 6px;
+        bottom: 6px;
+        width: 2px;
+        background: var(--border);
+      }
+      .step-item {
+        position: relative;
+        padding-bottom: 32px;
+      }
+      .step-item:last-child {
+        padding-bottom: 0;
+      }
+      .step-num {
+        position: absolute;
+        left: -40px;
+        top: 0;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--blue);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+        box-shadow: 0 0 0 4px var(--bg);
+      }
+      .step-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 7px;
+      }
+      .step-body {
+        font-size: 0.9375rem;
+        color: var(--ink-2);
+        line-height: 1.8;
+        margin-bottom: 14px;
+      }
+      .step-item:last-child .step-num {
+        background: var(--accent);
+      }
+
+      /* HUB DIAGRAM — section 6 signature element: Offers Team at the center */
+      .hub-wrap {
+        display: grid;
+        grid-template-columns:
+          minmax(108px, 1fr) 34px minmax(150px, 1.25fr)
+          34px minmax(108px, 1fr);
+        grid-template-rows: auto 34px auto 34px auto;
+        align-items: center;
+        justify-items: stretch;
+        max-width: 640px;
+        margin: 30px auto 22px;
+      }
+      .hub-node {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-m);
+        padding: 14px 14px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      .hub-dot {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        margin-right: 6px;
+        vertical-align: middle;
+      }
+      .hub-node-label {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .hub-node-sub {
+        font-size: 0.72rem;
+        color: var(--ink-3);
+        line-height: 1.5;
+        margin-top: 4px;
+      }
+      .hub-center {
+        background: var(--accent);
+        color: #fff;
+        border-radius: var(--r-m);
+        padding: 18px 16px;
+        text-align: center;
+        box-shadow: 0 8px 22px rgba(52, 84, 224, 0.32);
+      }
+      .hub-center-label {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.05rem;
+        letter-spacing: -0.01em;
+      }
+      .hub-center-sub {
+        font-size: 0.72rem;
+        color: rgba(255, 255, 255, 0.82);
+        line-height: 1.5;
+        margin-top: 4px;
+      }
+      .hub-top {
+        grid-column: 3;
+        grid-row: 1;
+      }
+      .hub-conn-top {
+        grid-column: 3;
+        grid-row: 2;
+        width: 2px;
+        height: 100%;
+        background: var(--border-2);
+        margin: 0 auto;
+      }
+      .hub-left {
+        grid-column: 1;
+        grid-row: 3;
+      }
+      .hub-conn-left {
+        grid-column: 2;
+        grid-row: 3;
+        width: 100%;
+        height: 2px;
+        background: var(--border-2);
+      }
+      .hub-mid {
+        grid-column: 3;
+        grid-row: 3;
+      }
+      .hub-conn-right {
+        grid-column: 4;
+        grid-row: 3;
+        width: 100%;
+        height: 2px;
+        background: var(--border-2);
+      }
+      .hub-right {
+        grid-column: 5;
+        grid-row: 3;
+      }
+      .hub-conn-bottom {
+        grid-column: 3;
+        grid-row: 4;
+        width: 2px;
+        height: 100%;
+        background: var(--border-2);
+        margin: 0 auto;
+      }
+      .hub-bottom {
+        grid-column: 3;
+        grid-row: 5;
+      }
+
+      /* INSIGHT GRID — section 9 */
+      .insight-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin: 18px 0 8px;
+      }
+      .insight-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-m);
+        padding: 20px 22px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+      .insight-title {
+        font-size: 0.9375rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 8px;
+        line-height: 1.4;
+      }
+      .insight-body {
+        font-size: 0.875rem;
+        color: var(--ink-2);
+        line-height: 1.75;
+      }
+
+      /* IMPACT CHECKLIST — section 8 */
+      .impact-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 18px 0 8px;
+      }
+      .impact-list li {
+        font-size: 0.9375rem;
+        color: var(--ink-2);
+        line-height: 1.75;
+        padding-left: 30px;
+        position: relative;
+      }
+      .impact-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 1px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--green-bg);
+        color: var(--green);
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-align: center;
+        line-height: 20px;
+      }
+      .impact-list li strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* PULL QUOTE — section 10 */
+      .pull-quote {
+        border-left: 3px solid var(--accent);
+        padding: 4px 0 4px 26px;
+        margin: 22px 0 8px;
+      }
+      .pull-quote p {
+        font-family: "Instrument Serif", serif;
+        font-style: italic;
+        font-size: 1.3rem;
+        line-height: 1.55;
+        color: var(--ink);
+        letter-spacing: -0.01em;
+      }
+
+      /* CTA */
+      .prd-cta-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 48px;
+        padding-top: 40px;
+        border-top: 1px solid var(--border);
+      }
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 50px;
+        padding: 12px 26px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+        box-shadow: 0 4px 16px rgba(52, 84, 224, 0.25);
+      }
+      .btn-primary:hover {
+        background: #2740b3;
+        transform: translateY(-1px);
+      }
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: transparent;
+        color: var(--ink);
+        border: 1.5px solid var(--border-2);
+        border-radius: 50px;
+        padding: 11px 24px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        transition:
+          border-color 0.2s,
+          color 0.2s,
+          transform 0.15s;
+      }
+      .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      @media (max-width: 680px) {
+        .hub-wrap {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 12px;
+          max-width: 380px;
+        }
+        .hub-conn-top,
+        .hub-conn-left,
+        .hub-conn-right,
+        .hub-conn-bottom {
+          display: none;
+        }
+        .insight-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 620px) {
+        .prd-status-row {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="../index.html" class="nav-back">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+        >
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        Back to Portfolio
+      </a>
+      <span class="nav-logo">Rajesh Pathak</span>
+    </nav>
+
+    <div class="prd-hero">
+      <div class="prd-hero-inner">
+        <div class="prd-eyebrow">Project · Enterprise Commerce · VMware</div>
+        <h1 class="prd-hero-title">
+          Building the Foundation for VMware's Subscription Transformation
+        </h1>
+        <p class="prd-hero-sub">
+          Inside the Offers Team's work modeling Unified Cloud Pack subscription
+          bundles in Oracle Product Data Hub — and keeping 160+ infrastructure
+          products consistent across CPQ, SAP, Commerce, and Licensing.
+        </p>
+        <div class="prd-meta-row">
+          <span class="prd-meta-pill">VMware (Broadcom) · 2022–2023</span>
+          <span class="prd-meta-pill">Offers Team · Subscription Commerce</span>
+          <span class="prd-meta-pill">160+ Products Unified</span>
+          <span class="prd-meta-pill">5 Enterprise Systems Aligned</span>
+        </div>
+        <div class="prd-status-row">
+          <div class="prd-status">
+            <span class="prd-status-dot" style="background: #4ade80"></span>
+            <div>
+              <div class="prd-status-label">Role</div>
+              <div class="prd-status-val">Associate Product Owner</div>
+            </div>
+          </div>
+          <div class="prd-status">
+            <span class="prd-status-dot" style="background: #60a5fa"></span>
+            <div>
+              <div class="prd-status-label">Tenure</div>
+              <div class="prd-status-val">18 Months</div>
+            </div>
+          </div>
+          <div class="prd-status">
+            <span class="prd-status-dot" style="background: #f59e0b"></span>
+            <div>
+              <div class="prd-status-label">Core Systems</div>
+              <div class="prd-status-val">Oracle PDH · CPQ · SAP</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prd-body">
+      <!-- TOC -->
+      <div class="prd-toc">
+        <div class="prd-toc-title">Project Contents</div>
+        <ul class="prd-toc-list">
+          <li><a href="#s1">1. Executive Summary</a></li>
+          <li><a href="#s2">2. Business Context</a></li>
+          <li><a href="#s3">3. Understanding the Ecosystem</a></li>
+          <li><a href="#s4">4. My Role</a></li>
+          <li><a href="#s5">5. End-to-End Product Flow</a></li>
+          <li><a href="#s6">6. Key Challenges</a></li>
+          <li><a href="#s7">7. Cross-Functional Collaboration</a></li>
+          <li><a href="#s8">8. Business Impact</a></li>
+          <li><a href="#s9">9. Key Learnings</a></li>
+          <li><a href="#s10">10. Reflection</a></li>
+        </ul>
+      </div>
+
+      <!-- 1. EXECUTIVE SUMMARY -->
+      <div class="prd-section" id="s1">
+        <div class="prd-section-label">01 · Executive Summary</div>
+        <h2 class="prd-h2">Simplifying 160+ products into one subscription</h2>
+        <p class="prd-p">
+          When I joined VMware as an Associate Product Owner, the company was
+          running one of its largest subscription commerce transformations —
+          simplifying a portfolio of more than 160 infrastructure products into
+          a single, streamlined subscription experience.
+        </p>
+        <p class="prd-p">
+          One of the flagship initiatives behind that transformation was the
+          <strong>Unified Cloud Pack</strong> program. Instead of buying
+          vSphere, vSAN, and NSX as separate products, customers could now
+          purchase a single subscription bundle with unified licensing, pricing,
+          and renewals — a simple front door to a genuinely complex backend.
+        </p>
+        <div class="prd-callout">
+          <p>
+            <strong>My focus:</strong> I worked within the Offers Team, owning
+            the product backlog for the Offers domain — primarily Oracle Product
+            Data Hub (PDH) — VMware's enterprise product master data system,
+            which served as the single authoritative source for every commercial
+            offer definition. PDH is where bundles are formally structured:
+            which products belong together, what entitlement rules apply, how
+            pricing tiers are configured, and what subscription terms govern
+            renewals. Before any customer could see a quote or complete a
+            purchase, that offer had to be correctly defined in PDH and
+            validated for downstream consumption by CPQ (configure-price-quote),
+            SAP (contracts and billing), the Commerce portal, and Licensing and
+            Provisioning. Every commercial decision VMware made flowed through
+            this system before it reached a customer.
+          </p>
+        </div>
+        <p class="prd-p">
+          I didn't own the entire transformation. I owned one critical link in
+          the chain: making sure business requirements were translated into
+          structured product definitions that every downstream system could rely
+          on.
+        </p>
+      </div>
+
+      <!-- 2. BUSINESS CONTEXT -->
+      <div class="prd-section" id="s2">
+        <div class="prd-section-label">02 · Business Context</div>
+        <h2 class="prd-h2">A catalog that had outgrown its own complexity</h2>
+        <p class="prd-p">
+          VMware's infrastructure catalog had grown organically for years.
+          Customers buying vSphere for virtualization, vSAN for software-defined
+          storage, NSX for networking, and other products typically bought each
+          one separately — and each came with its own licensing model, pricing
+          structure, entitlement rules, and renewal process. Manageable
+          individually, increasingly hard to manage in combination.
+        </p>
+        <p class="prd-p">
+          Unified Cloud Pack was VMware's answer: let customers buy multiple
+          complementary products as a single subscription bundle instead of
+          managing each one on its own.
+        </p>
+        <div class="prd-warn">
+          <p>
+            <strong>The catch:</strong> while customers saw one simple
+            subscription, VMware had to make sure every commercial bundle was
+            represented consistently across product catalogs, quoting systems,
+            finance platforms, commerce applications, and licensing systems.
+            That meant a real transformation of the Subscription Commerce
+            Platform — not just a new SKU.
+          </p>
+          <p>
+            The urgency of that transformation intensified significantly over
+            the course of my tenure. In May 2022, Broadcom announced its
+            acquisition of VMware in a deal valued at approximately $61 billion
+            — one of the largest technology acquisitions in history. When the
+            deal closed in November 2023, Broadcom moved quickly to consolidate
+            VMware's product portfolio from roughly 168 products, bundles, and
+            editions down to a small number of primary subscription bundles. The
+            Unified Cloud Pack program I worked on was part of the commercial
+            infrastructure that made that consolidation operationally possible:
+            before products can be bundled, retired, or restructured at scale,
+            they have to be correctly defined in the systems that govern how
+            they are quoted, invoiced, and provisioned. Getting the Offers
+            domain right was not just a feature release — it was foundational
+            plumbing for one of the most consequential product restructurings in
+            enterprise software.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3. UNDERSTANDING THE ECOSYSTEM -->
+      <div class="prd-section" id="s3">
+        <div class="prd-section-label">03 · Understanding the Ecosystem</div>
+        <h2 class="prd-h2">Two lifecycles, not one</h2>
+        <p class="prd-p">
+          The biggest lesson from this assignment: enterprise product management
+          runs on two interconnected lifecycles, and most of the interesting
+          work happens at the seam between them.
+        </p>
+
+        <h3 class="prd-h3">Lifecycle 1 — Product Development</h3>
+        <p class="prd-p">
+          A business opportunity becomes a working capability through Agile
+          delivery. When VMware identified the opportunity to simplify
+          infrastructure purchasing, Product Managers, Product Owners,
+          Engineering, Architects, and Business stakeholders collaborated to
+          define requirements, prioritize the backlog, and deliver
+          incrementally.
+        </p>
+        <div class="flow-label">The flow</div>
+        <div class="flow-chain">
+          <span class="flow-node">Business Need</span
+          ><span class="flow-arrow">→</span>
+          <span class="flow-node">Product Discovery</span
+          ><span class="flow-arrow">→</span>
+          <span class="flow-node">Backlog Prioritization</span
+          ><span class="flow-arrow">→</span>
+          <span class="flow-node">Sprint Planning</span
+          ><span class="flow-arrow">→</span>
+          <span class="flow-node">Development</span
+          ><span class="flow-arrow">→</span>
+          <span class="flow-node is-accent">Release</span>
+        </div>
+        <p class="prd-p">
+          As an Associate Product Owner in the Offers Team, I contributed here —
+          refining requirements, managing backlog items, supporting sprint
+          planning, and validating acceptance criteria alongside Engineering.
+        </p>
+
+        <h3 class="prd-h3">Lifecycle 2 — Enterprise Commerce</h3>
+        <p class="prd-p">
+          Once a capability shipped, a second lifecycle began: the commercial
+          offer's journey through VMware's commerce ecosystem before it ever
+          reached a customer. Say VMware wanted to launch a new Cloud Pack
+          bundling vSphere Enterprise, vSAN Enterprise, and NSX. The business
+          team defined the commercial strategy — what belonged in the bundle,
+          who could buy it, pricing rules, migration paths, entitlement policy.
+          The Offers Team then translated that into a structured commercial
+          offer inside Oracle PDH, which became the enterprise source of truth.
+        </p>
+        <div class="flow-label">The flow</div>
+        <div class="flow-chain">
+          <span class="flow-node is-accent">Commercial Offer</span
+          ><span class="flow-arrow">→</span>
+          <span class="flow-node">Oracle PDH</span
+          ><span class="flow-arrow">→</span> <span class="flow-node">CPQ</span
+          ><span class="flow-arrow">→</span> <span class="flow-node">SAP</span
+          ><span class="flow-arrow">→</span>
+          <span class="flow-node">Commerce Portal</span
+          ><span class="flow-arrow">→</span>
+          <span class="flow-node">Licensing &amp; Provisioning</span
+          ><span class="flow-arrow">→</span>
+          <span class="flow-node">Customer</span>
+        </div>
+        <div class="prd-callout">
+          <p>
+            <strong>Why this mattered:</strong> even a small change within the
+            Offers domain could ripple through every downstream platform
+            involved in a customer's purchasing journey. Successful enterprise
+            product management isn't just building features — it's understanding
+            how a commercial decision moves through an organization's
+            operational ecosystem.
+          </p>
+        </div>
+      </div>
+
+      <!-- 4. MY ROLE -->
+      <div class="prd-section" id="s4">
+        <div class="prd-section-label">04 · My Role</div>
+        <h2 class="prd-h2">Owning the Offers domain</h2>
+        <p class="prd-p">
+          As an Associate Product Owner within VMware's Offers Team, I owned the
+          product domain that managed commercial offers and product
+          configurations. Rather than building products like vSphere or NSX, our
+          team built the commercial capabilities that let customers purchase
+          those products as subscription offerings such as Unified Cloud Pack.
+        </p>
+        <h3 class="prd-h3">My responsibilities included:</h3>
+        <ul class="prd-ul">
+          <li>
+            Managing and prioritizing the Offers product backlog — deciding
+            which offer configurations, entitlement rules, and bundle structures
+            were built first, based on launch timelines and cross-team
+            dependencies.
+          </li>
+          <li>
+            Translating commercial strategy into structured requirements —
+            working with business stakeholders to convert pricing decisions and
+            bundle designs into user stories that Engineering could implement
+            inside Oracle PDH.
+          </li>
+          <li>
+            Defining and validating acceptance criteria — confirming that each
+            offer definition was complete, accurate, and consumable by
+            downstream systems before it was released.
+          </li>
+          <li>
+            Coordinating across Engineering, SAP, CPQ, and Business Operations —
+            managing the dependencies between teams whose timelines and
+            priorities didn't always align.
+          </li>
+          <li>
+            Supporting sprint planning, backlog refinement, and release
+            readiness reviews throughout the Agile delivery cycle.
+          </li>
+        </ul>
+        <p class="prd-p">
+          The role required balancing business priorities with technical
+          feasibility — while keeping product information accurate and
+          consistent across the entire commerce ecosystem.
+        </p>
+      </div>
+
+      <!-- 5. END-TO-END PRODUCT FLOW -->
+      <div class="prd-section" id="s5">
+        <div class="prd-section-label">05 · End-to-End Product Flow</div>
+        <h2 class="prd-h2">From business strategy to customer purchase</h2>
+        <p class="prd-p">
+          Unified Cloud Pack is a good example of how an enterprise commercial
+          offering moves from idea to customer purchase, in four stages.
+        </p>
+        <div class="step-timeline">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-title">Business Opportunity</div>
+            <div class="step-body">
+              VMware identified the opportunity to simplify infrastructure
+              purchasing by packaging products like vSphere, vSAN, and NSX into
+              a single subscription offering instead of selling them
+              individually.
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-title">Product Development</div>
+            <div class="step-body">
+              Product Managers, Product Owners, Engineering, and Business
+              stakeholders defined the commercial requirements, pricing
+              strategy, migration rules, and customer experience. I contributed
+              by refining requirements, managing backlog items, and validating
+              acceptance criteria.
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-title">Commercial Offer Design</div>
+            <div class="step-body">
+              The Offers Team modeled the commercial bundle within Oracle PDH —
+              the enterprise source of truth for product relationships,
+              subscription rules, entitlement structures, and commercial
+              attributes.
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-title">Enterprise Commerce Flow</div>
+            <div class="step-body">
+              Once published, the offer flowed through VMware's commerce
+              platform: Oracle PDH stored and distributed it, CPQ configured
+              products and generated quotations, SAP managed contracts and
+              billing, Commerce presented the offering to customers, and
+              Licensing &amp; Provisioning activated entitlements after
+              purchase.
+            </div>
+          </div>
+        </div>
+        <div class="prd-callout">
+          <p>
+            <strong>What this meant for customers:</strong> a simple
+            subscription purchase, with five enterprise systems quietly agreeing
+            behind the screen. My role was making sure the commercial
+            definitions created in the Offers domain accurately represented
+            business intent — and could be reliably consumed by every platform
+            downstream.
+          </p>
+        </div>
+      </div>
+
+      <!-- 6. KEY CHALLENGES -->
+      <div class="prd-section" id="s6">
+        <div class="prd-section-label">06 · Key Challenges</div>
+        <h2 class="prd-h2">
+          Coordination, not implementation, was the hard part
+        </h2>
+        <p class="prd-p">
+          A seemingly small change to a commercial offer supporting Unified
+          Cloud Pack could affect multiple downstream systems at once — and each
+          team came to the table with a different priority.
+        </p>
+        <div class="hub-wrap">
+          <div class="hub-node hub-top">
+            <span class="hub-dot" style="background: var(--blue)"></span
+            ><span class="hub-node-label">Engineering</span>
+            <div class="hub-node-sub">Focused on implementation</div>
+          </div>
+          <div class="hub-conn-top"></div>
+          <div class="hub-node hub-left">
+            <span class="hub-dot" style="background: var(--lav)"></span
+            ><span class="hub-node-label">SAP</span>
+            <div class="hub-node-sub">
+              Pricing integrity &amp; financial accuracy
+            </div>
+          </div>
+          <div class="hub-conn-left"></div>
+          <div class="hub-center hub-mid">
+            <div class="hub-center-label">Offers Team</div>
+            <div class="hub-center-sub">Single source of truth</div>
+          </div>
+          <div class="hub-conn-right"></div>
+          <div class="hub-node hub-right">
+            <span class="hub-dot" style="background: var(--amber)"></span
+            ><span class="hub-node-label">CPQ</span>
+            <div class="hub-node-sub">Quotation logic</div>
+          </div>
+          <div class="hub-conn-bottom"></div>
+          <div class="hub-node hub-bottom">
+            <span class="hub-dot" style="background: var(--accent)"></span
+            ><span class="hub-node-label">Business</span>
+            <div class="hub-node-sub">
+              Customer adoption &amp; commercial outcomes
+            </div>
+          </div>
+        </div>
+        <p class="prd-p">
+          The Offers Team sat at the center of these interactions. The tension
+          became most visible during a mid-program sprint when a business
+          stakeholder requested a last-minute change to the entitlement
+          structure for one of the Cloud Pack tiers — a commercial decision
+          that, on the surface, seemed contained. In practice, it required
+          corresponding updates in CPQ's product configuration rules, SAP's
+          contract pricing logic, and the Commerce portal's display metadata.
+          Engineering had already built and validated the original definition.
+          CPQ had already scheduled a release. The SAP team had billing logic in
+          test. A unilateral update to PDH at that stage would have created
+          inconsistencies across four systems simultaneously. Rather than block
+          the change or accept it uncritically, I worked with the business
+          stakeholder to understand the commercial reason behind the request,
+          assessed the downstream impact with each team lead, and proposed a
+          phased implementation: the PDH definition update would go into the
+          next sprint cycle, with coordinated downstream changes sequenced
+          across CPQ and SAP in the following two sprints. The commercial
+          outcome the business needed was preserved — the implementation risk
+          was controlled.
+        </p>
+      </div>
+
+      <!-- 7. CROSS-FUNCTIONAL COLLABORATION -->
+      <div class="prd-section" id="s7">
+        <div class="prd-section-label">07 · Cross-Functional Collaboration</div>
+        <h2 class="prd-h2">The Offers Team as the bridge</h2>
+        <p class="prd-p">
+          Unified Cloud Pack's success depended on close collaboration across
+          Product Management, Engineering, SAP, CPQ, Business Operations, and
+          the Offers Team. Regular backlog refinement sessions, sprint planning
+          meetings, stakeholder reviews, release demonstrations, and
+          release-readiness discussions surfaced dependencies early and kept
+          product changes aligned with business priorities.
+        </p>
+        <p class="prd-p">
+          Rather than working in isolation, the Offers Team acted as the bridge
+          between commercial strategy and technical execution — making sure
+          every downstream platform received consistent, accurate product
+          information.
+        </p>
+      </div>
+
+      <!-- 8. BUSINESS IMPACT -->
+      <div class="prd-section" id="s8">
+        <div class="prd-section-label">08 · Business Impact</div>
+        <h2 class="prd-h2">What the Offers Team's work enabled</h2>
+        <p class="prd-p">
+          The Offers Team played an important role in Unified Cloud Pack by
+          enabling standardized commercial offer definitions that supported
+          subscription migration and simplified catalog management. Within my
+          area of ownership, I contributed by:
+        </p>
+        <ul class="impact-list">
+          <li>
+            Within my area of ownership, the Offers domain delivered several
+            measurable contributions to the Unified Cloud Pack program. By the
+            end of my tenure, the team had modeled and validated commercial
+            offer definitions for the full Unified Cloud Pack portfolio across
+            Oracle PDH — covering bundle compositions, entitlement rules, and
+            subscription configurations for a product set that had previously
+            existed as a fragmented catalog of individually purchased
+            components. Downstream system teams reported a reduction in rework
+            requests originating from PDH definition gaps — a common failure
+            mode in earlier commercial launches where incomplete offer data
+            reached CPQ or SAP only after release. The structured sprint review
+            and acceptance criteria process I helped establish meant offer
+            definitions were validated against downstream requirements before
+            implementation, rather than corrected after integration errors
+            surfaced.
+          </li>
+          <li>
+            The broader commercial impact of Unified Cloud Pack itself —
+            simplifying how VMware's largest customers purchased infrastructure
+            — was a program-level outcome that required the coordinated work of
+            Product Management, Engineering, Business Operations, and every
+            downstream system team. My contribution was making sure the Offers
+            domain held its part of that chain consistently, so that what CPQ
+            quoted, SAP billed, Commerce displayed, and Licensing provisioned
+            were always the same product.
+          </li>
+        </ul>
+        <p class="prd-p">
+          My ownership focused on one product domain, but its impact extended
+          across the entire quote-to-cash lifecycle.
+        </p>
+      </div>
+
+      <!-- 9. KEY LEARNINGS -->
+      <div class="prd-section" id="s9">
+        <div class="prd-section-label">09 · Key Learnings</div>
+        <h2 class="prd-h2">What this changed about how I think</h2>
+        <div class="insight-grid">
+          <div class="insight-card">
+            <div class="insight-title">
+              Enterprise products are ecosystems, not applications
+            </div>
+            <div class="insight-body">
+              Every commercial offering depends on multiple platforms working
+              together — the product is the system, not the screen.
+            </div>
+          </div>
+          <div class="insight-card">
+            <div class="insight-title">
+              Ownership extends beyond writing user stories
+            </div>
+            <div class="insight-body">
+              A Product Owner has to understand how business strategy actually
+              flows through enterprise systems before it reaches a customer.
+            </div>
+          </div>
+          <div class="insight-card">
+            <div class="insight-title">Product data is business-critical</div>
+            <div class="insight-body">
+              Customers never see Oracle PDH directly, yet every quotation,
+              purchase, invoice, and entitlement depends on the quality of
+              what's inside it.
+            </div>
+          </div>
+          <div class="insight-card">
+            <div class="insight-title">
+              Cross-functional alignment is the product
+            </div>
+            <div class="insight-body">
+              Product, Engineering, SAP, CPQ, Commerce, and Business all have to
+              stay in step to deliver one seamless customer experience.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. REFLECTION -->
+      <div class="prd-section" id="s10">
+        <div class="prd-section-label">10 · Reflection</div>
+        <h2 class="prd-h2">
+          Built through collaboration, not individual ownership
+        </h2>
+        <div class="pull-quote">
+          <p>
+            My 18 months at VMware taught me that successful enterprise
+            transformations are built through coordination, not individual
+            brilliance — and that the coordination is harder than it looks from
+            the outside. Supporting Unified Cloud Pack gave me direct experience
+            of how a commercial idea travels through an organisation before it
+            reaches a customer: from a business stakeholder's pricing decision,
+            through product definition in Oracle PDH, through CPQ configuration,
+            SAP billing logic, Commerce display, and finally into a customer's
+            licensing environment. Each hand-off is a potential breakage point.
+            The job of a product owner in an enterprise domain is not to build
+            features — it's to make hand-offs reliable.
+          </p>
+          <p>
+            If I were approaching this work again, I would invest earlier in
+            shared definition standards across systems. Much of the coordination
+            overhead came from each downstream team having slightly different
+            expectations about what a "complete" offer definition looked like.
+            Establishing a shared definition-of-done for PDH records — agreed
+            upfront with CPQ, SAP, and Commerce leads — would have reduced
+            rework significantly in the early sprints. That lesson has shaped
+            how I approach cross-system product work: alignment on what "done"
+            means is more valuable than any individual sprint velocity
+            improvement.
+          </p>
+          <p>
+            I also came away with a clearer picture of where AI will change this
+            kind of work. The majority of the coordination effort I described —
+            tracking dependencies, checking consistency across systems, flagging
+            when a change in one domain has downstream consequences — is exactly
+            the kind of pattern recognition that AI-assisted product tooling is
+            beginning to automate. The PM of this kind of domain five years from
+            now will spend less time on synchronisation and more time on the
+            commercial decisions that require judgment. I think that's the right
+            direction.
+          </p>
+        </div>
+      </div>
+
+      <div class="prd-cta-row">
+        <a href="../index.html" class="btn-outline">← Back to Portfolio</a>
+        <a href="prd-cloud-pack.html" class="btn-primary">
+          Related: Unified Cloud Pack PRD
+          <svg
+            width="11"
+            height="11"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <line x1="7" y1="17" x2="17" y2="7" />
+            <polyline points="7 7 17 7 17 17" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Thinking</title>
+    <meta
+      name="description"
+      content="PM essays, mental models, and product frameworks applied to real problems — by Rajesh Pathak, Senior Product Manager."
+    />
+    <link
+      rel="canonical"
+      href="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/product-thinking.html"
+    />
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./favicon-32x32.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./apple-touch-icon.png"
+    />
+    <link rel="manifest" href="./site.webmanifest" />
+    <meta name="theme-color" content="#3454e0" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Product Thinking · Rajesh Pathak" />
+    <meta
+      property="og:description"
+      content="PM essays, mental models, and product frameworks applied to real problems — by Rajesh Pathak, Senior Product Manager."
+    />
+    <meta
+      property="og:url"
+      content="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/product-thinking.html"
+    />
+    <meta
+      property="og:image"
+      content="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/RajeshPhoto.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Product Thinking · Rajesh Pathak" />
+    <meta
+      name="twitter:description"
+      content="PM essays, mental models, and product frameworks applied to real problems."
+    />
+    <meta
+      name="twitter:image"
+      content="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/RajeshPhoto.jpg"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f5f6f9;
+        --surface: #fff;
+        --surface-2: #edeff3;
+        --accent: #3454e0;
+        --accent-hover: #2740b3;
+        --accent-soft: #e9edfc;
+        --accent-mid: #aab8f5;
+        --ink: #11151c;
+        --ink-2: #3c4453;
+        --ink-3: #76808f;
+        --border: #e1e4ea;
+        --border-2: #c7ccd6;
+        --blue: #1f6fa8;
+        --blue-bg: #e7f1fb;
+        --green: #15805a;
+        --green-bg: #e3f6ec;
+        --amber: #92660a;
+        --amber-bg: #fdf3df;
+        --lav: #6c4fd1;
+        --lav-bg: #ece9fb;
+        --teal: #0f7d72;
+        --teal-bg: #e1f5f2;
+        --r-s: 10px;
+        --r-m: 16px;
+        --r-l: 22px;
+        --max-w: 1040px;
+        --ease: cubic-bezier(0.4, 0, 0.2, 1);
+        --sh-s: 0 2px 10px rgba(17, 21, 28, 0.06);
+        --sh-m: 0 4px 20px rgba(17, 21, 28, 0.08);
+        --sh-l: 0 12px 40px rgba(17, 21, 28, 0.12);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Geist", sans-serif;
+        font-size: 1.0625rem;
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-2);
+        border-radius: 4px;
+      }
+
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(247, 245, 242, 0.92);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 5vw;
+        height: 58px;
+      }
+      .nav-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--ink-3);
+        transition: color 0.2s;
+      }
+      .nav-back:hover {
+        color: var(--accent);
+      }
+      .nav-back svg {
+        width: 14px;
+        height: 14px;
+      }
+      .nav-right-links {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+      }
+      .nav-right-links a {
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        transition: color 0.2s;
+      }
+      .nav-right-links a:hover {
+        color: var(--accent);
+      }
+
+      /* HERO */
+      .pt-hero {
+        background: linear-gradient(
+          160deg,
+          #11151c 0%,
+          #1b2236 50%,
+          #0e1320 100%
+        );
+        padding: 80px 5vw 72px;
+        position: relative;
+        overflow: hidden;
+      }
+      .pt-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse at 75% 30%,
+            rgba(52, 84, 224, 0.16) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 10% 70%,
+            rgba(15, 125, 114, 0.1) 0%,
+            transparent 45%
+          );
+        pointer-events: none;
+      }
+      .pt-hero-inner {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 48px;
+        align-items: center;
+      }
+      .pt-eyebrow {
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--accent-mid);
+        margin-bottom: 14px;
+      }
+      .pt-hero-title {
+        font-family: "Instrument Serif", serif;
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        color: #fff;
+        line-height: 1.12;
+        margin-bottom: 16px;
+      }
+      .pt-hero-title em {
+        font-style: italic;
+        color: var(--accent-mid);
+      }
+      .pt-hero-sub {
+        font-size: 0.9375rem;
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1.85;
+        max-width: 520px;
+        margin-bottom: 24px;
+      }
+      .pt-hero-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .pt-hero-tag {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 50px;
+        padding: 4px 13px;
+        font-size: 0.72rem;
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 500;
+      }
+      .pt-hero-stats {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+      .pt-hero-stat {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--r-m);
+        padding: 14px 20px;
+        text-align: center;
+        min-width: 120px;
+      }
+      .pt-stat-num {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.6rem;
+        color: #fff;
+        line-height: 1;
+      }
+      .pt-stat-label {
+        font-size: 0.65rem;
+        color: rgba(255, 255, 255, 0.4);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-top: 4px;
+        font-weight: 600;
+      }
+
+      /* BODY */
+      .pt-body {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 64px 5vw 100px;
+      }
+
+      /* FEATURED ESSAY */
+      .featured-essay {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-l);
+        overflow: hidden;
+        box-shadow: var(--sh-l);
+        margin-bottom: 48px;
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        transition:
+          box-shadow 0.3s,
+          transform 0.25s;
+      }
+      .featured-essay:hover {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.14);
+        transform: translateY(-3px);
+      }
+      .featured-essay-body {
+        padding: 36px 36px 36px;
+      }
+      .featured-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--accent-soft);
+        border: 1px solid var(--accent-mid);
+        border-radius: 50px;
+        padding: 3px 12px;
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        margin-bottom: 14px;
+      }
+      .featured-essay-title {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.8rem;
+        color: var(--ink);
+        line-height: 1.2;
+        margin-bottom: 12px;
+      }
+      .featured-essay-summary {
+        font-size: 0.9375rem;
+        color: var(--ink-2);
+        line-height: 1.85;
+        margin-bottom: 20px;
+      }
+      .featured-essay-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
+      .featured-essay-date {
+        font-size: 0.75rem;
+        color: var(--ink-3);
+        font-weight: 500;
+      }
+      .featured-essay-readtime {
+        font-size: 0.75rem;
+        color: var(--ink-3);
+      }
+      .featured-essay-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .essay-tag {
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: 50px;
+        padding: 3px 10px;
+        font-size: 0.7rem;
+        color: var(--ink-3);
+        font-weight: 500;
+      }
+      .featured-essay-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 50px;
+        padding: 11px 24px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+        box-shadow: 0 4px 14px rgba(184, 92, 56, 0.28);
+      }
+      .featured-essay-link:hover {
+        background: #2740b3;
+        transform: translateY(-1px);
+      }
+      .featured-essay-link svg {
+        width: 11px;
+        height: 11px;
+      }
+      .featured-essay-visual {
+        background: linear-gradient(
+          135deg,
+          #11151c 0%,
+          #1b2236 50%,
+          #0d1a17 100%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        min-height: 260px;
+      }
+      .featured-essay-visual::before {
+        content: "";
+        position: absolute;
+        top: -40px;
+        right: -30px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(184, 92, 56, 0.12);
+        filter: blur(50px);
+        pointer-events: none;
+      }
+      .featured-essay-visual::after {
+        content: "";
+        position: absolute;
+        bottom: -30px;
+        left: -20px;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: rgba(30, 107, 69, 0.08);
+        filter: blur(40px);
+        pointer-events: none;
+      }
+      .featured-visual-text {
+        font-family: "Instrument Serif", serif;
+        font-size: 4rem;
+        color: rgba(255, 255, 255, 0.08);
+        font-style: italic;
+        position: relative;
+        z-index: 2;
+        padding: 20px;
+        text-align: center;
+        line-height: 1.1;
+      }
+
+      /* PRODUCT PHILOSOPHY */
+      #philosophy {
+        margin-bottom: 56px;
+      }
+      .phil-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+        margin-bottom: 10px;
+      }
+      .phil-label::before {
+        content: "";
+        width: 20px;
+        height: 1.5px;
+        background: var(--accent);
+      }
+      .phil-title {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.6rem;
+        color: var(--ink);
+        line-height: 1.25;
+        margin-bottom: 24px;
+        letter-spacing: -0.01em;
+      }
+      .phil-title em {
+        font-style: italic;
+        color: var(--accent);
+      }
+      .phil-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .phil-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-l);
+        padding: 26px 28px;
+        box-shadow: var(--sh-s);
+        transition:
+          box-shadow 0.3s,
+          transform 0.25s,
+          border-color 0.3s;
+        position: relative;
+      }
+      .phil-card:hover {
+        box-shadow: var(--sh-l);
+        transform: translateY(-3px);
+        border-color: var(--accent-mid);
+      }
+      .phil-num {
+        font-family: "Instrument Serif", serif;
+        font-style: italic;
+        font-size: 1.5rem;
+        color: var(--accent-mid);
+        line-height: 1;
+        margin-bottom: 10px;
+      }
+      .phil-head {
+        font-size: 0.9375rem;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1.4;
+        margin-bottom: 8px;
+      }
+      .phil-body {
+        font-size: 0.875rem;
+        color: var(--ink-2);
+        line-height: 1.8;
+      }
+
+      /* FRAMEWORKS SECTION */
+      .frameworks-section {
+        margin-bottom: 56px;
+      }
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+        margin-bottom: 10px;
+      }
+      .section-label::before {
+        content: "";
+        width: 20px;
+        height: 1.5px;
+        background: var(--accent);
+      }
+      h2.pt-h2 {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.6rem;
+        color: var(--ink);
+        line-height: 1.25;
+        margin-bottom: 24px;
+        letter-spacing: -0.01em;
+      }
+      .framework-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      .framework-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-l);
+        padding: 24px;
+        box-shadow: var(--sh-s);
+        transition:
+          box-shadow 0.3s,
+          transform 0.25s;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .framework-card:hover {
+        box-shadow: var(--sh-l);
+        transform: translateY(-3px);
+      }
+      .fw-icon {
+        font-size: 1.8rem;
+        margin-bottom: 2px;
+      }
+      .fw-name {
+        font-size: 0.9375rem;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1.3;
+      }
+      .fw-when {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--ink-3);
+        margin-bottom: 4px;
+      }
+      .fw-desc {
+        font-size: 0.875rem;
+        color: var(--ink-2);
+        line-height: 1.75;
+        flex: 1;
+      }
+      .fw-used {
+        font-size: 0.78rem;
+        color: var(--accent);
+        font-weight: 500;
+        padding-top: 8px;
+        border-top: 1px solid var(--border);
+      }
+      .fw-used strong {
+        font-weight: 700;
+      }
+
+      /* MENTAL MODELS */
+      .models-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+      .model-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-l);
+        padding: 24px;
+        box-shadow: var(--sh-s);
+        transition:
+          box-shadow 0.3s,
+          transform 0.2s;
+      }
+      .model-card:hover {
+        box-shadow: var(--sh-m);
+        transform: translateY(-2px);
+      }
+      .model-name {
+        font-size: 0.9375rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .model-origin {
+        font-size: 0.68rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--ink-3);
+        padding: 2px 8px;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: 50px;
+      }
+      .model-desc {
+        font-size: 0.875rem;
+        color: var(--ink-2);
+        line-height: 1.8;
+      }
+      .model-application {
+        font-size: 0.8rem;
+        color: var(--accent);
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid var(--border);
+        line-height: 1.65;
+        font-style: italic;
+      }
+
+      /* NEWSLETTER */
+      .newsletter-card {
+        background: linear-gradient(135deg, #18120e 0%, #2d1a12 100%);
+        border-radius: var(--r-l);
+        padding: 40px 44px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 32px;
+        align-items: center;
+        margin-top: 48px;
+        position: relative;
+        overflow: hidden;
+      }
+      .newsletter-card::before {
+        content: "";
+        position: absolute;
+        top: -40px;
+        right: -20px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(184, 92, 56, 0.1);
+        filter: blur(50px);
+        pointer-events: none;
+      }
+      .nl-eyebrow {
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--accent-mid);
+        margin-bottom: 8px;
+      }
+      .nl-title {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.5rem;
+        color: #fff;
+        margin-bottom: 8px;
+        line-height: 1.3;
+      }
+      .nl-body {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.55);
+        line-height: 1.8;
+        max-width: 460px;
+      }
+      .nl-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex-shrink: 0;
+        min-width: 240px;
+      }
+      .nl-input {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 50px;
+        padding: 11px 18px;
+        font-size: 0.85rem;
+        color: #fff;
+        font-family: "Geist", sans-serif;
+        outline: none;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+        width: 100%;
+      }
+      .nl-input::placeholder {
+        color: rgba(255, 255, 255, 0.35);
+      }
+      .nl-input:focus {
+        border-color: rgba(184, 92, 56, 0.5);
+        background: rgba(255, 255, 255, 0.12);
+      }
+      .nl-btn {
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        padding: 11px 22px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+        font-family: "Geist", sans-serif;
+      }
+      .nl-btn:hover {
+        background: #2740b3;
+        transform: translateY(-1px);
+      }
+
+      /* REVEAL */
+      .reveal {
+        opacity: 0;
+        transform: translateY(16px);
+        transition:
+          opacity 0.55s var(--ease),
+          transform 0.55s var(--ease);
+      }
+      .reveal.in-view {
+        opacity: 1;
+        transform: none;
+      }
+      .stagger > * {
+        opacity: 0;
+        transform: translateY(16px);
+        transition:
+          opacity 0.5s var(--ease),
+          transform 0.5s var(--ease);
+      }
+      .stagger.in-view > *:nth-child(1) {
+        opacity: 1;
+        transform: none;
+        transition-delay: 0ms;
+      }
+      .stagger.in-view > *:nth-child(2) {
+        opacity: 1;
+        transform: none;
+        transition-delay: 80ms;
+      }
+      .stagger.in-view > *:nth-child(3) {
+        opacity: 1;
+        transform: none;
+        transition-delay: 160ms;
+      }
+      .stagger.in-view > *:nth-child(4) {
+        opacity: 1;
+        transform: none;
+        transition-delay: 240ms;
+      }
+      .stagger.in-view > *:nth-child(5) {
+        opacity: 1;
+        transform: none;
+        transition-delay: 300ms;
+      }
+      .stagger.in-view > *:nth-child(6) {
+        opacity: 1;
+        transform: none;
+        transition-delay: 360ms;
+      }
+
+      @media (max-width: 900px) {
+        .pt-hero-inner {
+          grid-template-columns: 1fr;
+        }
+        .pt-hero-stats {
+          flex-direction: row;
+        }
+        .featured-essay {
+          grid-template-columns: 1fr;
+        }
+        .featured-essay-visual {
+          min-height: 160px;
+        }
+        .phil-grid {
+          grid-template-columns: 1fr;
+        }
+        .framework-grid {
+          grid-template-columns: 1fr;
+        }
+        .models-grid {
+          grid-template-columns: 1fr;
+        }
+        .newsletter-card {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html" class="nav-back">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+        >
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        Back to Portfolio
+      </a>
+      <div class="nav-right-links">
+        <a href="case-studies/edfi-migration.html">Projects</a>
+        <a
+          href="https://routesandreflections.in/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Beyond Work</a
+        >
+      </div>
+    </nav>
+
+    <div class="pt-hero">
+      <div class="pt-hero-inner">
+        <div>
+          <div class="pt-eyebrow">
+            Product Thinking · Essays &amp; Mental Models
+          </div>
+          <h1 class="pt-hero-title">
+            How I think<br />about <em>products</em>
+          </h1>
+          <p class="pt-hero-sub">
+            Essays, frameworks, strong opinions, and the mental models I've
+            built across 6+ years of PM work in EdTech, SaaS, and FinTech.
+            Written to be useful, not just to signal.
+          </p>
+          <div class="pt-hero-tags">
+            <span class="pt-hero-tag">Product Strategy</span>
+            <span class="pt-hero-tag">AI Products</span>
+            <span class="pt-hero-tag">Regulated Industry SaaS</span>
+            <span class="pt-hero-tag">Discovery &amp; Research</span>
+            <span class="pt-hero-tag">PM Frameworks</span>
+          </div>
+        </div>
+        <div class="pt-hero-stats">
+          <div class="pt-hero-stat">
+            <div class="pt-stat-num">6+</div>
+            <div class="pt-stat-label">Years of PM</div>
+          </div>
+          <div class="pt-hero-stat">
+            <div class="pt-stat-num">6</div>
+            <div class="pt-stat-label">Principles</div>
+          </div>
+          <div class="pt-hero-stat">
+            <div class="pt-stat-num">6</div>
+            <div class="pt-stat-label">Frameworks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-body">
+      <!-- PRODUCT PHILOSOPHY -->
+      <section id="philosophy">
+        <div class="phil-inner">
+          <div class="phil-label">Product Philosophy</div>
+          <h2 class="phil-title">How I think about <em>building</em></h2>
+          <div class="phil-grid stagger">
+            <div class="phil-card">
+              <div class="phil-num">01</div>
+              <div class="phil-head">
+                Slow down in discovery to go fast in delivery
+              </div>
+              <div class="phil-body">
+                Every week I spend with users before writing a line of spec
+                saves two weeks of rework after. The Ed-Fi migration nearly
+                shipped as an XML wrapper because the team hadn't spoken to a
+                single district IT director about the real pain. I insisted on
+                11 interviews first. That changed the architecture, the rollout
+                plan, and ultimately the outcome. Speed in PM is upstream, not
+                downstream.
+              </div>
+            </div>
+            <div class="phil-card">
+              <div class="phil-num">02</div>
+              <div class="phil-head">
+                Quantify the cost of inaction, not just the cost of action
+              </div>
+              <div class="phil-body">
+                Every investment decision I bring to leadership includes a "what
+                happens if we don't" column. The TCO model for the Ed-Fi
+                migration wasn't just about the migration cost — it modelled the
+                compounding maintenance debt of the alternative. That reframe is
+                what got an expensive architectural decision approved fast. PMs
+                who only cost out the thing they want usually lose to the status
+                quo.
+              </div>
+            </div>
+            <div class="phil-card">
+              <div class="phil-num">03</div>
+              <div class="phil-head">
+                Great PM work leaves a clear decision trail
+              </div>
+              <div class="phil-body">
+                I write down every non-trivial product decision, what
+                alternatives were considered, what data we had, and what we
+                decided. Not for process — for institutional memory. Six months
+                after shipping, someone will ask "why did we build it this way?"
+                and the answer should exist in writing. Decision trails are how
+                a PM's thinking outlives their tenure on a team.
+              </div>
+            </div>
+            <div class="phil-card">
+              <div class="phil-num">04</div>
+              <div class="phil-head">
+                Compliance products are a UX problem, not just a technical one
+              </div>
+              <div class="phil-body">
+                In regulated industries — EdTech, FinTech, GovTech — the
+                temptation is to build for the regulator, not the user. But the
+                school IT director filing data to the state is a user too. She
+                has deadlines, stress, and limited technical bandwidth. Every
+                hour my platform saves her is product value. The best compliance
+                products feel effortless to the humans in the middle.
+              </div>
+            </div>
+            <div class="phil-card">
+              <div class="phil-num">05</div>
+              <div class="phil-head">
+                AI changes what PMs must know, not just what they can do
+              </div>
+              <div class="phil-body">
+                Using AI tools to prototype faster is a productivity habit.
+                Actually being an AI PM means understanding precision/recall
+                tradeoffs, hallucination failure modes, latency budgets, and how
+                to write acceptance criteria for probabilistic systems. The bar
+                for AI PM is rising fast — I'm deliberately building technical
+                depth, not just tool familiarity.
+              </div>
+            </div>
+            <div class="phil-card">
+              <div class="phil-num">06</div>
+              <div class="phil-head">
+                The best product metric is one the business would miss if it
+                disappeared
+              </div>
+              <div class="phil-body">
+                DAU/MAU is a ratio. Churn rate is a rate. These matter — but the
+                metric I care most about is the one where, if it moves the wrong
+                way, someone in finance or CS calls me directly. At PowerSchool,
+                that was the number of at-risk accounts by Gainsight health
+                tier. If it went up, revenue was at risk. That's a real product
+                metric.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FRAMEWORKS -->
+      <div class="frameworks-section">
+        <div class="section-label">PM Toolkit</div>
+        <h2 class="pt-h2">Frameworks I actually use</h2>
+        <div class="framework-grid stagger">
+          <div class="framework-card">
+            <div class="fw-icon">🎯</div>
+            <div class="fw-name">Opportunity Solution Tree (OST)</div>
+            <div class="fw-when">When: Discovery · Structuring research</div>
+            <div class="fw-desc">
+              Teresa Torres' framework for connecting desired outcomes →
+              opportunities → solutions → experiments. Changed how I run
+              discovery sprints — I now map every user interview finding to an
+              opportunity node before jumping to solutions.
+            </div>
+            <div class="fw-used">
+              <strong>Used on:</strong> Ed-Fi migration discovery · PowerSchool
+              VoC programme
+            </div>
+          </div>
+
+          <div class="framework-card">
+            <div class="fw-icon">📊</div>
+            <div class="fw-name">RICE Scoring</div>
+            <div class="fw-when">
+              When: Roadmap prioritisation · Backlog grooming
+            </div>
+            <div class="fw-desc">
+              Reach × Impact × Confidence ÷ Effort. I use this every sprint to
+              force a conversation about Confidence — teams that skip confidence
+              end up over-indexing on features they believe in emotionally
+              rather than evidentially. The denominator matters as much as the
+              numerators.
+            </div>
+            <div class="fw-used">
+              <strong>Used on:</strong> PowerSchool Q1 2025 roadmap · VMware
+              backlog (200+ items)
+            </div>
+          </div>
+
+          <div class="framework-card">
+            <div class="fw-icon">🔄</div>
+            <div class="fw-name">Jobs-to-be-Done (JTBD)</div>
+            <div class="fw-when">
+              When: User research synthesis · Positioning
+            </div>
+            <div class="fw-desc">
+              "When I ___, I want to ___, so I can ___." The job framing forces
+              you to think about context and motivation, not just features. The
+              district IT director doesn't want "real-time validation" — she
+              wants to stop finding out about failures at 8am the next day when
+              she's already in a meeting.
+            </div>
+            <div class="fw-used">
+              <strong>Used on:</strong> Ed-Fi validation feature design
+            </div>
+          </div>
+
+          <div class="framework-card">
+            <div class="fw-icon">📋</div>
+            <div class="fw-name">Given / When / Then (Acceptance Criteria)</div>
+            <div class="fw-when">When: PRD writing · Sprint planning</div>
+            <div class="fw-desc">
+              Structured acceptance criteria that specify preconditions,
+              actions, and expected outcomes. Forces engineers and QA to have
+              the same mental model of "done." The most common PRD failure I see
+              is acceptance criteria that describe intent, not observable
+              behaviour — GWT fixes that.
+            </div>
+            <div class="fw-used">
+              <strong>Used on:</strong> VMware Cloud Pack PRD · Every PRD I've
+              written in the last 3 years
+            </div>
+          </div>
+
+          <div class="framework-card">
+            <div class="fw-icon">💰</div>
+            <div class="fw-name">Total Cost of Ownership (TCO) Modelling</div>
+            <div class="fw-when">
+              When: Build vs. buy · Architecture decisions
+            </div>
+            <div class="fw-desc">
+              Model the 2–3 year total cost of each option including
+              maintenance, opportunity cost, and technical debt — not just
+              upfront build cost. The Ed-Fi migration was approved on a TCO
+              argument, not a technical one. Leadership approved money, not
+              architecture.
+            </div>
+            <div class="fw-used">
+              <strong>Used on:</strong> Ed-Fi vs. XML wrapper decision · 3+
+              architecture decisions at PowerSchool
+            </div>
+          </div>
+
+          <div class="framework-card">
+            <div class="fw-icon">🤖</div>
+            <div class="fw-name">AI Error Surface Analysis</div>
+            <div class="fw-when">When: AI feature PRDs · Model evaluation</div>
+            <div class="fw-desc">
+              My own framework: for any AI feature, map the failure modes along
+              two axes — detectability (is the error obvious or silent?) and
+              severity (what's the worst-case consequence?). Features in the
+              "silent + severe" quadrant need mandatory human review gates.
+              Features in "obvious + low-severity" can fail gracefully in the
+              UI.
+            </div>
+            <div class="fw-used">
+              <strong>Used on:</strong> PowerSchool LLM compliance summary
+              feature
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MENTAL MODELS -->
+      <div style="margin-bottom: 56px">
+        <div class="section-label">Mental Models</div>
+        <h2 class="pt-h2">How I think — borrowed from everywhere</h2>
+        <div class="models-grid stagger">
+          <div class="model-card">
+            <div class="model-name">
+              Inversion <span class="model-origin">Charlie Munger</span>
+            </div>
+            <div class="model-desc">
+              Instead of asking "how do we succeed?", ask "what would guarantee
+              failure?" Then don't do those things. Applied to product: before
+              prioritising a feature, I ask "what would make this feature cause
+              harm to users?" The answers are usually more useful than the
+              original question.
+            </div>
+            <div class="model-application">
+              Used on: Ed-Fi migration risk analysis · VMware entitlement
+              zero-degradation requirement
+            </div>
+          </div>
+
+          <div class="model-card">
+            <div class="model-name">
+              Second-Order Thinking
+              <span class="model-origin">Howard Marks</span>
+            </div>
+            <div class="model-desc">
+              What happens next? And then what happens after that? First-order
+              thinking is "this feature will increase engagement." Second-order:
+              "increased engagement means more data stored — does our data
+              architecture support that at scale? What's the privacy
+              implication?" PMs who stop at the first order miss the surprises.
+            </div>
+            <div class="model-application">
+              Used on: LLM feature evaluation at PowerSchool
+            </div>
+          </div>
+
+          <div class="model-card">
+            <div class="model-name">
+              Reversibility Test
+              <span class="model-origin">Jeff Bezos / Two-way doors</span>
+            </div>
+            <div class="model-desc">
+              Type 1 decisions (irreversible) require careful deliberation. Type
+              2 decisions (reversible) should be made fast and corrected if
+              wrong. The mistake most PM teams make is treating Type 2 decisions
+              as Type 1 — analysing for months when they could ship, measure,
+              and iterate. The Ed-Fi migration was Type 1; almost everything
+              else was Type 2.
+            </div>
+            <div class="model-application">
+              Applied to: Roadmap prioritisation · PRD scope decisions · Team
+              decision velocity
+            </div>
+          </div>
+
+          <div class="model-card">
+            <div class="model-name">
+              Gall's Law
+              <span class="model-origin">John Gall, Systemantics</span>
+            </div>
+            <div class="model-desc">
+              "A complex system that works is invariably found to have evolved
+              from a simple system that worked." The corollary: a complex system
+              designed from scratch never works. This is why I insist on MVPs
+              even when stakeholders want full-featured launches. The Ed-Fi
+              dual-write approach (simple parallel system first) is Gall's Law
+              in practice.
+            </div>
+            <div class="model-application">
+              Applied to: Ed-Fi migration phased rollout · PowerSchool AI
+              feature scoping
+            </div>
+          </div>
+
+          <div class="model-card">
+            <div class="model-name">
+              Chesterton's Fence
+              <span class="model-origin">G.K. Chesterton</span>
+            </div>
+            <div class="model-desc">
+              Don't remove something until you understand why it was put there.
+              When I joined PowerSchool, the XML architecture looked obviously
+              wrong — until I understood why it existed: it was the only format
+              some legacy state reporting systems could accept. Knowing that
+              changed the migration timeline and risk model significantly.
+            </div>
+            <div class="model-application">
+              Applied to: Ed-Fi migration discovery · Every architecture
+              "simplification" I've evaluated
+            </div>
+          </div>
+
+          <div class="model-card">
+            <div class="model-name">
+              Regret Minimisation <span class="model-origin">Jeff Bezos</span>
+            </div>
+            <div class="model-desc">
+              When making a hard career or product decision: imagine yourself at
+              80 looking back. Which choice would you regret more — having tried
+              and failed, or not having tried? I used this when deciding to push
+              for the Ed-Fi full migration over the wrapper. The wrapper would
+              have been the "safe" choice. I wouldn't have been proud of it in
+              five years.
+            </div>
+            <div class="model-application">
+              Applied to: Ed-Fi architecture decision · Career move from L&T →
+              MBA → PM
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEWSLETTER -->
+      <div class="newsletter-card reveal">
+        <div>
+          <div class="nl-eyebrow">Stay in the loop</div>
+          <h3 class="nl-title">When I publish, I'll let you know</h3>
+          <p class="nl-body">
+            I write infrequently and only when I have something genuinely useful
+            to say. No newsletter cadence pressure, no filler content. Just the
+            essays and frameworks as they're ready.
+          </p>
+        </div>
+        <div class="nl-form">
+          <input class="nl-input" type="email" placeholder="your@email.com" />
+          <button
+            class="nl-btn"
+            onclick="
+              this.textContent = '✓ Added';
+              this.style.background = '#15805a';
+            "
+          >
+            Notify me
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in-view");
+              observer.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0, rootMargin: "0px 0px -40px 0px" },
+      );
+      document
+        .querySelectorAll(".reveal, .stagger")
+        .forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1576 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Texas Ed-Fi Migration</title>
+    <meta
+      name="description"
+      content="How I led the migration of PowerSchool's eSchoolPlus SIS from legacy XML batch submissions to real-time Ed-Fi API standards for 40+ Texas school districts."
+    />
+    <link
+      rel="canonical"
+      href="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/case-studies/edfi-migration.html"
+    />
+    <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../favicon-32x32.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="../apple-touch-icon.png"
+    />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta name="theme-color" content="#3454e0" />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:title"
+      content="Project: Texas Ed-Fi Migration · Rajesh Pathak"
+    />
+    <meta
+      property="og:description"
+      content="How I led the migration of PowerSchool's eSchoolPlus SIS from legacy XML batch submissions to real-time Ed-Fi API standards for 40+ Texas school districts."
+    />
+    <meta
+      property="og:url"
+      content="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/case-studies/edfi-migration.html"
+    />
+    <meta
+      property="og:image"
+      content="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/RajeshPhoto.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Project: Texas Ed-Fi Migration · Rajesh Pathak"
+    />
+    <meta
+      name="twitter:image"
+      content="https://rajeshpathakd6-sys.github.io/rajeshpathak-portfolio/RajeshPhoto.jpg"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================================================
+       DESIGN TOKENS
+    ============================================================ */
+      :root {
+        --bg: #f5f6f9;
+        --surface: #ffffff;
+        --surface-2: #edeff3;
+        --hero-bg: #11151c;
+        --accent: #3454e0;
+        --accent-hover: #2740b3;
+        --accent-soft: #e9edfc;
+        --accent-mid: #aab8f5;
+        --green: #15805a;
+        --green-bg: #e3f6ec;
+        --green-border: #a8d8c0;
+        --amber: #92660a;
+        --red: #b91c1c;
+        --ink: #11151c;
+        --ink-2: #3c4453;
+        --ink-3: #76808f;
+        --ink-4: #a7aebb;
+        --border: #e1e4ea;
+        --border-2: #c7ccd6;
+        --r-s: 6px;
+        --r-m: 10px;
+        --r-l: 18px;
+        --max-w: 760px;
+      }
+
+      /* ============================================================
+       RESET & BASE
+    ============================================================ */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Geist", system-ui, sans-serif;
+        font-size: 1rem;
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* ============================================================
+       NAV
+    ============================================================ */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(244, 243, 240, 0.88);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 clamp(20px, 5vw, 56px);
+        height: 56px;
+      }
+      .nav-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--ink-3);
+        transition: color 0.2s;
+      }
+      .nav-back:hover {
+        color: var(--accent);
+      }
+      .nav-back svg {
+        width: 14px;
+        height: 14px;
+      }
+      .nav-brand {
+        font-family: "Instrument Serif", serif;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--ink-2);
+        letter-spacing: -0.01em;
+      }
+
+      /* ============================================================
+       HERO
+    ============================================================ */
+      .hero {
+        background: var(--hero-bg);
+        padding: 84px clamp(20px, 5vw, 56px) 76px;
+        position: relative;
+        overflow: hidden;
+      }
+      /* Dot-grid signature — references data/API infrastructure */
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.055) 1px,
+          transparent 1px
+        );
+        background-size: 30px 30px;
+        pointer-events: none;
+      }
+      /* Accent glow */
+      .hero::after {
+        content: "";
+        position: absolute;
+        top: -120px;
+        left: -100px;
+        width: 560px;
+        height: 560px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(52, 84, 224, 0.22) 0%,
+          transparent 65%
+        );
+        pointer-events: none;
+      }
+      .hero-inner {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Geist", sans-serif;
+        font-size: 0.62rem;
+        font-weight: 500;
+        color: var(--accent-mid);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 22px;
+      }
+      .hero-eyebrow::before {
+        content: "";
+        width: 22px;
+        height: 1px;
+        background: var(--accent-mid);
+        flex-shrink: 0;
+      }
+      .hero-title {
+        font-family: "Instrument Serif", serif;
+        font-size: clamp(2rem, 5vw, 3.4rem);
+        font-weight: 600;
+        color: #f9fafb;
+        line-height: 1.12;
+        letter-spacing: -0.025em;
+        margin-bottom: 20px;
+      }
+      .hero-subtitle {
+        font-size: 0.9375rem;
+        color: rgba(255, 255, 255, 0.52);
+        line-height: 1.82;
+        max-width: 540px;
+        margin-bottom: 36px;
+      }
+      .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 44px;
+      }
+      .hero-pill {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.11);
+        border-radius: 50px;
+        padding: 4px 14px;
+        font-size: 0.71rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.6);
+        letter-spacing: 0.02em;
+      }
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      .hero-stat {
+        background: rgba(255, 255, 255, 0.055);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: var(--r-m);
+        padding: 20px 16px;
+      }
+      .hero-stat-num {
+        font-family: "Instrument Serif", serif;
+        font-size: 2.1rem;
+        font-weight: 600;
+        color: #fff;
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .hero-stat-label {
+        font-family: "Geist", sans-serif;
+        font-size: 0.59rem;
+        color: rgba(255, 255, 255, 0.38);
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        line-height: 1.5;
+      }
+
+      /* ============================================================
+       BODY LAYOUT
+    ============================================================ */
+      .body-wrap {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: 72px clamp(20px, 5vw, 56px) 96px;
+      }
+
+      /* ============================================================
+       SECTION STRUCTURE
+    ============================================================ */
+      .cs-section {
+        margin-bottom: 0;
+      }
+
+      .section-divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 64px 0;
+      }
+
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Geist", sans-serif;
+        font-size: 0.6rem;
+        font-weight: 500;
+        color: var(--accent);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .section-label::after {
+        content: "";
+        width: 28px;
+        height: 1px;
+        background: var(--accent-mid);
+      }
+
+      /* ============================================================
+       TYPOGRAPHY
+    ============================================================ */
+      .cs-h2 {
+        font-family: "Instrument Serif", serif;
+        font-size: clamp(1.45rem, 3.2vw, 1.9rem);
+        font-weight: 600;
+        color: var(--ink);
+        line-height: 1.22;
+        letter-spacing: -0.022em;
+        margin-bottom: 22px;
+      }
+      .cs-h3 {
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 8px;
+        margin-top: 28px;
+      }
+      .cs-p {
+        font-size: 0.9375rem;
+        color: var(--ink-2);
+        line-height: 1.85;
+        margin-bottom: 14px;
+      }
+      .cs-p:last-child {
+        margin-bottom: 0;
+      }
+      .cs-p strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .cs-p em {
+        font-style: italic;
+        color: var(--ink-2);
+      }
+
+      /* ============================================================
+       CODE CHIPS
+    ============================================================ */
+      code {
+        font-family: "Geist", sans-serif;
+        font-size: 0.77em;
+        background: var(--surface-2);
+        border: 1px solid var(--border-2);
+        border-radius: 4px;
+        padding: 1px 5px;
+        color: var(--ink-2);
+      }
+
+      /* ============================================================
+       CALLOUT
+    ============================================================ */
+      .callout {
+        background: var(--accent-soft);
+        border: 1px solid var(--accent-mid);
+        border-left: 3px solid var(--accent);
+        border-radius: 0 var(--r-m) var(--r-m) 0;
+        padding: 18px 24px;
+        margin: 24px 0;
+      }
+      .callout p {
+        font-size: 0.9rem;
+        color: var(--ink-2);
+        line-height: 1.8;
+        margin: 0;
+      }
+      .callout strong {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* ============================================================
+       RISK CARDS (Section 01)
+    ============================================================ */
+      .risk-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: 24px 0;
+      }
+      .risk-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-m);
+        padding: 18px 16px;
+      }
+      .risk-card .risk-type {
+        font-family: "Geist", sans-serif;
+        font-size: 0.6rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 8px;
+      }
+      .risk-card .risk-body {
+        font-size: 0.855rem;
+        color: var(--ink-2);
+        line-height: 1.65;
+      }
+      .risk-compliance {
+        border-top: 2px solid var(--red);
+      }
+      .risk-business {
+        border-top: 2px solid var(--amber);
+      }
+      .risk-technical {
+        border-top: 2px solid var(--accent);
+      }
+      .risk-compliance .risk-type {
+        color: var(--red);
+      }
+      .risk-business .risk-type {
+        color: var(--amber);
+      }
+      .risk-technical .risk-type {
+        color: var(--accent);
+      }
+
+      /* ============================================================
+       DECISION OPTIONS (Section 03)
+    ============================================================ */
+      .decision-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 24px 0;
+      }
+      .decision-option {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-m);
+        padding: 18px 20px;
+        display: grid;
+        grid-template-columns: 72px 1fr;
+        gap: 16px;
+        align-items: start;
+      }
+      .decision-option.chosen {
+        background: var(--green-bg);
+        border-color: var(--green-border);
+        border-left: 3px solid var(--green);
+      }
+      .opt-tag {
+        font-family: "Geist", sans-serif;
+        font-size: 0.62rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding-top: 3px;
+        color: var(--ink-3);
+      }
+      .chosen .opt-tag {
+        color: var(--green);
+      }
+      .opt-body .opt-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--ink);
+        display: block;
+        margin-bottom: 5px;
+      }
+      .chosen .opt-title {
+        color: var(--green);
+      }
+      .opt-body p {
+        font-size: 0.855rem;
+        color: var(--ink-2);
+        line-height: 1.65;
+        margin: 0;
+      }
+      .chosen-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        font-family: "Geist", sans-serif;
+        font-size: 0.58rem;
+        font-weight: 500;
+        background: var(--green);
+        color: #fff;
+        border-radius: 50px;
+        padding: 2px 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-left: 8px;
+        vertical-align: middle;
+      }
+
+      /* ============================================================
+       DATA TABLES (validation levels, competitive landscape)
+    ============================================================ */
+      .data-table-wrap {
+        overflow-x: auto;
+        margin: 20px 0;
+        border-radius: var(--r-m);
+        border: 1px solid var(--border);
+      }
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.84rem;
+        min-width: 560px;
+      }
+      .data-table thead th {
+        background: var(--surface-2);
+        color: var(--ink-3);
+        font-family: "Geist", sans-serif;
+        font-size: 0.59rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        padding: 10px 14px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+        white-space: nowrap;
+      }
+      .data-table tbody td {
+        padding: 11px 14px;
+        border-bottom: 1px solid var(--border);
+        color: var(--ink-2);
+        vertical-align: top;
+        line-height: 1.6;
+      }
+      .data-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .data-table tbody tr:hover td {
+        background: #fafafa;
+      }
+      .data-table td strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .data-table td code {
+        font-size: 0.73em;
+      }
+      .data-table .row-highlight td {
+        background: var(--accent-soft);
+      }
+      .data-table .row-highlight td:first-child {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* ============================================================
+       MIGRATION PHASES (Section 04)
+    ============================================================ */
+      .phases {
+        display: flex;
+        flex-direction: column;
+        margin: 24px 0;
+      }
+      .phase {
+        display: grid;
+        grid-template-columns: 44px 1fr;
+        gap: 20px;
+        padding-bottom: 30px;
+        position: relative;
+      }
+      .phase::after {
+        content: "";
+        position: absolute;
+        left: 21px;
+        top: 44px;
+        bottom: 0;
+        width: 1.5px;
+        background: var(--border);
+      }
+      .phase:last-child::after {
+        display: none;
+      }
+      .phase:last-child {
+        padding-bottom: 0;
+      }
+      .phase-num {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-family: "Instrument Serif", serif;
+        font-size: 1.05rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+      }
+      .phase-body {
+        padding-top: 8px;
+      }
+      .phase-sublabel {
+        font-family: "Geist", sans-serif;
+        font-size: 0.6rem;
+        font-weight: 500;
+        color: var(--ink-4);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 4px;
+      }
+      .phase-title {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      .phase-desc {
+        font-size: 0.875rem;
+        color: var(--ink-2);
+        line-height: 1.75;
+      }
+
+      /* ============================================================
+       OUTCOME GRID (Section 06)
+    ============================================================ */
+      .outcome-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin: 24px 0;
+      }
+      .outcome-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-l);
+        padding: 26px 24px;
+      }
+      .outcome-num {
+        font-family: "Instrument Serif", serif;
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: var(--accent);
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .outcome-tag {
+        font-family: "Geist", sans-serif;
+        font-size: 0.6rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--ink-3);
+        margin-bottom: 8px;
+      }
+      .outcome-note {
+        font-size: 0.83rem;
+        color: var(--ink-3);
+        line-height: 1.6;
+      }
+
+      /* ============================================================
+       LESSONS (Section 07)
+    ============================================================ */
+      .lessons {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin: 24px 0;
+      }
+      .lesson {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-l);
+        padding: 22px 26px;
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+      .lesson-n {
+        font-family: "Instrument Serif", serif;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--accent-mid);
+        line-height: 1;
+        padding-top: 2px;
+      }
+      .lesson-body h3 {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 6px;
+        margin-top: 0;
+      }
+      .lesson-body p {
+        font-size: 0.875rem;
+        color: var(--ink-2);
+        line-height: 1.78;
+        margin: 0;
+      }
+
+      /* ============================================================
+       CLOSING QUOTE
+    ============================================================ */
+      .closing-quote {
+        background: var(--hero-bg);
+        border-radius: var(--r-l);
+        padding: 40px 44px;
+        margin: 56px 0 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .closing-quote::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.045) 1px,
+          transparent 1px
+        );
+        background-size: 26px 26px;
+        pointer-events: none;
+      }
+      .closing-quote p {
+        font-family: "Instrument Serif", serif;
+        font-size: clamp(1rem, 2.6vw, 1.3rem);
+        font-style: italic;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.75;
+        max-width: 500px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ============================================================
+       CTA
+    ============================================================ */
+      .cta-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 48px;
+        padding-top: 40px;
+        border-top: 1px solid var(--border);
+      }
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 50px;
+        padding: 11px 26px;
+        font-size: 0.77rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+      }
+      .btn-primary:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+      }
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: transparent;
+        color: var(--ink-2);
+        border: 1.5px solid var(--border-2);
+        border-radius: 50px;
+        padding: 10px 24px;
+        font-size: 0.77rem;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        transition:
+          border-color 0.2s,
+          color 0.2s,
+          transform 0.15s;
+      }
+      .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+      @media (max-width: 600px) {
+        .hero-stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .risk-grid {
+          grid-template-columns: 1fr;
+        }
+        .outcome-grid {
+          grid-template-columns: 1fr;
+        }
+        .decision-option {
+          grid-template-columns: 1fr;
+        }
+        .lesson {
+          grid-template-columns: 1fr;
+        }
+        .lesson-n {
+          display: none;
+        }
+        .phase {
+          grid-template-columns: 38px 1fr;
+          gap: 14px;
+        }
+        .phase::after {
+          left: 18px;
+          top: 38px;
+        }
+        .phase-num {
+          width: 38px;
+          height: 38px;
+          font-size: 0.9rem;
+        }
+        .closing-quote {
+          padding: 32px 24px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ============================================================
+     NAV
+============================================================ -->
+    <nav class="nav">
+      <a href="../index.html" class="nav-back">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+        >
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        Portfolio
+      </a>
+      <span class="nav-brand">Rajesh Pathak</span>
+    </nav>
+
+    <!-- ============================================================
+     HERO
+============================================================ -->
+    <header class="hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow">
+          Project &middot; Platform Strategy &middot; EdTech SaaS
+        </div>
+        <h1 class="hero-title">
+          Modernizing Texas<br />
+          State Reporting
+        </h1>
+        <p class="hero-subtitle">
+          How I led the end-to-end migration of PowerSchool's eSchoolPlus SIS
+          from legacy XML batch submissions to real-time Ed-Fi API standards —
+          protecting 40+ active school districts from a state mandate that would
+          have made XML reporting illegal.
+        </p>
+        <div class="hero-meta">
+          <span class="hero-pill">Product Owner · eSchoolPlus SIS</span>
+          <span class="hero-pill">PowerSchool</span>
+          <span class="hero-pill">Platform Modernisation</span>
+          <span class="hero-pill">EdTech Compliance · B2B</span>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-num">40+</div>
+            <div class="hero-stat-label">Districts<br />migrated</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">$6.5M</div>
+            <div class="hero-stat-label">ARR<br />protected</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">100%</div>
+            <div class="hero-stat-label">Migration<br />completion</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">0</div>
+            <div class="hero-stat-label">Missed<br />deadlines</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============================================================
+     BODY
+============================================================ -->
+    <main class="body-wrap">
+      <!-- ——————————————————————————————————————————
+       01 · THE WAKE-UP CALL
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="context">
+        <div class="section-label">01 · Context</div>
+        <h2 class="cs-h2">A reporting platform facing a state mandate</h2>
+        <p class="cs-p">
+          When I joined PowerSchool, Texas state reporting in eSchoolPlus ran on
+          XML-based batch submissions. Districts generated reporting extracts,
+          uploaded them to state systems, and waited for processing results
+          before they could spot issues. It had worked for years. But the
+          regulatory landscape was shifting, and what had been a workable model
+          was about to become a compliance liability.
+        </p>
+        <p class="cs-p">
+          Through its TSDS Upgrade Project — announced September 2021 — TEA
+          mandated a shift away from XML toward <strong>Ed-Fi</strong>, a
+          nationally adopted interoperability standard replacing file-based
+          submissions with real-time API transactions flowing directly into
+          TEA's Hosted Ed-Fi ODS. By August 2024, XML would no longer be
+          accepted. Period.
+        </p>
+        <p class="cs-p">
+          Texas wasn't a small edge case. Over
+          <strong>40 active eSchoolPlus districts</strong> relied on the product
+          to meet legally mandated PEIMS submissions ten times per school year—
+          a cadence that has since expanded further with TEA's addition of new
+          submission types beginning in the 2025–26 school year.. Missing a
+          deadline directly impacts district accountability ratings and state
+          funding calculations. Three risks came into focus immediately:
+        </p>
+        <div class="risk-grid">
+          <div class="risk-card risk-compliance">
+            <div class="risk-type">Compliance risk</div>
+            <div class="risk-body">
+              Districts failing to transition before TEA's August 2024 go-live
+              would miss mandatory submissions determining funding and
+              accountability ratings.
+            </div>
+          </div>
+          <div class="risk-card risk-business">
+            <div class="risk-type">Business risk</div>
+            <div class="risk-body">
+              Texas represented a critical revenue stream for eSchoolPlus. At
+              least one competing district had already switched to PowerSchool,
+              citing gaps in a competitor's Texas reporting capability.
+            </div>
+          </div>
+          <div class="risk-card risk-technical">
+            <div class="risk-type">Technical debt risk</div>
+            <div class="risk-body">
+              Maintaining a legacy XML framework while also supporting Ed-Fi
+              would compound engineering complexity and slow every future
+              reporting enhancement.
+            </div>
+          </div>
+        </div>
+        <div class="callout">
+          <p>
+            The real question wasn't <em>whether</em> we'd move to Ed-Fi — TEA
+            had settled that. The question was whether we'd modernise
+            strategically or keep investing in technology the state had already
+            decided to retire.
+          </p>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- ——————————————————————————————————————————
+       02 · DISCOVERY
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="discovery">
+        <div class="section-label">02 · Discovery</div>
+        <h2 class="cs-h2">Asking first — before touching the roadmap</h2>
+        <p class="cs-p">
+          Before making any roadmap recommendation, I worked with customers, our
+          US counterpart product manager, support teams, engineering, and state
+          reporting experts to understand what the transition actually meant in
+          practice. The technical mandate was clear. The human impact required
+          more careful listening.
+        </p>
+        <p class="cs-p">
+          Customer conversations surfaced three consistent concerns: confidence
+          that PowerSchool would be ready before TEA's deadlines, visibility
+          into reporting status and validation errors as data moved through the
+          system, and minimal disruption during the migration itself. None of
+          those are really about Ed-Fi — they're about
+          <strong>trust and continuity</strong>.
+        </p>
+        <p class="cs-p">
+          Internally, engineering teams evaluated multiple approaches. One
+          proposal suggested maintaining the existing XML engine while building
+          translation layers between XML submissions and Ed-Fi API calls —
+          attractive short-term, but it introduced duplicate processing logic,
+          higher maintenance costs, and ongoing technical debt. You'd be paying
+          twice to produce the same output.
+        </p>
+        <p class="cs-p">
+          At the same time, PowerSchool had already invested in
+          <strong>Data Exchange (DEX)</strong>, a platform purpose-built for
+          Ed-Fi interoperability and state reporting modernisation. The
+          opportunity was clear: instead of extending legacy architecture, this
+          mandate could establish a scalable foundation that would serve Texas
+          districts for years beyond the compliance deadline. Treating a
+          regulatory constraint as a platform opportunity shaped every decision
+          that followed.
+        </p>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- ——————————————————————————————————————————
+       03 · THE DECISION
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="decision">
+        <div class="section-label">03 · Strategic Choice</div>
+        <h2 class="cs-h2">Three paths — one clear answer</h2>
+        <p class="cs-p">
+          I presented leadership with three options. The analysis below drove
+          the final decision:
+        </p>
+        <div class="decision-options">
+          <div class="decision-option">
+            <div class="opt-tag">Option A</div>
+            <div class="opt-body">
+              <span class="opt-title">Maintain existing XML</span>
+              <p>
+                Keep supporting legacy workflows with incremental XML updates.
+                Lowest short-term investment, but growing compliance risk and
+                zero long-term value. Districts get the same friction with no
+                improvement.
+              </p>
+            </div>
+          </div>
+          <div class="decision-option">
+            <div class="opt-tag">Option B</div>
+            <div class="opt-body">
+              <span class="opt-title">Hybrid translation layer</span>
+              <p>
+                Support Ed-Fi by translating API transactions back into XML
+                processes. Faster initial build, but creates dual architectures
+                with higher operating costs and compounding maintenance burden.
+              </p>
+            </div>
+          </div>
+          <div class="decision-option chosen">
+            <div class="opt-tag">Option C</div>
+            <div class="opt-body">
+              <span class="opt-title"
+                >Full DEX &amp; Ed-Fi migration
+                <span class="chosen-badge">✓ Selected</span></span
+              >
+              <p>
+                Modernise reporting around DEX and direct Ed-Fi publishing.
+                Larger upfront investment — but aligned with TEA's future
+                direction, dramatically reduced technical debt, real-time error
+                checking, and a future-ready architecture with strongly positive
+                customer impact.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="callout">
+          <p>
+            <strong
+              >Option C was the only path that made sense long-term.</strong
+            >
+            The upfront investment was larger — but one-time. The alternative
+            was paying smaller ongoing costs indefinitely while accumulating
+            architecture that would actively constrain future development.
+          </p>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- ——————————————————————————————————————————
+       04 · THE MIGRATION
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="migration">
+        <div class="section-label">04 · Execution</div>
+        <h2 class="cs-h2">Building in flight: migrating live districts</h2>
+        <p class="cs-p">
+          The most challenging aspect wasn't building the solution — it was
+          migrating active districts who were submitting legally required data
+          to the state <em>while school was in session</em> onto a completely
+          new reporting framework. Every eSchoolPlus district in Texas had PEIMS
+          deadlines throughout the migration. A failed cutover was not
+          recoverable.
+        </p>
+
+        <h3 class="cs-h3">Data element mapping</h3>
+        <p class="cs-p">
+          The foundational work was mapping every PEIMS data element from
+          eSchoolPlus's internal data model to its corresponding Ed-Fi entity,
+          endpoint, and descriptor in TEA's Texas Education Data Standards
+          (TEDS). TEDS is built on the national Ed-Fi core model but includes a
+          <strong>Texas Core Extension</strong> with state-specific data
+          elements and descriptor namespaces that don't exist in the standard
+          Ed-Fi specification.
+        </p>
+        <p class="cs-p">
+          This distinction matters. The Ed-Fi standard uses
+          <code>ed-fi.org</code> namespaces. TEA uses a Texas-specific namespace
+          for extended descriptors. Using the wrong namespace produces a
+          descriptor mismatch that fails validation — data doesn't land in the
+          ODS. This was among the most common migration errors across all SIS
+          vendors during the parallel submission year.
+        </p>
+        <p class="cs-p">
+          The ordering of API calls also required careful sequencing.
+          <code>StudentSchoolAssociation</code> can only be created after the
+          referenced Student and School records already exist. Attendance events
+          require a valid <code>StudentSchoolAssociation</code>. Wrong sequence
+          generates Level 1 API rejections that look identical to data quality
+          errors — which created genuine confusion during early district
+          migrations.
+        </p>
+
+        <h3 class="cs-h3">Validation levels and resolution</h3>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Level</th>
+                <th>Classification</th>
+                <th>Common triggers</th>
+                <th>Resolution approach</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Level 1</strong></td>
+                <td>API rejection — data doesn't reach ODS</td>
+                <td>
+                  Missing required field, invalid descriptor namespace,
+                  referential key mismatch (e.g.
+                  <code>StudentUniqueId</code> not found)
+                </td>
+                <td>
+                  Blocks submission entirely. Must be resolved before any data
+                  reaches the ODS landing zone.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Level 1.5</strong></td>
+                <td>
+                  Descriptor filter — data lands but fails TEA filter layer
+                </td>
+                <td>
+                  Local code not mapped to TEA Ed-Fi descriptor; using national
+                  <code>ed-fi.org</code> namespace instead of Texas Core
+                  Extension
+                </td>
+                <td>
+                  Ensure descriptor namespaces match TEA's published TEDS
+                  descriptor tables exactly.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Level 2 — Fatal</strong></td>
+                <td>
+                  PEIMS fatal — data in ODS but fails downstream business rule
+                  validation
+                </td>
+                <td>
+                  Duplicate <code>StaffService</code> + begin date; speech
+                  therapy student missing primary
+                  <code>InstructionalSetting</code>;
+                  <code>HomelessStatus</code> conflicts
+                </td>
+                <td>
+                  Doesn't block the API but blocks PEIMS promotion. Districts
+                  see errors in TEA's PEIMS EDIT+ tool after promotion.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Level 2 — Warning</strong></td>
+                <td>Non-fatal — data promoted but flagged for review</td>
+                <td>
+                  Attendance percentage anomalies, unusual leaver reasons,
+                  demographic inconsistencies
+                </td>
+                <td>
+                  Must be reviewed before certification. Don't block submission
+                  but can delay sign-off.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="cs-h3">The four-phase migration model</h3>
+        <div class="phases">
+          <div class="phase">
+            <div class="phase-num">1</div>
+            <div class="phase-body">
+              <div class="phase-sublabel">Parallel Validation</div>
+              <div class="phase-title">Both systems running simultaneously</div>
+              <div class="phase-desc">
+                DEX-based Ed-Fi publishing was enabled while existing XML
+                workflows remained active. Both systems ran in parallel,
+                producing outputs we compared to validate data mappings,
+                identify edge cases, and resolve discrepancies before any
+                district cutover. This phase caught errors that only surface
+                with real production data.
+              </div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">2</div>
+            <div class="phase-body">
+              <div class="phase-sublabel">Pilot Rollout</div>
+              <div class="phase-title">Small cohort, refined playbooks</div>
+              <div class="phase-desc">
+                A small cohort of districts adopted the new model first. Their
+                feedback refined migration playbooks, support processes, and the
+                in-product error visibility tools that districts use to monitor
+                submission status. Publishing workflow, data quality monitoring,
+                operational readiness, and customer adoption were all validated
+                at small scale before broad rollout.
+              </div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">3</div>
+            <div class="phase-body">
+              <div class="phase-sublabel">Scaled Migration</div>
+              <div class="phase-title">
+                Full customer base, structured readiness gates
+              </div>
+              <div class="phase-desc">
+                With confidence established from the pilot cohort, we expanded
+                across the full customer base. This required close coordination
+                between engineering, product, customer success, support, and
+                district stakeholders. Each migration followed a structured
+                readiness checklist and validation gate before cutover.
+              </div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-num">4</div>
+            <div class="phase-body">
+              <div class="phase-sublabel">Full Adoption</div>
+              <div class="phase-title">XML retired before August 2024</div>
+              <div class="phase-desc">
+                The final phase completed all remaining migrations, retired
+                legacy XML dependencies, and confirmed every district was
+                successfully operating through DEX before TEA's August 2024
+                go-live — the point at which XML submissions were permanently
+                retired.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- ——————————————————————————————————————————
+       05 · COMPETITIVE LANDSCAPE
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="competitive">
+        <div class="section-label">05 · Market Context</div>
+        <h2 class="cs-h2">How PowerSchool compared to the field</h2>
+        <p class="cs-p">
+          Every SIS vendor in Texas faced the same mandate. TEA required all
+          source system vendors to participate in a parallel submission year
+          (2023–24) before the August 2024 go-live. The Vendor Data Completeness
+          Scorecard tracked how each vendor progressed — and not all moved at
+          the same pace.
+        </p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Vendor</th>
+                <th>US Market Share</th>
+                <th>Texas Ed-Fi position</th>
+                <th>Key differentiation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight">
+                <td><strong>PowerSchool / eSchoolPlus</strong></td>
+                <td>23%</td>
+                <td>
+                  DEX-native Ed-Fi publishing. Full TEDS descriptor mapping.
+                  Dedicated Texas state reporting PO. Parallel validation built
+                  into rollout strategy.
+                </td>
+                <td>
+                  Strongest Texas-specific depth. Real-time DEX error visibility
+                  that batch-style models lack. Migrated 40+ districts without a
+                  missed deadline.
+                </td>
+              </tr>
+              <tr>
+                <td>Skyward SMS</td>
+                <td>7%</td>
+                <td>
+                  TEA's original State-Supported Information System (SSIS)
+                  partner — historically strong Texas presence. Required Ed-Fi
+                  v4 migration like all vendors.
+                </td>
+                <td>
+                  Legacy SSIS relationship gave districts comfort, but
+                  PowerSchool's integrated DEX platform offered tighter
+                  real-time feedback loops.
+                </td>
+              </tr>
+              <tr>
+                <td>Infinite Campus</td>
+                <td>10%</td>
+                <td>
+                  Strong national Ed-Fi footprint with built-in Data Integrity
+                  Tools. Documented gaps in Texas-specific capability cited by
+                  at least one district that switched to PowerSchool.
+                </td>
+                <td>
+                  Broad national Ed-Fi experience, but Texas-specific depth
+                  (PEIMS history, TEDS, Texas Core Extension) differentiated
+                  PowerSchool.
+                </td>
+              </tr>
+              <tr>
+                <td>Aeries SIS</td>
+                <td>Smaller; primarily CA</td>
+                <td>
+                  Completed Texas Ed-Fi migration for 2024–25. Published
+                  field-by-field TEDS mapping documentation for districts
+                  navigating the transition.
+                </td>
+                <td>
+                  Aeries's public documentation reveals the per-entity
+                  complexity every vendor faced — individual descriptor
+                  namespace resolution required for each endpoint.
+                </td>
+              </tr>
+              <tr>
+                <td>TxEIS Ascender</td>
+                <td>3%; Texas-focused</td>
+                <td>
+                  ESC-managed, built specifically for Texas PEIMS. Ed-Fi
+                  migration managed through ESC network by design.
+                </td>
+                <td>
+                  Deeply Texas-native but limited to ESC-managed districts — not
+                  a direct commercial competitor, but a reference point for how
+                  deep Texas-specific complexity runs.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="cs-p">
+            US market share figures sourced from ListEdTech K-12 SIS Market
+            Analysis, October 2023. Texas-specific positioning reflects TEA
+            Vendor Data Completeness Scorecard participation and publicly
+            documented district activity during the 2023–24 parallel submission
+            year.
+          </p>
+        </div>
+        <p class="cs-p">
+          The competitive differentiation wasn't about who built an Ed-Fi
+          connector fastest. It was about who had the depth of Texas-specific
+          knowledge — PEIMS data element history, TEDS descriptor nuances, Texas
+          Core Extension — to migrate districts without disruption. That depth
+          was embedded in eSchoolPlus's product and team. Competitors without
+          that history faced steeper learning curves on the same validation
+          rules we'd spent years understanding.
+        </p>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- ——————————————————————————————————————————
+       06 · RESULTS
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="results">
+        <div class="section-label">06 · Results</div>
+        <h2 class="cs-h2">What modernisation actually delivered</h2>
+        <div class="outcome-grid">
+          <div class="outcome-card">
+            <div class="outcome-num">40+</div>
+            <div class="outcome-tag">Districts migrated</div>
+            <div class="outcome-note">
+              Transitioned from XML-based reporting to DEX and Ed-Fi without
+              disrupting compliance operations. Every district met PEIMS Fall
+              and Spring submission deadlines throughout the migration.
+            </div>
+          </div>
+          <div class="outcome-card">
+            <div class="outcome-num">$6.5M</div>
+            <div class="outcome-tag">ARR protected</div>
+            <div class="outcome-note">
+              Critical annual recurring revenue preserved by keeping customers
+              compliant through the transition. Texas was one of eSchoolPlus's
+              most significant state markets.
+            </div>
+          </div>
+          <div class="outcome-card">
+            <div class="outcome-num">100%</div>
+            <div class="outcome-tag">Migration completion</div>
+            <div class="outcome-note">
+              Every targeted district adopted the new reporting framework before
+              TEA's August 2024 go-live — the point at which XML submissions
+              were permanently retired.
+            </div>
+          </div>
+          <div class="outcome-card">
+            <div class="outcome-num">0</div>
+            <div class="outcome-tag">Missed deadlines</div>
+            <div class="outcome-note">
+              No district missed a PEIMS state reporting submission during
+              migration. The single most operationally critical constraint of
+              the entire initiative — and the one we were most committed to
+              protecting.
+            </div>
+          </div>
+        </div>
+        <p>
+          The August 2024 go-live was not the end of the work — it was the point
+          at which the migration stopped being a project and became the
+          operating standard. In the first full Ed-Fi-only PEIMS cycle (Fall
+          2024–25), all migrated districts completed their submissions through
+          DEX without reverting to manual workarounds or requiring emergency TEA
+          extensions. The real-time error visibility that DEX provided meant
+          districts identified and resolved data quality issues earlier in the
+          submission window than was possible under the old XML batch model —
+          exactly the operational improvement the migration had been designed to
+          deliver. The infrastructure put in place for Texas also positioned the
+          platform to absorb subsequent TEA submission timeline changes without
+          requiring architecture-level rework.
+        </p>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- ——————————————————————————————————————————
+       07 · TAKEAWAYS
+  —————————————————————————————————————————— -->
+      <section class="cs-section" id="takeaways">
+        <div class="section-label">07 · Takeaways</div>
+        <h2 class="cs-h2">Four lessons that carry forward</h2>
+        <div class="lessons">
+          <div class="lesson">
+            <div class="lesson-n">1</div>
+            <div class="lesson-body">
+              <h3>Regulatory change is a product opportunity</h3>
+              <p>
+                What initially looked like a compliance burden became the
+                forcing function to modernise a critical product and eliminate
+                years of accumulated technical debt. The constraint created the
+                clarity to do something that would have been hard to justify
+                otherwise.
+              </p>
+            </div>
+          </div>
+          <div class="lesson">
+            <div class="lesson-n">2</div>
+            <div class="lesson-body">
+              <h3>Technical debt compounds faster than it looks</h3>
+              <p>
+                Maintaining a legacy XML engine while supporting Ed-Fi would
+                have cost more — in engineering time, testing coverage, and
+                customer friction — than the upfront investment in a full
+                migration. The short-term savings of a hybrid approach were an
+                illusion.
+              </p>
+            </div>
+          </div>
+          <div class="lesson">
+            <div class="lesson-n">3</div>
+            <div class="lesson-body">
+              <h3>Customer trust is the real success metric</h3>
+              <p>
+                Districts weren't asking for Ed-Fi. They were asking for
+                confidence that they could keep meeting their reporting
+                obligations without disruption. Every product and migration
+                decision was tested against that question.
+              </p>
+            </div>
+          </div>
+          <div class="lesson">
+            <div class="lesson-n">4</div>
+            <div class="lesson-body">
+              <h3>Migrations succeed through risk management, not speed</h3>
+              <p>
+                Running legacy and modernised systems in parallel was slower
+                than a hard cutover. It was also the only approach that gave us
+                the confidence to migrate 40+ active districts without a single
+                missed deadline. Slower was safer — and safer was the right
+                call.
+              </p>
+            </div>
+          </div>
+        </div>
+        <strong>A note on subsequent developments:</strong>
+        <p>
+          The migration work described in this case study concluded in August
+          2024. In December 2024, PowerSchool experienced a data security
+          incident unrelated to the Ed-Fi migration architecture — affecting
+          customer data across the broader PowerSchool platform. That incident
+          has since influenced district procurement decisions across the
+          industry and is part of the evolving context any K-12 technology
+          decision-maker should be aware of. The technical and operational
+          decisions documented here predate those developments and address a
+          separate domain: state reporting compliance infrastructure, not data
+          security posture.
+        </p>
+      </section>
+
+      <!-- ——————————————————————————————————————————
+       CLOSING QUOTE
+  —————————————————————————————————————————— -->
+      <div class="closing-quote">
+        <p>
+          "The best product decisions aren't about adopting new technology —
+          they're about reducing customer risk while building for what's next."
+        </p>
+      </div>
+
+      <!-- ——————————————————————————————————————————
+       CTA
+  —————————————————————————————————————————— -->
+      <div class="cta-row">
+        <a href="../index.html" class="btn-outline">
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          Back to Portfolio
+        </a>
+        <a href="rbi-cbdc.html" class="btn-outline">
+          Next Project
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>
