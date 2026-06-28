@@ -586,17 +586,22 @@
 
       /* HERO CARD */
       .hero-card-wrap {
+        position: relative;
         animation: fadeUp 0.8s 0.15s ease both;
       }
       .hero-card {
-        background: var(--surface);
+        position: relative;
+        background: linear-gradient(
+          155deg,
+          var(--surface) 0%,
+          var(--accent-soft) 100%
+        );
         border: 1px solid var(--border);
         border-radius: var(--r-l);
-        overflow: hidden;
+        padding: 14px;
         box-shadow: var(--sh-l);
         aspect-ratio: 3/4;
         display: flex;
-        flex-direction: column;
         transition:
           transform 0.6s var(--ease),
           box-shadow 0.5s;
@@ -609,30 +614,15 @@
         flex: 1;
         overflow: hidden;
         min-height: 0;
+        border-radius: calc(var(--r-l) - 8px);
         background: linear-gradient(135deg, #e9edf4 0%, #d8dce6 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
       }
-      .hero-card-body {
-        padding: 18px 20px 20px;
-        border-top: 1px solid var(--border);
-        background: var(--surface);
-        flex-shrink: 0;
-      }
-      .hero-card-name {
-        font-family: "Instrument Serif", serif;
-        font-size: 1.25rem;
-        color: var(--ink);
-        margin-bottom: 2px;
-        line-height: 1.3;
-      }
-      .hero-card-role {
-        font-size: 0.7rem;
-        color: var(--accent);
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
+      .hero-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
       }
 
       /* SECTIONS */
@@ -2253,17 +2243,12 @@
     <section id="hero">
       <div class="hero-inner">
         <div class="hero-text">
-          <div class="hero-eyebrow">Senior Product Manager · PMP® · CSPO</div>
+          <div class="hero-eyebrow">Product Owner · PMP® · CSPO</div>
           <h1 class="hero-name">
             <span>Rajesh</span><br />
             <em>Pathak</em>
           </h1>
-          <div class="hero-tags">
-            <span class="hero-tag">SaaS</span>
-            <span class="hero-tag">EdTech</span>
-            <span class="hero-tag">PMP®</span>
-            <span class="hero-tag">CSPO</span>
-          </div>
+
           <p class="hero-sub">
             Product professional with 6+ years cross-industry experience leading
             end-to-end product lifecycle across SaaS, Cloud and Infrastructure —
@@ -2362,10 +2347,6 @@
                 class="hero-photo"
               />
             </div>
-            <div class="hero-card-body">
-              <div class="hero-card-name">Rajesh Pathak</div>
-              <div class="hero-card-role">Senior Product Manager</div>
-            </div>
           </div>
         </div>
       </div>
@@ -2456,9 +2437,7 @@
                 </div>
                 <div>
                   <div class="about-fact-label">Current Role</div>
-                  <div class="about-fact-val">
-                    Senior Product Manager · PowerSchool
-                  </div>
+                  <div class="about-fact-val">Product Owner · PowerSchool</div>
                 </div>
               </div>
               <div class="about-fact-row">
@@ -2881,13 +2860,13 @@
     <section id="work">
       <div class="inner">
         <div class="section-label">Selected Work</div>
-        <h2 class="section-title">Projects I've <em>shipped</em></h2>
+        <h2 class="section-title">Projects I've <em>Shipped</em></h2>
 
         <div class="cs-grid stagger">
           <div class="cs-card">
             <div class="cs-card-header">
               <div class="cs-index">01</div>
-              <div class="cs-category">Platform Strategy · EdTech SaaS</div>
+              <div class="cs-category">Platform Strategy</div>
               <div class="cs-title">
                 Ed-Fi API Migration: Texas State Reporting
               </div>
@@ -2901,10 +2880,9 @@
                 adoption, and platform scalability.
               </div>
               <div class="cs-tags">
-                <span class="cs-tag">API Strategy</span>
                 <span class="cs-tag">Platform Modernisation</span>
                 <span class="cs-tag">Stakeholder Alignment</span>
-                <span class="cs-tag">EdTech</span>
+
                 <span class="cs-tag">Compliance SaaS</span>
               </div>
             </div>
@@ -2912,15 +2890,12 @@
               <div class="cs-metrics">
                 <div class="cs-metric">
                   <div class="cs-metric-num">$9M</div>
-                  <div class="cs-metric-label">ARR impacted</div>
+                  <div class="cs-metric-label">Business Impact</div>
                 </div>
-                <div class="cs-metric">
-                  <div class="cs-metric-num">42%</div>
-                  <div class="cs-metric-label">Onboard time ↓</div>
-                </div>
+
                 <div class="cs-metric">
                   <div class="cs-metric-num">80+</div>
-                  <div class="cs-metric-label">Clients affected</div>
+                  <div class="cs-metric-label">US School Districts</div>
                 </div>
               </div>
               <a href="case-studies/edfi-migration.html" class="cs-read-link">
@@ -2943,7 +2918,8 @@
               <div class="cs-index">02</div>
               <div class="cs-category">SaaS Commerce</div>
               <div class="cs-title">
-                Unified Cloud Pack Conversion — VMware Subscription Platform
+                Unified Cloud Pack Conversion — VMware Subscription Commerce
+                Platform
               </div>
               <div class="cs-summary">
                 Working within VMware's subscription commerce platform, I
@@ -2955,8 +2931,7 @@
                 across multiple integrated systems.
               </div>
               <div class="cs-tags">
-                <span class="cs-tag">PRD Writing</span>
-                <span class="cs-tag">User Stories</span>
+                <span class="cs-tag">Unified Cloud Packs</span>
                 <span class="cs-tag">SaaS Commerce</span>
                 <span class="cs-tag">Subscription</span>
               </div>
@@ -2990,7 +2965,7 @@
           <div class="cs-card">
             <div class="cs-card-header">
               <div class="cs-index">03</div>
-              <div class="cs-category">AI Product Strategy · FinTech</div>
+              <div class="cs-category">AI Product Strategy</div>
               <div class="cs-title">
                 From CBDC Research to AI Product Strategy — Reserve Bank of
                 India
@@ -3005,7 +2980,7 @@
               <div class="cs-tags">
                 <span class="cs-tag">AI Product Risk</span>
                 <span class="cs-tag">ML Readiness Models</span>
-                <span class="cs-tag">FinTech</span>
+
                 <span class="cs-tag">Regulated Industry</span>
               </div>
             </div>
@@ -3212,21 +3187,21 @@
               <span class="pill">Product Lifecycle Management</span>
               <span class="pill">Product Strategy &amp; Roadmapping</span>
               <span class="pill">Go-to-Market (GTM)</span>
-              <span class="pill">OKR Setting</span>
+
               <span class="pill">Backlog Prioritisation (RICE, MoSCoW)</span>
             </div>
           </div>
           <div class="skill-card">
             <div class="skill-head">
-              <span class="icon">🔧</span> Technical Fluency
+              <span class="icon">🔧</span> Technical Expertise
             </div>
             <div class="skill-pills">
-              <span class="pill">REST API Design</span>
-              <span class="pill">Ed-Fi / FHIR Standards</span>
-              <span class="pill">System Architecture</span>
+              <span class="pill">AI-Assisted Product Discovery</span>
+              <span class="pill">Ed-Fi Standards</span>
+
               <span class="pill">SQL</span>
-              <span class="pill">Cloud Infrastructure (AWS)</span>
-              <span class="pill">LLM Integration</span>
+              <span class="pill">Oracle Product Data Hub</span>
+              <span class="pill">API Integration</span>
             </div>
           </div>
           <div class="skill-card">
@@ -3234,10 +3209,9 @@
               <span class="icon">📊</span> Analytics &amp; Data
             </div>
             <div class="skill-pills">
-              <span class="pill">Amplitude</span>
               <span class="pill">Gainsight</span>
               <span class="pill">Tableau</span>
-              <span class="pill">Power BI</span>
+
               <span class="pill">A/B Testing</span>
               <span class="pill">LTV / CAC / Churn</span>
               <span class="pill">DAU/MAU</span>
@@ -3254,7 +3228,6 @@
               <span class="pill">AI Prototyping (Lovable, Cursor)</span>
               <span class="pill">Figma</span>
               <span class="pill">Miro</span>
-              <span class="pill">Precision / Recall Tradeoffs</span>
             </div>
           </div>
           <div class="skill-card">
@@ -3266,7 +3239,6 @@
               <span class="pill">Cross-functional Collaboration</span>
               <span class="pill">RACI / Decision Frameworks</span>
               <span class="pill">Release Readiness</span>
-              <span class="pill">Influence Without Authority</span>
             </div>
           </div>
           <div class="skill-card">
@@ -3277,7 +3249,7 @@
               <span class="pill">Voice of Customer (VoC)</span>
               <span class="pill">User Interviews</span>
               <span class="pill">Focus Groups</span>
-              <span class="pill">Jobs-to-be-Done</span>
+
               <span class="pill">Market &amp; Competitive Analysis</span>
             </div>
           </div>
@@ -3305,23 +3277,13 @@
                 margin-top: 10px;
               "
             >
-              Specialisation in Finance &amp; Marketing. Summer internship at
-              the Reserve Bank of India. Head of Marketing &amp; Advertising
-              Club. Core Committee Member, Purvodaya.
+              General Management, Head of Marketing &amp; Advertising Club,
+              Purvodaya Core Committee Member.
             </div>
           </div>
           <div class="edu-card">
             <div class="edu-badge">B.Tech · 2013–2017</div>
-            <div class="edu-degree">
-              Bachelor of Technology
-              <span
-                style="
-                  font-size: 0.875rem;
-                  font-family: &quot;Geist&quot;, sans-serif;
-                "
-                >Civil Engineering</span
-              >
-            </div>
+            <div class="edu-degree">Bachelor of Technology</div>
             <div class="edu-school">
               Motilal Nehru National Institute of Technology, Allahabad
             </div>
@@ -3333,9 +3295,8 @@
                 margin-top: 10px;
               "
             >
-              Merit Scholarship — Top 10% of branch for 4 consecutive years.
-              Mess Manager (operations leadership). U-16 &amp; U-19 Regional
-              Cricket (KVS).
+              Civil Engineering, Merit Scholarship— Top 10% of branch for 4
+              consecutive years, Mess Manager.
             </div>
           </div>
         </div>
@@ -3473,39 +3434,6 @@
             </div>
           </div>
         </div>
-
-        <div class="tools-section-head">Analytics &amp; Data</div>
-        <div class="tools-grid stagger">
-          <div class="tool-card">
-            <div class="tool-icon" style="background: #e9edfc">📊</div>
-            <div class="tool-info">
-              <div class="tool-name">Amplitude</div>
-              <div class="tool-category">Product Analytics</div>
-            </div>
-          </div>
-          <div class="tool-card">
-            <div class="tool-icon" style="background: #e4f4ed">💚</div>
-            <div class="tool-info">
-              <div class="tool-name">Gainsight</div>
-              <div class="tool-category">Customer Health</div>
-            </div>
-          </div>
-          <div class="tool-card">
-            <div class="tool-icon" style="background: #e8f2fb">📈</div>
-            <div class="tool-info">
-              <div class="tool-name">Tableau</div>
-              <div class="tool-category">Data Viz</div>
-            </div>
-          </div>
-          <div class="tool-card">
-            <div class="tool-icon" style="background: #eef1f6">🗄️</div>
-            <div class="tool-info">
-              <div class="tool-name">SQL</div>
-              <div class="tool-category">Data Queries</div>
-            </div>
-          </div>
-        </div>
-
         <div class="tools-section-head">Design &amp; Prototyping</div>
         <div class="tools-grid stagger">
           <div class="tool-card">
@@ -3538,15 +3466,33 @@
           </div>
         </div>
 
-        <div class="tools-section-head">Research &amp; Collaboration</div>
+        <div class="tools-section-head">Analytics &amp; Data</div>
         <div class="tools-grid stagger">
           <div class="tool-card">
-            <div class="tool-icon" style="background: #e8f2fb">🔍</div>
+            <div class="tool-icon" style="background: #e4f4ed">💚</div>
             <div class="tool-info">
-              <div class="tool-name">Dovetail</div>
-              <div class="tool-category">User Research</div>
+              <div class="tool-name">Gainsight</div>
+              <div class="tool-category">Customer Health</div>
             </div>
           </div>
+          <div class="tool-card">
+            <div class="tool-icon" style="background: #e8f2fb">📈</div>
+            <div class="tool-info">
+              <div class="tool-name">Tableau</div>
+              <div class="tool-category">Data Viz</div>
+            </div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon" style="background: #eef1f6">🗄️</div>
+            <div class="tool-info">
+              <div class="tool-name">SQL</div>
+              <div class="tool-category">Data Queries</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tools-section-head">Research &amp; Collaboration</div>
+        <div class="tools-grid stagger">
           <div class="tool-card">
             <div class="tool-icon" style="background: #e9edfc">📝</div>
             <div class="tool-info">
@@ -3554,13 +3500,7 @@
               <div class="tool-category">Notes · Knowledge</div>
             </div>
           </div>
-          <div class="tool-card">
-            <div class="tool-icon" style="background: #e4f4ed">💬</div>
-            <div class="tool-info">
-              <div class="tool-name">Slack</div>
-              <div class="tool-category">Async Comms</div>
-            </div>
-          </div>
+
           <div class="tool-card">
             <div class="tool-icon" style="background: #eeebf8">🤖</div>
             <div class="tool-info">
@@ -3575,7 +3515,6 @@
     <!-- BEYOND WORK — TRAVEL SPOTLIGHT -->
     <section id="beyond">
       <div class="inner">
-        <div class="section-label">The Human Behind the PM</div>
         <h2 class="section-title">Beyond <em>Work</em></h2>
 
         <div class="travel-spotlight reveal">
@@ -3640,9 +3579,9 @@
         <div class="contact-eyebrow">Open to Opportunities</div>
         <h2 class="contact-title">Let's build something <em>great</em></h2>
         <p class="contact-sub">
-          Open to Senior PM, AI PM, and SaaS PM roles. Also interested in
-          strategic conversations, collaborations, and guest talks on product
-          thinking in regulated industries.
+          Happy to connect with people passionate about building great products.
+          Whether you have an opportunity, a collaboration in mind, or simply
+          want to exchange ideas, I'd love to hear from you.
         </p>
         <div class="contact-links">
           <a href="mailto:rajeshpathakd6@gmail.com" class="contact-link">
@@ -3723,8 +3662,8 @@
     </section>
 
     <footer>
-      Rajesh Pathak, PMP® <span>·</span> Senior Product Manager
-      <span>·</span> Bengaluru, India <span>·</span> © 2026 <span>·</span>
+      Rajesh Pathak, PMP® <span>·</span> Product Owner <span>·</span> Bengaluru,
+      India <span>·</span> © 2026 <span>·</span>
       <a
         href="https://github.com/rajeshpathakd6-sys"
         target="_blank"
