@@ -179,15 +179,14 @@
       }
 
       /* NAV */
-      nav {
+      .site-nav {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         z-index: 200;
         height: var(--nav-h);
-        background: rgba(247, 245, 242, 0.92);
-        backdrop-filter: blur(20px) saturate(1.5);
+        background: rgba(245, 246, 249, 0.96);
         border-bottom: 1px solid var(--border);
         display: flex;
         align-items: center;
@@ -373,45 +372,23 @@
         justify-content: center;
         position: relative;
         overflow: hidden;
-      }
-      .blob {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(90px);
-        opacity: 0.28;
-        pointer-events: none;
-      }
-      .blob-1 {
-        width: 460px;
-        height: 460px;
-        background: #aab8f5;
-        top: -80px;
-        right: -40px;
-        animation: drift 13s ease-in-out infinite alternate;
-      }
-      .blob-2 {
-        width: 340px;
-        height: 340px;
-        background: #aad0c0;
-        bottom: -100px;
-        left: 6%;
-        animation: drift 16s ease-in-out infinite alternate-reverse;
-      }
-      .blob-3 {
-        width: 240px;
-        height: 240px;
-        background: #c0b8e0;
-        top: 42%;
-        right: 32%;
-        animation: drift 10s ease-in-out infinite alternate;
-      }
-      @keyframes drift {
-        from {
-          transform: translate(0, 0) scale(1);
-        }
-        to {
-          transform: translate(16px, 12px) scale(1.04);
-        }
+        background-image:
+          radial-gradient(
+            circle at 88% 0%,
+            rgba(170, 184, 245, 0.32),
+            transparent 42%
+          ),
+          radial-gradient(
+            circle at 4% 96%,
+            rgba(170, 208, 192, 0.26),
+            transparent 38%
+          ),
+          radial-gradient(
+            circle at 62% 46%,
+            rgba(192, 184, 224, 0.22),
+            transparent 32%
+          );
+        background-color: var(--bg);
       }
       .hero-inner {
         position: relative;
@@ -2029,10 +2006,206 @@
           grid-template-columns: 1fr 1fr;
         }
       }
+
+      /* PRELOADER */
+      .preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg);
+        transition:
+          opacity 0.5s var(--ease),
+          visibility 0.5s var(--ease);
+      }
+      .preloader.done {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .preloader-ring {
+        position: relative;
+        width: 132px;
+        height: 132px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--surface);
+        box-shadow: var(--sh-l);
+      }
+      .preloader-ring::before {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        border-radius: 50%;
+        background: conic-gradient(
+          var(--accent) 0deg,
+          var(--accent-mid) 140deg,
+          transparent 200deg,
+          transparent 360deg
+        );
+        animation: preloaderSpin 1.3s linear infinite;
+      }
+      .preloader-ring::after {
+        content: "";
+        position: absolute;
+        inset: 5px;
+        border-radius: 50%;
+        background: var(--surface);
+      }
+      @keyframes preloaderSpin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .preloader-mark {
+        position: relative;
+        z-index: 1;
+        font-family: "Instrument Serif", serif;
+        font-size: 2.6rem;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: 0.01em;
+      }
+      .preloader-mark span:first-child {
+        color: var(--ink);
+      }
+      .preloader-mark span:last-child {
+        color: var(--accent);
+        font-style: italic;
+      }
+      .preloader-bar {
+        width: 168px;
+        height: 3px;
+        background: var(--border);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-top: 30px;
+      }
+      .preloader-bar-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent), var(--accent-mid));
+        border-radius: 2px;
+        animation: preloaderFill 1.1s var(--ease) forwards;
+      }
+      @keyframes preloaderFill {
+        0% {
+          width: 0%;
+        }
+        60% {
+          width: 78%;
+        }
+        100% {
+          width: 100%;
+        }
+      }
+      .preloader-label {
+        margin-top: 16px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+      }
+
+      /* SIDE DOT NAV */
+      .side-dots {
+        position: fixed;
+        right: 26px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 13px;
+        z-index: 60;
+      }
+      .side-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 5px;
+        background: var(--border-2);
+        transition:
+          height 0.3s var(--ease),
+          background 0.3s var(--ease),
+          transform 0.2s var(--ease);
+        display: block;
+      }
+      .side-dot:hover {
+        background: var(--accent-mid);
+        transform: scale(1.2);
+      }
+      .side-dot.active {
+        height: 26px;
+        background: var(--accent);
+        transform: none;
+      }
+      @media (max-width: 1180px) {
+        .side-dots {
+          display: none;
+        }
+      }
     </style>
   </head>
   <body>
-    <nav>
+    <div class="preloader" id="preloader">
+      <div class="preloader-ring">
+        <div class="preloader-mark"><span>R</span><span>P</span></div>
+      </div>
+      <div class="preloader-bar"><div class="preloader-bar-fill"></div></div>
+      <div class="preloader-label">Loading Portfolio</div>
+    </div>
+
+    <nav class="side-dots" id="side-dots" aria-label="Section navigation">
+      <a
+        href="#hero"
+        class="side-dot"
+        data-section="hero"
+        aria-label="Home"
+      ></a>
+      <a
+        href="#about"
+        class="side-dot"
+        data-section="about"
+        aria-label="About"
+      ></a>
+      <a
+        href="#impact"
+        class="side-dot"
+        data-section="impact"
+        aria-label="Impact"
+      ></a>
+      <a
+        href="#experience"
+        class="side-dot"
+        data-section="experience"
+        aria-label="Experience"
+      ></a>
+      <a
+        href="#work"
+        class="side-dot"
+        data-section="work"
+        aria-label="Projects"
+      ></a>
+      <a
+        href="#skills"
+        class="side-dot"
+        data-section="skills"
+        aria-label="Skills"
+      ></a>
+      <a
+        href="#contact"
+        class="side-dot"
+        data-section="contact"
+        aria-label="Contact"
+      ></a>
+    </nav>
+
+    <nav class="site-nav">
       <a class="nav-logo" href="#hero">RP</a>
       <ul class="nav-links" id="nav-links">
         <li><a href="#about">About</a></li>
@@ -2078,9 +2251,6 @@
 
     <!-- HERO -->
     <section id="hero">
-      <div class="blob blob-1"></div>
-      <div class="blob blob-2"></div>
-      <div class="blob blob-3"></div>
       <div class="hero-inner">
         <div class="hero-text">
           <div class="hero-eyebrow">Senior Product Manager · PMP® · CSPO</div>
@@ -2210,8 +2380,7 @@
           <div>
             <div class="about-body">
               <p>
-                I'm a Senior Product Manager with 6+ years of experience
-                turning
+                I'm a Senior Product Manager with 6+ years of experience turning
                 <strong
                   >regulatory complexity into elegant user experiences</strong
                 >
@@ -2272,8 +2441,15 @@
               </div>
               <div class="about-fact-row">
                 <div class="about-fact-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M20 7h-9a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z" />
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
+                    <path
+                      d="M20 7h-9a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"
+                    />
                     <path d="M16 7V5a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v2" />
                     <path d="M6 11H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
                   </svg>
@@ -2287,7 +2463,12 @@
               </div>
               <div class="about-fact-row">
                 <div class="about-fact-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
                     <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                     <circle cx="12" cy="10" r="3" />
                   </svg>
@@ -2299,7 +2480,12 @@
               </div>
               <div class="about-fact-row">
                 <div class="about-fact-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
                     <path d="m22 10-10-6L2 10l10 6 10-6Z" />
                     <path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5" />
                   </svg>
@@ -2313,7 +2499,12 @@
               </div>
               <div class="about-fact-row">
                 <div class="about-fact-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
                     <circle cx="12" cy="8" r="5" />
                     <path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5" />
                   </svg>
@@ -2327,8 +2518,15 @@
               </div>
               <div class="about-fact-row">
                 <div class="about-fact-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21" />
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
+                    <path
+                      d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"
+                    />
                   </svg>
                 </div>
                 <div>
@@ -2357,78 +2555,62 @@
         <div class="impact-grid stagger">
           <div class="impact-card">
             <div class="impact-num">$9M</div>
-            <div class="impact-title">ARR Owned</div>
+            <div class="impact-title">Business Value</div>
             <div class="impact-desc">
-              End-to-end product ownership of PowerSchool's cloud compliance
-              platform serving 80+ school district clients across the US.
-            </div>
-            <div class="impact-context">
-              ↑ From $7.2M ARR at start of tenure (Dec 2023). Platform supports
-              TEA-mandated Ed-Fi API state reporting.
+              Owned the State Compliance Reporting product within eSchoolPlus,
+              enabling school districts across 4 US States to generate accurate,
+              audit-ready state submissions, reduce manual reporting effort, and
+              stay compliant with evolving education regulations, supporting
+              approximately $9M in annual recurring revenue.
             </div>
           </div>
           <div class="impact-card">
             <div class="impact-num">25%</div>
             <div class="impact-title">Faster Feature Delivery</div>
             <div class="impact-desc">
-              Reduced average feature cycle time from discovery to shipped by
-              25% using LLM-assisted prototyping and structured discovery
-              sprints.
+              Reduced average feature delivery time by 25% by incorporating
+              AI-assisted requirement analysis, rapid prototyping, structured
+              discovery, and backlog refinement, accelerating delivery of
+              compliance and customer-requested enhancements.
             </div>
-            <div class="impact-context">
-              Baseline: ~6 weeks per major feature. Post: ~4.5 weeks. Measured
-              across 8 features in H1 2024.
+          </div>
+          <div class="impact-card">
+            <div class="impact-num">20%</div>
+            <div class="impact-title">Support Reduction</div>
+            <div class="impact-desc">
+              Reduced recurring customer-reported defects and support cases by
+              prioritizing high-impact issues from district feedback, customer
+              escalations, and release retrospectives.
             </div>
           </div>
           <div class="impact-card">
             <div class="impact-num">10%</div>
-            <div class="impact-title">Engagement Lift</div>
+            <div class="impact-title">VoC Prioritization</div>
             <div class="impact-desc">
-              Improved DAU/MAU ratio from 0.31 to 0.34 by identifying and
-              resolving critical drop-off points via KPI analysis (retention,
-              churn, LTV/CAC).
-            </div>
-            <div class="impact-context">
-              Saved ~$180K estimated annual churn risk across 12 at-risk
-              accounts identified through Gainsight health scores.
+              Dedicated 10% of roadmap capacity to high-value customer
+              enhancements by prioritizing top-voted Ideas Portal requests,
+              validating requirements through district discovery sessions, and
+              balancing delivery with quarterly compliance commitments
             </div>
           </div>
           <div class="impact-card">
-            <div class="impact-num">15%</div>
-            <div class="impact-title">CSAT Improvement</div>
+            <div class="impact-num">3 Months</div>
+            <div class="impact-title">Backlog Readiness</div>
             <div class="impact-desc">
-              Structured VoC programme — surveys, focus groups, A/B testing —
-              drove CSAT from 72 to 83 (NPS baseline +11 points).
-            </div>
-            <div class="impact-context">
-              4 focus groups, 3 quarterly surveys, 6 A/B tests run across
-              FY2024. Led to 3 roadmap reprioritisations.
-            </div>
-          </div>
-          <div class="impact-card">
-            <div class="impact-num">30%</div>
-            <div class="impact-title">Team Velocity Increase</div>
-            <div class="impact-desc">
-              Increased sprint throughput from ~18 to ~24 story points/sprint at
-              VMware by restructuring backlog refinement and introducing 3-amigo
-              reviews.
-            </div>
-            <div class="impact-context">
-              Maintained prioritised 200+ item backlog aligned to OKRs. Velocity
-              sustained over 6 consecutive sprints.
+              Maintained a rolling three-month development-ready backlog by
+              balancing regulatory priorities, customer-requested enhancements,
+              and technical dependencies, enabling predictable release planning,
+              faster decision-making, and stronger stakeholder alignment.
             </div>
           </div>
           <div class="impact-card">
             <div class="impact-num">RBI</div>
             <div class="impact-title">CBDC Research</div>
             <div class="impact-desc">
-              Research intern at Reserve Bank of India contributing CBDC
-              architecture analysis and ML-based fraud detection framework
-              review to India's digital currency strategy.
-            </div>
-            <div class="impact-context">
-              Summer 2021, IIT Kharagpur MBA programme. Reviewed 6 global CBDC
-              architectures (China, Sweden, Bahamas, ECB, UK, US proposals).
+              Developed data-driven readiness models for India's Digital Rupee,
+              combining machine learning, macroeconomic analysis, and
+              benchmarking of six global CBDC initiatives to support
+              evidence-based policy and rollout decisions.
             </div>
           </div>
         </div>
@@ -2446,16 +2628,10 @@
               <div style="flex: 1">
                 <div class="exp-company">PowerSchool India Pvt. Ltd.</div>
                 <div class="exp-role">
-                  Senior Product Manager — Compliance, Cloud SaaS Platform
+                  Product Owner — Compliance, Cloud SaaS Platform
                 </div>
                 <div class="exp-period">
                   Dec 2023 — Present · Bengaluru, India
-                </div>
-                <div class="exp-badges">
-                  <span class="badge badge-blue">$9M ARR</span>
-                  <span class="badge badge-green">10% Engagement ↑</span>
-                  <span class="badge badge-peach">80+ Clients</span>
-                  <span class="badge badge-amber">15% CSAT ↑</span>
                 </div>
               </div>
               <div class="exp-toggle">
@@ -2475,39 +2651,49 @@
               <div class="exp-body-inner">
                 <ul class="exp-bullets">
                   <li>
-                    Owned end-to-end product lifecycle of a cloud-based
-                    compliance platform serving
-                    <strong>80+ US school districts</strong> and generating
-                    <strong>$9M in ARR</strong>, aligning solutions with
-                    evolving TEA and state government education data
-                    regulations.
+                    Owned the end-to-end product lifecycle for the eSP State
+                    Compliance Reporting product,
+                    <strong>enabling 80+ US school districts</strong>
+                    across Texas, Pennsylvania, Maryland, and New Jersey to
+                    deliver accurate, audit-ready state submissions while
+                    supporting approximately
+                    <strong>$9M in annual recurring revenue</strong>.
                   </li>
                   <li>
-                    Made the strategic decision to spearhead an architectural
-                    shift from legacy XML-based batch reporting to
-                    <strong>TEA-mandated Ed-Fi API standards</strong> — enabling
-                    real-time transactional data exchange, improving data
-                    integrity for districts, and reducing onboarding time for
-                    new clients from 6 weeks to 3.5 weeks.
+                    Led the migration of Texas State Reporting to the
+                    <strong>TEA-mandated Ed-Fi API standards</strong>, replacing
+                    legacy XML workflows with real-time API-based reporting
+                    through DEX, reducing technical debt, improving data
+                    visibility, and enabling 40+ school districts to meet
+                    critical compliance deadlines without disruption.
                   </li>
                   <li>
-                    Defined product north star and success metrics (DAU/MAU,
-                    churn rate, LTV-to-CAC, CSAT/NPS); used Gainsight health
-                    scores to proactively identify
-                    <strong>12 at-risk accounts</strong> and drove retention
-                    interventions that avoided ~$180K in estimated ARR churn.
+                    Maintained a rolling
+                    <strong>three-month development-ready backlog</strong>
+                    by balancing regulatory priorities, customer-requested
+                    enhancements, and technical dependencies.
                   </li>
                   <li>
-                    Built and ran a structured VoC programme (4 focus groups, 3
-                    quarterly surveys, 6 A/B tests) that drove
-                    <strong>3 major roadmap reprioritisations</strong> and
-                    lifted CSAT from 72 → 83.
+                    Established a structured
+                    <strong>Voice of Customer</strong> process by evaluating
+                    top-rated Ideas Portal requests, conducting district
+                    discovery sessions, and collaborating with Engineering on
+                    solution sizing to prioritize customer-driven enhancements
+                    alongside mandatory compliance releases.
                   </li>
                   <li>
-                    Used AI prototyping tools (<strong>Lovable, Cursor</strong>)
-                    to run rapid design validation during discovery, compressing
-                    average feature cycle time from ~6 weeks to ~4.5 weeks
-                    across 8 major features in H1 2024.
+                    Reduced recurring customer-reported issues by analysing
+                    support trends, prioritizing
+                    <strong>high-impact defects</strong>, and addressing root
+                    causes to strengthen product stability and reporting
+                    reliability.
+                  </li>
+                  <li>
+                    Leveraged
+                    <strong>AI-assisted product discovery</strong> using Cursor
+                    and Lovable to accelerate requirement analysis, prototype
+                    workflows, and validate solution concepts, reducing feature
+                    definition effort during discovery.
                   </li>
                 </ul>
               </div>
@@ -2519,15 +2705,10 @@
               <div style="flex: 1">
                 <div class="exp-company">VMware (Broadcom)</div>
                 <div class="exp-role">
-                  Associate Product Manager — SaaS Subscription Commerce
-                  Platform
+                  Associate Product Owner — SaaS Subscription Commerce Platform
                 </div>
                 <div class="exp-period">
                   May 2022 — Dec 2023 · Bengaluru, India
-                </div>
-                <div class="exp-badges">
-                  <span class="badge badge-teal">30% Velocity ↑</span>
-                  <span class="badge badge-lav">Unified Cloud Pack</span>
                 </div>
               </div>
               <div class="exp-toggle">
@@ -2547,31 +2728,34 @@
               <div class="exp-body-inner">
                 <ul class="exp-bullets">
                   <li>
-                    Drove product strategy and delivery for the
-                    <strong>SaaS Subscription Commerce Platform</strong> — the
-                    billing and offer management backbone for VMware's cloud
-                    products — collaborating with PDH, Microservices, and SAP
-                    teams to streamline subscription and offer workflows.
+                    Owned
+                    <strong>backlog prioritization and product delivery</strong>
+                    for <strong>Subscription Commerce Platform</strong>,
+                    translating commercial strategy into implementation-ready
+                    user stories that enabled subscription lifecycle, offer
+                    management, and billing capabilities.
                   </li>
                   <li>
-                    Led the
-                    <strong>Unified Cloud Pack conversion</strong> initiative:
-                    scoped the migration of 40,000+ existing VMware customers to
-                    integrated cloud infrastructure packages, defining the
-                    eligibility logic, migration UX, and communication strategy
-                    in collaboration with GTM and Sales.
+                    Supported the
+                    <strong>Unified Cloud Pack</strong> transformation by
+                    validating commercial offer configurations, coordinating
+                    implementation across product teams, and enabling a seamless
+                    transition to unified subscription model.
                   </li>
                   <li>
-                    Resolved a critical pricing model ambiguity that had blocked
-                    3 engineering teams for 6 weeks — facilitated a structured
-                    workshop with pricing, legal, and engineering that produced
-                    a decision matrix and unblocked delivery.
+                    Coordinated cross-functional dependencies across
+                    <strong
+                      >Oracle PDH, SAP, CPQ, Engineering, and Business
+                      Operations</strong
+                    >, ensuring consistent commercial offer definitions
+                    throughout the quote-to-cash lifecycle.
                   </li>
                   <li>
-                    Restructured backlog refinement with 3-amigo review
-                    sessions, lifting sprint velocity from ~18 to ~24 story
-                    points/sprint — <strong>30% increase</strong> sustained over
-                    6 consecutive sprints.
+                    Maintained a prioritized backlog of
+                    <strong>200+ items</strong>, improving backlog refinement,
+                    sprint planning, and release predictability, contributing to
+                    a <strong>30% increase in sprint velocity</strong> across
+                    six consecutive sprints.
                   </li>
                 </ul>
               </div>
@@ -2586,11 +2770,7 @@
                   FinTech Research Intern — Digital Currency &amp; Payments
                 </div>
                 <div class="exp-period">
-                  May 2021 — Jul 2021 · Mumbai, India
-                </div>
-                <div class="exp-badges">
-                  <span class="badge badge-lav">CBDC Architecture</span>
-                  <span class="badge badge-blue">ML Fraud Detection</span>
+                  May 2021 — Jul 2021 · Kolkata, India
                 </div>
               </div>
               <div class="exp-toggle">
@@ -2611,33 +2791,29 @@
                 <ul class="exp-bullets">
                   <li>
                     Analysed
-                    <strong>6 global CBDC architectures</strong> (China's e-CNY,
-                    Sweden's e-Krona, Bahamas Sand Dollar, ECB Digital Euro, UK
-                    and US proposals) — evaluating design choices around
-                    two-tier vs. direct issuance, programmability,
-                    interoperability, and privacy tradeoffs.
+                    <strong>six global CBDC architectures</strong> (China,
+                    Sweden, Bahamas, ECB, UK, and US) to evaluate design
+                    trade-offs across issuance models, programmability,
+                    interoperability, privacy, and financial system integration.
                   </li>
                   <li>
-                    Reviewed
-                    <strong
-                      >ML-driven fraud detection models and AI-enabled payment
-                      verification frameworks</strong
-                    >
-                    in existing digital payment systems, contributing analysis
-                    on how those approaches could be adapted for a CBDC context.
+                    Evaluated
+                    <strong>AI-enabled payment verification frameworks</strong>
+                    and digital payment architectures to assess their
+                    applicability for secure and scalable CBDC transactions.
                   </li>
                   <li>
-                    Assessed retail vs. wholesale CBDC implications on payment
-                    systems, financial stability, and monetary policy
-                    transmission — contributing insights that were incorporated
-                    into the team's research paper reviewed by senior RBI
-                    officials.
+                    Built <strong>CBDC readiness assessment models</strong> by
+                    analysing 125-country adoption drivers and developing
+                    state-level readiness frameworks to support evidence-based
+                    Digital Rupee rollout decisions.
                   </li>
                   <li>
-                    Evaluated privacy and cyber resilience risks, benchmarking
-                    India's digital payments ecosystem (UPI scale, Aadhaar
-                    integration) against proposed CBDC models from a security
-                    architecture standpoint.
+                    Modelled the impact of
+                    <strong>digital currency adoption on money velocity</strong>
+                    using four decades of RBI macroeconomic data, assessing
+                    short- and long-term implications for payment systems,
+                    financial stability, and monetary policy.
                   </li>
                 </ul>
               </div>
@@ -2648,12 +2824,10 @@
             <div class="exp-header" onclick="toggleCard(this)">
               <div style="flex: 1">
                 <div class="exp-company">Larsen &amp; Toubro Limited</div>
-                <div class="exp-role">Senior Engineer — EPC Infrastructure</div>
-                <div class="exp-period">Jul 2017 — Jul 2019 · India</div>
-                <div class="exp-badges">
-                  <span class="badge badge-peach">₹200Cr+ Project</span>
-                  <span class="badge badge-amber">100+ Team Members</span>
+                <div class="exp-role">
+                  Senior Planning Engineer — Infrastructure Project Management
                 </div>
+                <div class="exp-period">Jul 2017 — Jul 2019 · India</div>
               </div>
               <div class="exp-toggle">
                 <svg
@@ -2672,23 +2846,28 @@
               <div class="exp-body-inner">
                 <ul class="exp-bullets">
                   <li>
-                    Managed on-site delivery of a
-                    <strong>₹200Cr+ EPC infrastructure project</strong> with
-                    100+ personnel — built the execution discipline around
-                    deadlines, budget, and stakeholder accountability that I now
-                    apply to product delivery.
+                    Managed planning and execution for a
+                    <strong>₹2,00+ crore EPC infrastructure project</strong>,
+                    coordinating cross-functional teams, contractors, and client
+                    stakeholders to deliver work packages aligned with project
+                    schedules, budgets, and quality objectives.
                   </li>
                   <li>
-                    Developed Work Breakdown Structures for 1,500+ deliverables
-                    across 83 structures — an early lesson in decomposing large,
-                    complex scopes into trackable, ownable units. Direct
-                    analogue to epic-to-story decomposition in product work.
+                    Developed and governed
+                    <strong>Work Breakdown Structures (WBS)</strong>, project
+                    schedules, and execution plans for
+                    <strong>1,500+ deliverables across 83 structures</strong>,
+                    improving work package visibility, dependency management,
+                    and project tracking.
                   </li>
                   <li>
-                    Expedited project delivery by <strong>10%</strong> through
-                    proactive stakeholder engagement with clients, government
-                    authorities, and vendors — demonstrating
-                    influence-without-authority in a non-PM context.
+                    Drove schedule adherence by proactively managing project
+                    risks, resolving cross-stakeholder dependencies, and
+                    coordinating with clients, government authorities, and
+                    contractors, contributing to a
+                    <strong
+                      >10% improvement in project delivery efficiency</strong
+                    >.
                   </li>
                 </ul>
               </div>
@@ -3207,7 +3386,7 @@
     <section id="leadership" class="dotted-bg">
       <div class="inner">
         <div class="section-label">Leadership &amp; Achievements</div>
-        <h2 class="section-title">Beyond the <em>résumé</em></h2>
+        <h2 class="section-title">Beyond the <em>Resume</em></h2>
         <div class="la-overview stagger">
           <div class="la-card la-card-vol">
             <div class="la-ov-icon">🤝</div>
@@ -3566,6 +3745,14 @@
         if (!isOpen) card.classList.add("open");
       }
 
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".exp-card")) {
+          document
+            .querySelectorAll(".exp-card.open")
+            .forEach((c) => c.classList.remove("open"));
+        }
+      });
+
       const cardObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((e, i) => {
@@ -3594,6 +3781,8 @@
         "leadership",
         "contact",
       ];
+      const sideDots = document.querySelectorAll(".side-dot");
+      const dotSections = Array.from(sideDots).map((d) => d.dataset.section);
       function updateActiveNav() {
         const scrollY = window.scrollY + 90;
         let current = "";
@@ -3607,6 +3796,16 @@
             a.getAttribute("href") === "#" + current,
           ),
         );
+        if (sideDots.length) {
+          const idx = sectionIds.indexOf(current);
+          let dotCurrent = dotSections[0];
+          for (let i = 0; i <= idx; i++) {
+            if (dotSections.includes(sectionIds[i])) dotCurrent = sectionIds[i];
+          }
+          sideDots.forEach((d) =>
+            d.classList.toggle("active", d.dataset.section === dotCurrent),
+          );
+        }
       }
       window.addEventListener("scroll", updateActiveNav, { passive: true });
       updateActiveNav();
@@ -3640,6 +3839,13 @@
       document
         .querySelectorAll(".reveal, .stagger")
         .forEach((el) => revealObserver.observe(el));
+
+      const preloader = document.getElementById("preloader");
+      if (preloader) {
+        const hidePreloader = () => preloader.classList.add("done");
+        window.addEventListener("load", () => setTimeout(hidePreloader, 500));
+        setTimeout(hidePreloader, 2500);
+      }
     </script>
   </body>
 </html>
